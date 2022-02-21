@@ -13,12 +13,13 @@ jobs:
           path: Library
           key: Library-${{ matrix.targetPlatform }}
           restore-keys: Library-
-      - uses: game-ci/unity-builder@v1.5
+      - uses: game-ci/unity-builder@v2
         env:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
+          customImage: 'unityci/editor:ubuntu-2020.3.27f1-android-0.17.0'
           targetPlatform: WebGL
       - uses: actions/upload-artifact@v2
         with:
