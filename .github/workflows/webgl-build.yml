@@ -19,7 +19,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
         with:
-          customImage: 'unityci/editor:ubuntu-2020.3.27f1-android-0.17.0'
+          customImage: 'unityci/editor:ubuntu-2020.3.27f1-linux-il2cpp-0.17.0'
           targetPlatform: WebGL
       - uses: actions/upload-artifact@v2
         with:
