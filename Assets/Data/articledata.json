@@ -1,0 +1,23 @@
+{
+  "title": "T-Coffee: A novel method for fast and accurate multiple sequence alignment.",
+  "date": "2000-09-08",
+  "journal": {
+    "name": "Journal of Molecular Biology",
+    "publisher": "Elsevier",
+    "url": "https://doi.org/10.1006/jmbi.2000.4042"
+  },
+  "authorinst": [
+    {
+      "authorname": "Cedric Notredame",
+      "rawaffiliation": "National Institute for Medical Research, The Ridgeway, Mill Hill, London, NW7 1AA, UK"
+    },
+    {
+      "authorname": "Desmond G. Higgins",
+      "rawaffiliation": "Department of Biochemistry University College Cork, Ireland"
+    },
+    {
+      "authorname": "Jaap Heringa",
+      "rawaffiliation": "National Institute for Medical Research The Ridgeway, Mill Hill, London NW7 1AA UK"
+    }
+  ]
+}

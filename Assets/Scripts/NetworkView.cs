@@ -87,15 +87,13 @@ public class NetworkView : MonoBehaviour
                     paper.journal.name = (string)json["results"][0]["host_venue"]["display_name"];
                     paper.journal.publisher = (string)json["results"][0]["host_venue"]["publisher"];
                     paper.journal.url = (string)json["results"][0]["host_venue"]["url"];
-                    paper.authorname = authors;
-                    paper.rawaffiliation = affiliations;
-
-                    
-                    string jsonstring = JsonUtility.ToJson(paper);
-                    Debug.Log(jsonstring);
+   
+                    JObject jsonpaper = JObject.FromObject(paper);
+                    Debug.Log(jsonpaper);
 
                     StreamWriter writer = new StreamWriter("Assets/Data/articledata.json");
-                    writer.Write(JObject.Parse(jsonstring));
+                    writer.Write(jsonpaper);
+                    writer.Close();
 
                     break;
             }
@@ -107,15 +105,10 @@ public class NetworkView : MonoBehaviour
         public string title;
         public string date;
         public HostVenue journal = new HostVenue();
-        public string[] authorname;
-        public string[] rawaffiliation;
         public List<AuthorInstitution> authorinst = new List<AuthorInstitution>();
 
         public InitData(string[] authorname, string[] rawaffiliation)
         {
-            this.authorname = authorname;
-            this.rawaffiliation = rawaffiliation;
-
             for(int i = 0; i < authorname.Length; i++)
             {
                 authorinst.Add(new AuthorInstitution(authorname[i], rawaffiliation[i]));
