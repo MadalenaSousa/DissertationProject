@@ -14,6 +14,10 @@ public class NetworkView : MonoBehaviour
     public static NetworkView instance;
     public List<GameObject> papers;
     PaperData data;
+    public JObject parscitdata;
+    public JArray parscitpapers;
+    public TextAsset pctext;
+    public string[] titles;
 
     private void Awake()
     {
@@ -44,7 +48,16 @@ public class NetworkView : MonoBehaviour
             papers[i].GetComponent<Paper>().radius = UnityEngine.Random.Range(-50f, 50f);
         }
 
-        StartCoroutine(GetRequest("https://api.openalex.org/works?filter=title.search:coffee"));
+        parscitdata = JObject.Parse(pctext.text);
+        parscitpapers = (JArray)parscitdata["algorithm"]["citationList"];
+        titles = new string[parscitpapers.Count];
+
+        for(int i = 0; i < parscitpapers.Count; i++)
+        {
+            titles[i] = (string)parscitpapers[i]["title"];
+
+            StartCoroutine(GetRequest("https://api.openalex.org/works?filter=title.search:" + titles[i]));
+        }
     }
 
     IEnumerator GetRequest(string uri)
@@ -70,7 +83,7 @@ public class NetworkView : MonoBehaviour
                     //Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text)
 
                     JObject json = JObject.Parse(webRequest.downloadHandler.text);
-                    JArray authorships = (JArray)json["results"][0]["authorships"];
+                    JArray authorships = (JArray)json["results"][0]["authorships"]; //need to add an IF EXISTS and IS NOT FORBIDDEN
 
                     string[] authors = new string[authorships.Count];
                     string[] affiliations = new string[authorships.Count];
@@ -89,7 +102,7 @@ public class NetworkView : MonoBehaviour
                     paper.journal.url = (string)json["results"][0]["host_venue"]["url"];
    
                     JObject jsonpaper = JObject.FromObject(paper);
-                    Debug.Log(jsonpaper);
+                    //Debug.Log(jsonpaper);
 
                     StreamWriter writer = new StreamWriter("Assets/Data/articledata.json");
                     writer.Write(jsonpaper);

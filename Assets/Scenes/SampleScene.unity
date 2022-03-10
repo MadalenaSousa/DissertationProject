@@ -167,6 +167,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   papers: []
+  pctext: {fileID: 4900000, guid: 25e55136bc4641340b87a14b7021d290, type: 3}
+  titles: []
 --- !u!4 &645090973
 Transform:
   m_ObjectHideFlags: 0
