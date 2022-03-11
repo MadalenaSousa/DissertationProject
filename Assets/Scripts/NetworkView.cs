@@ -49,15 +49,17 @@ public class NetworkView : MonoBehaviour
         }
 
         parscitdata = JObject.Parse(pctext.text);
-        parscitpapers = (JArray)parscitdata["algorithm"]["citationList"];
+        parscitpapers = (JArray)parscitdata["citationList"];
         titles = new string[parscitpapers.Count];
 
         for(int i = 0; i < parscitpapers.Count; i++)
         {
             titles[i] = (string)parscitpapers[i]["title"];
 
-            StartCoroutine(GetRequest("https://api.openalex.org/works?filter=title.search:" + titles[i]));
+            //StartCoroutine(GetRequest("https://api.openalex.org/works?filter=title.search:" + titles[i]));
         }
+
+        Debug.Log(titles.Length);
     }
 
     IEnumerator GetRequest(string uri)
