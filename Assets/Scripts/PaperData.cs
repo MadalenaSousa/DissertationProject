@@ -29,6 +29,8 @@ public class PaperData : MonoBehaviour
 
     public List<InitData> fullpapers;
 
+    StreamWriter writer;
+
     private void Awake()
     {
         if (instance == null)
@@ -48,8 +50,10 @@ public class PaperData : MonoBehaviour
         parscitdata = JObject.Parse(pctext.text);
         parscitpapers = (JArray)parscitdata["citationList"];
         titles = new string[parscitpapers.Count];
+        Debug.Log("ParsCit JSON Article Count: " + parscitpapers.Count);
 
-        //for (int i = 0; i < parscitpapers.Count; i++)
+        //writer = new StreamWriter("Assets/Data/articledata.json", true);
+        //for (int i = 1; i < parscitpapers.Count; i++)
         //{
         //    titles[i] = (string)parscitpapers[i]["title"];
         //
@@ -63,6 +67,7 @@ public class PaperData : MonoBehaviour
         //
         //    Thread.Sleep(200);
         //}
+        //writer.Close();
 
         fullpapers = new List<InitData>();
 
@@ -331,7 +336,7 @@ public class PaperData : MonoBehaviour
 
     /* ----------- API STUFF ----------- */
     IEnumerator GetRequest(string uri)
-    {
+    {       
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
             // Request and wait for the desired page.
@@ -355,6 +360,8 @@ public class PaperData : MonoBehaviour
                     JObject json = JObject.Parse(webRequest.downloadHandler.text);
                     JArray authorships = (JArray)json["results"][0]["authorships"]; //need to add an IF EXISTS and IS NOT FORBIDDEN
 
+                    Debug.Log("API Authorships Count Per Article: " + authorships.Count);
+
                     string[] authors = new string[authorships.Count];
                     string[] affiliations = new string[authorships.Count];
 
@@ -363,7 +370,8 @@ public class PaperData : MonoBehaviour
                         authors[i] = (string)authorships[i]["author"]["display_name"];
                         affiliations[i] = (string)authorships[i]["raw_affiliation_string"];
                     }
-
+                    
+                  
                     InitData paper = new InitData();
                     paper.title = (string)json["results"][0]["title"];
                     paper.date = (string)json["results"][0]["publication_date"];
@@ -375,10 +383,8 @@ public class PaperData : MonoBehaviour
 
                     JObject jsonpaper = JObject.FromObject(paper);
                     //Debug.Log(jsonpaper);
-
-                    StreamWriter writer = new StreamWriter("Assets/Data/articledata.json");
-                    writer.Write(jsonpaper);
-                    writer.Close();
+                    
+                    writer.Write(jsonpaper);                   
 
                     break;
             }

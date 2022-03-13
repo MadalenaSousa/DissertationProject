@@ -6,30 +6,9 @@
     "publisher": "Eurasian Society of Educational Research",
     "url": "https://doi.org/10.1080/21548455.2013.832437"
   },
-  "authorinst": [
-    {
-      "authorname": "Heather Toomey Zimmerman",
-      "rawaffiliation": "Learning, Design, and Technology, Penn State University, University Park, PA, USA"
-    },
-    {
-      "authorname": "Susan M. Land",
-      "rawaffiliation": "Learning, Design, and Technology, Penn State University, University Park, PA, USA"
-    },
-    {
-      "authorname": "Lucy R. McClain",
-      "rawaffiliation": "Learning, Design, and Technology, Penn State University, University Park, PA, USA"
-    },
-    {
-      "authorname": "Michael R. Mohney",
-      "rawaffiliation": "Learning, Design, and Technology, Penn State University, University Park, PA, USA"
-    },
-    {
-      "authorname": "Gi Woong Choi",
-      "rawaffiliation": "Learning, Design, and Technology, Penn State University, University Park, PA, USA"
-    },
-    {
-      "authorname": "Fariha H. Salman",
-      "rawaffiliation": "Learning, Design, and Technology, Penn State University, University Park, PA, USA"
-    }
-  ]
+  "authorinst": [],
+  "id": 0,
+  "use_id": 0,
+  "practice_id": 0,
+  "strategy_id": 0
 }
