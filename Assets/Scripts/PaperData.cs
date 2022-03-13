@@ -16,16 +16,8 @@ public class PaperData : MonoBehaviour
 {
     // DB variables
     private IDbConnection _connection;
-    private const bool FILL_TABLES = true;
-
-    // data storing variables
-    public Dictionary<int, string> origin, account_origin, account, uses_category, uses_account, practices_category, practices_account, strategies_category, strategies_account;
-      
-    //public RelationTable account_origin, uses_account, practices_account, strategies_account;
-    //public DoubleColNameTable origin, uses_category, practices_category, strategies_category;
-    //public AccountTable account;
-    
-    
+    private const bool FILL_TABLES = false;
+       
     // instance
     public static PaperData instance;
 
@@ -33,6 +25,9 @@ public class PaperData : MonoBehaviour
     public JArray parscitpapers;
     public TextAsset pctext;
     public string[] titles;
+
+
+    public List<InitData> fullpapers;
 
     private void Awake()
     {
@@ -68,6 +63,21 @@ public class PaperData : MonoBehaviour
         //
         //    Thread.Sleep(200);
         //}
+
+        fullpapers = new List<InitData>();
+
+        for(int i = 0; i < parscitpapers.Count; i++)
+        {
+            InitData temp = new InitData();
+            if(parscitpapers[i]["date"] != null)
+            {
+                temp.date = (string)parscitpapers[i]["date"];
+            }
+            
+            temp.title = (string)parscitpapers[i]["title"];
+
+            fullpapers.Add(temp);
+        }
     }
 
     /* ----------- DATABASE STUFF ----------- */
@@ -78,10 +88,54 @@ public class PaperData : MonoBehaviour
         using (CachedCsvReader csv = new CachedCsvReader(new StreamReader("Assets/Resources/" + filename), true, ';'))
         {
             while (csv.ReadNextRecord())
-            {
-                string column1 = csv[0];
+            {               
+                int column1 = int.Parse(csv[0]);
                 string column2 = csv[1];
-                dict.Add(int.Parse(column1), column2);
+                dict.Add(column1, column2);
+            }
+        }
+    }
+
+    void ReadCsvRelationTable(string filename, List<RelationTable> dict)
+    {
+        // open the file "Assets/Resources/origin.csv" which is a CSV file with headers
+        using (CachedCsvReader csv = new CachedCsvReader(new StreamReader("Assets/Resources/" + filename), true, ';'))
+        {
+            while (csv.ReadNextRecord())
+            {
+                int column1 = int.Parse(csv[0]);
+                int column2 = int.Parse(csv[1]);
+                
+                RelationTable temp = new RelationTable();
+                temp.col1 = column1;
+                temp.col2 = column2;
+
+                dict.Add(temp);
+
+                //dict.Add(column1, column2);
+            }
+        }
+    }
+
+    void ReadCsvAccount(string filename, List<AccountTable> dict)
+    {
+        // open the file "Assets/Resources/origin.csv" which is a CSV file with headers
+        using (CachedCsvReader csv = new CachedCsvReader(new StreamReader("Assets/Resources/" + filename), true, ';'))
+        {
+            while (csv.ReadNextRecord())
+            {
+                int column1 = int.Parse(csv[0]);
+                int column2 = int.Parse(csv[1]);
+                string column3 = csv[2];
+
+                AccountTable temp = new AccountTable();
+                temp.col1 = column1;
+                temp.col2 = column2;
+                temp.col3 = column3;
+
+                dict.Add(temp);
+
+                //dict.Add(column1, column2);
             }
         }
     }
@@ -109,72 +163,87 @@ public class PaperData : MonoBehaviour
         
         foreach (KeyValuePair<int, string> pair in origin)
         {
-            insertDataSQLite("paper", "id, title, paperyear, publishin", String.Format("{0}, '{1}', {2}, '{3}'", pair.Key, pair.Value, 0000, "placeholder"));
+            string encoded = pair.Value.Replace(",", "%2C");
+            encoded = encoded.Replace(".", "%2E");
+            encoded = encoded.Replace(" ", "%20");
+            encoded = encoded.Replace(":", "%3A");
+            encoded = encoded.Replace(";", "%3B");
+            encoded = encoded.Replace("'", "%27");
+            insertDataSQLite("paper", "id, title, paperyear, publishin", String.Format("{0}, '{1}', {2}, '{3}'", pair.Key, encoded, 0000, "placeholder"));
         }
 
-        //Dictionary<int, string> account_origin = new Dictionary<int, string>();
-        //ReadCsv("account_origin.csv", account_origin);
-        //
-        //foreach (KeyValuePair<int, string> pair in account_origin)
-        //{
-        //    insertDataSQLite("paper_account", "paper_id, account_id", String.Format("{0}, {1}", int.Parse(pair.Value), pair.Key));
-        //}
-        //
-        //Dictionary<int, string> account = new Dictionary<int, string>();
-        //ReadCsv("account.csv", account);
-        //
-        //// ??????????? DIFERENT ?????????
-        //
-        //// USES
-        //Dictionary<int, string> uses_category = new Dictionary<int, string>();
-        //ReadCsv("uses_category.csv", uses_category);
-        //
-        //foreach (KeyValuePair<int, string> pair in uses_category)
-        //{
-        //    insertDataSQLite("uses", "id, name", String.Format("{0}, '{1}'", pair.Key, pair.Value));
-        //}
-        //
-        //Dictionary<int, string> uses_account = new Dictionary<int, string>();
-        //ReadCsv("uses_account.csv", uses_account);
-        //
-        //foreach (KeyValuePair<int, string> pair in uses_account)
-        //{
-        //    insertDataSQLite("uses_account", "uses_id, account_id", String.Format("{0}, {1}", int.Parse(pair.Value), pair.Key));
-        //}
-        //
-        //// PRACTICES
-        //Dictionary<int, string> practices_category = new Dictionary<int, string>();
-        //ReadCsv("practices_category.csv", practices_category);
-        //
-        //foreach (KeyValuePair<int, string> pair in practices_category)
-        //{
-        //    insertDataSQLite("practices", "id, name", String.Format("{0}, '{1}'", pair.Key, pair.Value));
-        //}
-        //
-        //Dictionary<int, string> practices_account = new Dictionary<int, string>();
-        //ReadCsv("practices_account.csv", practices_account);
-        //
-        //foreach (KeyValuePair<int, string> pair in practices_account)
-        //{
-        //    insertDataSQLite("practices_account", "practices_id, account_id", String.Format("{0}, {1}", int.Parse(pair.Value), pair.Key));
-        //}
-        //
-        //// STRATEGIES
-        //Dictionary<int, string> strategies_category = new Dictionary<int, string>();
-        //ReadCsv("strategies_category.csv", strategies_category);
-        //
-        //foreach (KeyValuePair<int, string> pair in strategies_category)
-        //{
-        //    insertDataSQLite("strategies", "id, name", String.Format("{0}, '{1}'", pair.Key, pair.Value));
-        //}
-        //
-        //Dictionary<int, string> strategies_account = new Dictionary<int, string>();
-        //ReadCsv("strategies_account.csv", strategies_account);
-        //
-        //foreach (KeyValuePair<int, string> pair in strategies_account)
-        //{
-        //    insertDataSQLite("strategies_account", "strategies_id, account_id", String.Format("{0}, {1}", int.Parse(pair.Value), pair.Key));
-        //}
+        List<RelationTable> origin_account = new List<RelationTable>();
+        ReadCsvRelationTable("account_origin.csv", origin_account);
+
+        for(int i = 0; i < origin_account.Count; i++)
+        {
+            insertDataSQLite("paper_account", "paper_id, account_id", String.Format("{0}, {1}", origin_account[i].col1, origin_account[i].col2));
+        }
+
+        List<AccountTable> account = new List<AccountTable>();
+        ReadCsvAccount("account.csv", account);
+
+        for (int i = 0; i < account.Count; i++)
+        {
+            string encoded = account[i].col3.Replace(",", "%2C");
+            encoded = encoded.Replace(".", "%2E");
+            encoded = encoded.Replace(" ", "%20");
+            encoded = encoded.Replace(":", "%3A");
+            encoded = encoded.Replace(";", "%3B");
+            encoded = encoded.Replace("'", "%27");
+            insertDataSQLite("account", "survey_id, id, text", String.Format("{0}, {1}, '{2}'", account[i].col1, account[i].col2, encoded));
+        }
+
+        // USES
+        Dictionary<int, string> uses_category = new Dictionary<int, string>();
+        ReadCsv("uses_category.csv", uses_category);
+        
+        foreach (KeyValuePair<int, string> pair in uses_category)
+        {
+            insertDataSQLite("uses", "id, name", String.Format("{0}, '{1}'", pair.Key, pair.Value));
+        }
+
+        List<RelationTable> uses_account = new List<RelationTable>();
+        ReadCsvRelationTable("uses_account.csv", uses_account);
+
+        for (int i = 0; i < uses_account.Count; i++)
+        {
+            insertDataSQLite("uses_account", "uses_id, account_id", String.Format("{0}, {1}", uses_account[i].col1, uses_account[i].col2));
+        }
+        
+        // PRACTICES
+        Dictionary<int, string> practices_category = new Dictionary<int, string>();
+        ReadCsv("practices_category.csv", practices_category);
+        
+        foreach (KeyValuePair<int, string> pair in practices_category)
+        {
+            insertDataSQLite("practices", "id, name", String.Format("{0}, '{1}'", pair.Key, pair.Value));
+        }
+
+        List<RelationTable> practices_account = new List<RelationTable>();
+        ReadCsvRelationTable("practices_account.csv", practices_account);
+
+        for (int i = 0; i < practices_account.Count; i++)
+        {
+            insertDataSQLite("practices_account", "practices_id, account_id", String.Format("{0}, {1}", practices_account[i].col1, practices_account[i].col2));
+        }
+        
+        // STRATEGIES
+        Dictionary<int, string> strategies_category = new Dictionary<int, string>();
+        ReadCsv("strategies_category.csv", strategies_category);
+        
+        foreach (KeyValuePair<int, string> pair in strategies_category)
+        {
+            insertDataSQLite("strategies", "id, name", String.Format("{0}, '{1}'", pair.Key, pair.Value));
+        }
+
+        List<RelationTable> strategies_account = new List<RelationTable>();
+        ReadCsvRelationTable("strategies_account.csv", strategies_account);
+
+        for (int i = 0; i < strategies_account.Count; i++)
+        {
+            insertDataSQLite("account_strategies", "strategies_id, account_id", String.Format("{0}, {1}", strategies_account[i].col1, strategies_account[i].col2));
+        }
     }
 
     void readDataSQLiteExample()
@@ -214,9 +283,9 @@ public class PaperData : MonoBehaviour
     }
 
     // data storing classes
-    public class RelationTable { int[] col1, col2; }
-    public class DoubleColNameTable { int[] col1; string[] col2; }
-    public class AccountTable { int[] col1, col3; string[] col2; }
+    public class RelationTable { public int col1, col2; }
+    public class DoubleColNameTable { public int col1; public string col2; }
+    public class AccountTable { public int col1, col2; public string col3; }
 
 
     /* ----------- API STUFF ----------- */
@@ -254,12 +323,14 @@ public class PaperData : MonoBehaviour
                         affiliations[i] = (string)authorships[i]["raw_affiliation_string"];
                     }
 
-                    InitData paper = new InitData(authors, affiliations);
+                    InitData paper = new InitData();
                     paper.title = (string)json["results"][0]["title"];
                     paper.date = (string)json["results"][0]["publication_date"];
                     paper.journal.name = (string)json["results"][0]["host_venue"]["display_name"];
                     paper.journal.publisher = (string)json["results"][0]["host_venue"]["publisher"];
                     paper.journal.url = (string)json["results"][0]["host_venue"]["url"];
+
+                    fullpapers.Add(paper);
 
                     JObject jsonpaper = JObject.FromObject(paper);
                     //Debug.Log(jsonpaper);
@@ -279,13 +350,14 @@ public class PaperData : MonoBehaviour
         public string date;
         public HostVenue journal = new HostVenue();
         public List<AuthorInstitution> authorinst = new List<AuthorInstitution>();
+        public int id, use_id, practice_id, strategy_id;
 
-        public InitData(string[] authorname, string[] rawaffiliation)
+        public InitData(/*string[] authorname, string[] rawaffiliation*/)
         {
-            for (int i = 0; i < authorname.Length; i++)
-            {
-                authorinst.Add(new AuthorInstitution(authorname[i], rawaffiliation[i]));
-            }
+            //for (int i = 0; i < authorname.Length; i++)
+            //{
+            //    authorinst.Add(new AuthorInstitution(authorname[i], rawaffiliation[i]));
+            //}
         }
 
         public class HostVenue

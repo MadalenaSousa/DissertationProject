@@ -11,7 +11,7 @@ public class Paper : MonoBehaviour
     public string title, institution, author, journal;
     public int id, year, use_id, practice_id, strategy_id;
     public float x, y, z, radius;
-    Paper instance;
+    public Paper instance;
     
     public Paper() 
     {   
@@ -31,7 +31,8 @@ public class Paper : MonoBehaviour
 
     void Start()
     {
-
+        gameObject.transform.position = new Vector3(x, y, z);
+        gameObject.GetComponent<SphereCollider>().radius = radius;
     }
 
     void Update()
