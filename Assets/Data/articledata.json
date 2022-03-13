@@ -1,23 +1,35 @@
 {
-  "title": "Efficacy of Individualized Clinical Coaching in a Virtual Reality Classroom for Increasing Teachers' Fidelity of Implementation of Discrete Trial Teaching",
-  "date": "2012-12-01",
+  "title": "\"Tree Investigators\": Supporting Families' Scientific Talk in an Arboretum with Mobile Computers.",
+  "date": "2015-01-02",
   "journal": {
-    "name": "Education and training in autism and developmental disabilities",
-    "publisher": "Division on Autism and Developmental Disabilities, Council for Exceptional Children. DDD, P.O. Box 3512, Fayetteville, AR 72702. Tel: 479-575-3326; Fax: 479-575-6676; Web site: http://daddcec.org/Publications/ETADDJournal.aspx",
-    "url": "https://dialnet.unirioja.es/servlet/articulo?codigo=4083940"
+    "name": "International journal of environmental and science education",
+    "publisher": "Eurasian Society of Educational Research",
+    "url": "https://doi.org/10.1080/21548455.2013.832437"
   },
   "authorinst": [
     {
-      "authorname": "Krista Vince Garland",
-      "rawaffiliation": null
+      "authorname": "Heather Toomey Zimmerman",
+      "rawaffiliation": "Learning, Design, and Technology, Penn State University, University Park, PA, USA"
     },
     {
-      "authorname": "Eleazar Vasquez",
-      "rawaffiliation": null
+      "authorname": "Susan M. Land",
+      "rawaffiliation": "Learning, Design, and Technology, Penn State University, University Park, PA, USA"
     },
     {
-      "authorname": "Cynthia Pearl",
-      "rawaffiliation": null
+      "authorname": "Lucy R. McClain",
+      "rawaffiliation": "Learning, Design, and Technology, Penn State University, University Park, PA, USA"
+    },
+    {
+      "authorname": "Michael R. Mohney",
+      "rawaffiliation": "Learning, Design, and Technology, Penn State University, University Park, PA, USA"
+    },
+    {
+      "authorname": "Gi Woong Choi",
+      "rawaffiliation": "Learning, Design, and Technology, Penn State University, University Park, PA, USA"
+    },
+    {
+      "authorname": "Fariha H. Salman",
+      "rawaffiliation": "Learning, Design, and Technology, Penn State University, University Park, PA, USA"
     }
   ]
 }

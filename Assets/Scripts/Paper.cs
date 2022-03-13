@@ -9,9 +9,8 @@ using UnityEngine.UI;
 public class Paper : MonoBehaviour
 {
     public string title, institution, author, journal;
-    public int id, year;
+    public int id, year, use_id, practice_id, strategy_id;
     public float x, y, z, radius;
-    GameObject node;
     Paper instance;
     
     public Paper() 
@@ -32,9 +31,7 @@ public class Paper : MonoBehaviour
 
     void Start()
     {
-        node = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        node.transform.position = new Vector3(x, y, z);
-        node.GetComponent<SphereCollider>().radius = radius;
+
     }
 
     void Update()

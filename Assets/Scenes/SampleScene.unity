@@ -154,6 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b0554a575cdf73478fd3465025c2e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pctext: {fileID: 4900000, guid: 2958790758610ec45b137221cb0b56cf, type: 3}
+  titles: []
 --- !u!114 &645090972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,8 +169,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   papers: []
-  pctext: {fileID: 4900000, guid: 2958790758610ec45b137221cb0b56cf, type: 3}
-  titles: []
 --- !u!4 &645090973
 Transform:
   m_ObjectHideFlags: 0
