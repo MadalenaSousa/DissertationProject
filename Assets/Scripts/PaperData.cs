@@ -75,6 +75,7 @@ public class PaperData : MonoBehaviour
             }
             
             temp.title = (string)parscitpapers[i]["title"];
+            temp.practice_id = getPracticeByOrigin(i);
 
             fullpapers.Add(temp);
         }
@@ -268,6 +269,46 @@ public class PaperData : MonoBehaviour
 
             Debug.Log("id = " + value + " text =" + name + " survey_id =" + rand);
         }
+    }
+
+    int getAccountByOrigin(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT account_id FROM paper_account WHERE paper_id=" + id;
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int accountid = 0;
+        while (reader.Read())
+        {
+            accountid = reader.GetInt32(0);
+        }
+
+        return accountid;
+    }
+
+    int getPracticeByOrigin(int id)
+    {
+        int accountid = getAccountByOrigin(id);
+
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT practices_id FROM practices_account WHERE account_id=" + accountid;
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int practiceid = 0;
+        while (reader.Read())
+        {
+            practiceid = reader.GetInt32(0);
+        }
+
+        return practiceid;
     }
 
     void insertDataSQLite(string insertTable, string insertFields, string insertValues)
