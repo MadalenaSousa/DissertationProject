@@ -47,7 +47,7 @@ public class NetworkView : MonoBehaviour
                 temp.GetComponent<Paper>().year = 0000;
             }
 
-            temp.GetComponent<Paper>().practice_id = data.fullpapers[i].practice_id;
+            //temp.GetComponent<Paper>().practice_id = data.fullpapers[i].practice_id;
 
             switch(temp.GetComponent<Paper>().practice_id)
             {

@@ -2,11 +2,6 @@
    "citationList": [
       {
          "@valid": "true",
-         "title": "Unspecified in the original survey",
-         "rawString": "Unspecified in the original survey."
-      },
-      {
-         "@valid": "true",
          "authors": {
             "author": "J K Gilbert"
          },

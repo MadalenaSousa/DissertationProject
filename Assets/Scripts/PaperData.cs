@@ -24,12 +24,13 @@ public class PaperData : MonoBehaviour
     public JObject parscitdata;
     public JArray parscitpapers;
     public TextAsset pctext;
-    public string[] titles;
-
+    //public string[] titles;
+    
+    public TextAsset apitext;
+    public JObject apidata;
+    public JArray apipapers;
 
     public List<InitData> fullpapers;
-
-    StreamWriter writer;
 
     private void Awake()
     {
@@ -41,49 +42,67 @@ public class PaperData : MonoBehaviour
 
     void Start()
     {
-        // DB STUFF
-        StartDataSQLite();
-
-        FillTables();
-
         // API STUFF
         parscitdata = JObject.Parse(pctext.text);
         parscitpapers = (JArray)parscitdata["citationList"];
-        titles = new string[parscitpapers.Count];
-        Debug.Log("ParsCit JSON Article Count: " + parscitpapers.Count);
 
-        //writer = new StreamWriter("Assets/Data/articledata.json", true);
-        //for (int i = 1; i < parscitpapers.Count; i++)
-        //{
-        //    titles[i] = (string)parscitpapers[i]["title"];
-        //
-        //    string encoded = titles[i].Replace(",", "%2C");
-        //    encoded = encoded.Replace(".", "%2E");
-        //    encoded = encoded.Replace(" ", "%20");
-        //    encoded = encoded.Replace(":", "%3A");
-        //    encoded = encoded.Replace(";", "%3B");
-        //
-        //    StartCoroutine(GetRequest("https://api.openalex.org/works?mailto=up202003391@up.pt&filter=title.search:" + encoded));
-        //
-        //    Thread.Sleep(200);
-        //}
-        //writer.Close();
+        apidata = JObject.Parse(apitext.text);
+        apipapers = (JArray)apidata["objects"];
+        
+        Debug.Log("API JSON Article Count: " + apipapers.Count);
 
         fullpapers = new List<InitData>();
 
-        for(int i = 0; i < parscitpapers.Count; i++)
-        {
-            InitData temp = new InitData();
-            if(parscitpapers[i]["date"] != null)
-            {
-                temp.date = (string)parscitpapers[i]["date"];
-            }
-            
-            temp.title = (string)parscitpapers[i]["title"];
-            temp.practice_id = getPracticeByOrigin(i);
+        //StartCoroutine(WriteData(parscitpapers));
 
-            fullpapers.Add(temp);
+        //for(int i = 0; i < parscitpapers.Count; i++)
+        //{
+        //    InitData temp = new InitData();
+        //    if(parscitpapers[i]["date"] != null)
+        //    {
+        //        temp.date = (string)parscitpapers[i]["date"];
+        //    }
+        //    
+        //    temp.title = (string)parscitpapers[i]["title"];
+        //    temp.practice_id = getPracticeByOrigin(i);
+        //
+        //    fullpapers.Add(temp);
+        //}
+
+        // DB STUFF
+        StartDataSQLite();
+
+        FillTables();  
+    }
+
+    IEnumerator WriteData(JArray papers)
+    {
+        for (int i = 0; i < papers.Count; i++)
+        {
+            string[] titles = new string[papers.Count];
+            titles[i] = (string)papers[i]["title"];
+
+            string encoded = titles[i].Replace(",", "%2C");
+            encoded = encoded.Replace(".", "%2E");
+            encoded = encoded.Replace(" ", "%20");
+            encoded = encoded.Replace(":", "%3A");
+            encoded = encoded.Replace(";", "%3B");
+
+            yield return StartCoroutine(GetRequest("https://api.openalex.org/works?mailto=up202003391@up.pt&filter=title.search:" + encoded));
+
+            Thread.Sleep(200);
         }
+
+        StreamWriter writer = new StreamWriter("Assets/Data/articledata.json");
+
+        DataObject totaldata = new DataObject(fullpapers);
+
+        Debug.Log(totaldata.objects[0].title);
+
+        JObject jsonpaper = JObject.FromObject(totaldata);
+
+        writer.Write(jsonpaper);
+        writer.Close();
     }
 
     /* ----------- DATABASE STUFF ----------- */
@@ -358,34 +377,90 @@ public class PaperData : MonoBehaviour
                     //Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text)
 
                     JObject json = JObject.Parse(webRequest.downloadHandler.text);
-                    JArray authorships = (JArray)json["results"][0]["authorships"]; //need to add an IF EXISTS and IS NOT FORBIDDEN
+                    //InitData paper;
 
-                    Debug.Log("API Authorships Count Per Article: " + authorships.Count);
-
-                    string[] authors = new string[authorships.Count];
-                    string[] affiliations = new string[authorships.Count];
-
-                    for (int i = 0; i < authors.Length; i++)
+                    if (json["results"] != null)
                     {
-                        authors[i] = (string)authorships[i]["author"]["display_name"];
-                        affiliations[i] = (string)authorships[i]["raw_affiliation_string"];
+                        JArray results = (JArray)json["results"];
+
+                        string title = null;
+                        string date = null;
+                        string openalexid = null;
+
+                        int totalauthors = 0;
+                        string[] authorname = null;
+                        string[] authoropenalexid = null;
+                        string[] rawaffiliation = null;
+                        string[] instname = null;
+                        string[] countrycode = null;
+                        string[] instopenalexid = null;
+
+                        string pubname = null;
+                        string publisher = null;
+                        string puburl = null;
+                        string pubopenalexid = null;
+                        string issn = null;
+
+                        if (results.Count > 0)
+                        {
+                            title = (string)json["results"][0]["title"];
+                            date = (string)json["results"][0]["publication_date"];
+                            openalexid = (string)json["results"][0]["id"];
+
+                            if (json["results"][0]["authorships"] != null)
+                            {
+                                JArray authorships = (JArray)json["results"][0]["authorships"];
+                                totalauthors = authorships.Count;
+
+                                if (authorships.Count > 0)
+                                {
+                                    authorname = new string[authorships.Count];
+                                    authoropenalexid = new string[authorships.Count];
+                                    rawaffiliation = new string[authorships.Count];
+                                    instname = new string[authorships.Count];
+                                    countrycode = new string[authorships.Count];
+                                    instopenalexid = new string[authorships.Count];
+
+                                    for (int i = 0; i < totalauthors; i++)
+                                    {
+                                        authorname[i] = (string)authorships[i]["author"]["display_name"];
+                                        authoropenalexid[i] = (string)authorships[i]["author"]["id"];
+                                        rawaffiliation[i] = (string)authorships[i]["raw_affiliation_string"];
+
+                                        JArray institutions = (JArray)authorships[i]["institutions"];
+                                        int totalinstitutions = 0;
+                                        
+                                        if (institutions != null)
+                                        {
+                                            totalinstitutions = institutions.Count;
+                                        }
+                                        
+                                        for (int j = 0; j < totalinstitutions; j++)
+                                        {
+                                            instname[i] = (string)institutions[j]["display_name"];
+                                            countrycode[i] = (string)institutions[j]["country_code"];
+                                            instopenalexid[i] = (string)institutions[j]["id"];
+                                        }
+                                    }
+                                }
+
+                                pubname = (string)json["results"][0]["host_venue"]["display_name"];
+                                publisher = (string)json["results"][0]["host_venue"]["publisher"];
+                                puburl = (string)json["results"][0]["host_venue"]["url"];
+                                pubopenalexid = (string)json["results"][0]["host_venue"]["id"];
+                                issn = (string)json["results"][0]["host_venue"]["issn_l"];
+                            }
+                        }
+ 
+                        InitData paper = new InitData(openalexid, title, date, totalauthors, authorname, authoropenalexid, rawaffiliation, instname, countrycode, instopenalexid, pubname, publisher, puburl, pubopenalexid, issn);
+                        fullpapers.Add(paper);
+
+                    } else
+                    {
+                        InitData paper = null;
+                        fullpapers.Add(paper);
                     }
-                    
                   
-                    InitData paper = new InitData();
-                    paper.title = (string)json["results"][0]["title"];
-                    paper.date = (string)json["results"][0]["publication_date"];
-                    paper.journal.name = (string)json["results"][0]["host_venue"]["display_name"];
-                    paper.journal.publisher = (string)json["results"][0]["host_venue"]["publisher"];
-                    paper.journal.url = (string)json["results"][0]["host_venue"]["url"];
-
-                    fullpapers.Add(paper);
-
-                    JObject jsonpaper = JObject.FromObject(paper);
-                    //Debug.Log(jsonpaper);
-                    
-                    writer.Write(jsonpaper);                   
-
                     break;
             }
         }
@@ -393,39 +468,94 @@ public class PaperData : MonoBehaviour
 
     public class InitData
     {
+        public string openalexid;
         public string title;
-        public string date;
-        public HostVenue journal = new HostVenue();
-        public List<AuthorInstitution> authorinst = new List<AuthorInstitution>();
-        public int id, use_id, practice_id, strategy_id;
+        public string date; 
+        int totalauthors;
 
-        public InitData(/*string[] authorname, string[] rawaffiliation*/)
+        public PubOutlet journal;
+        public List<Author> authors = new List<Author>();
+        //public int id, use_id, practice_id, strategy_id;
+
+        public InitData(string openalexid, string title, string date, int totalauthors, string[] authorname, string[] authoropenalexid, string[] rawaffiliation, string[] instname, string[] countrycode, string[] instopenalexid, string pubname, string publisher, string puburl, string pubopenalexid, string issn)
         {
-            //for (int i = 0; i < authorname.Length; i++)
-            //{
-            //    authorinst.Add(new AuthorInstitution(authorname[i], rawaffiliation[i]));
-            //}
+            this.openalexid = openalexid;
+            this.title = title;;
+            this.date = date;
+            this.totalauthors = totalauthors;
+           
+            if(authorname != null && rawaffiliation != null)
+            {
+                this.totalauthors = authorname.Length;
+                
+                if (this.totalauthors > 0)
+                {
+                    for (int i = 0; i < totalauthors; i++)
+                    {
+                        authors.Add(new Author(authorname[i], authoropenalexid[i], rawaffiliation[i], instname[i], countrycode[i], instopenalexid[i]));
+                    }
+                }
+            }
+
+            journal = new PubOutlet(pubname, publisher, puburl, pubopenalexid, issn);
         }
 
-        public class HostVenue
+        public class PubOutlet
         {
             public string name;
             public string publisher;
             public string url;
+            public string openalexid;
+            public string issn;
+          
+            public PubOutlet(string name, string publisher, string url, string openalexid, string issn)
+            {
+                this.name = name;
+                this.publisher = publisher;
+                this.url = url;
+                this.openalexid = openalexid;
+                this.issn = issn;
+            }
         }
 
-        public class AuthorInstitution
+        public class Author
         {
-            public string authorname;
-            //public string institutionname;
-            //public string countrycode;
+            public string name;
+            public string openalexid;
             public string rawaffiliation;
+            public Institution institution;
 
-            public AuthorInstitution(string authorname, string rawaffiliation)
+            public Author(string name, string authoropenalexid, string rawaffiliation, string instname, string countrycode, string instopenalexid)
             {
-                this.authorname = authorname;
+                this.name = name;
+                this.openalexid = authoropenalexid;
                 this.rawaffiliation = rawaffiliation;
+                this.institution = new Institution(instname, countrycode, instopenalexid);
             }
+
+            public class Institution
+            {
+                public string name;
+                public string countrycode;
+                public string openalexid;
+
+                public Institution(string name, string countrycode, string openalexid)
+                {
+                    this.name = name;
+                    this.countrycode = countrycode;
+                    this.openalexid = openalexid;
+                }
+            }
+        }
+    }
+
+    public class DataObject
+    {
+        public List<InitData> objects = new List<InitData>();
+
+        public DataObject(List<InitData> objects)
+        {
+            this.objects = objects;
         }
     }
 }

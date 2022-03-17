@@ -8,11 +8,12 @@ using UnityEngine.UI;
 
 public class Paper : MonoBehaviour
 {
-    public string title, institution, author, journal;
+    // outlet means journal, save ids (mine) for authors and journals and institutions
+    public string title, institution, author, pub_outlet;
     public int id, year, use_id, practice_id, strategy_id;
     public float x, y, z, radius;
     public Paper instance;
-    
+
     public Paper() 
     {   
         x = 0;
