@@ -16,7 +16,7 @@ public class PaperData : MonoBehaviour
 {
     // DB variables
     private IDbConnection _connection;
-    private const bool FILL_TABLES = false;
+    private const bool FILL_TABLES = true;
        
     // instance
     public static PaperData instance;
@@ -167,7 +167,7 @@ public class PaperData : MonoBehaviour
 
     void StartDataSQLite()
     {
-        string urlDataBase = "URI = file:Assets/Resources/database.db";
+        string urlDataBase = "URI = file:Assets/Resources/dbupdated.db";
 
         // create Connection to the Database
         this._connection = new SqliteConnection(urlDataBase);
@@ -181,24 +181,114 @@ public class PaperData : MonoBehaviour
         {
             return;
         }
-
-        // ORIGIN + ACCOUNT
-        Dictionary<int, string> origin = new Dictionary<int, string>();
-        ReadCsv("origin.csv", origin);
         
-        foreach (KeyValuePair<int, string> pair in origin)
+        // PAPERS
+        for (int i = 0; i < apipapers.Count; i++)
         {
-            string encoded = pair.Value.Replace(",", "%2C");
-            encoded = encoded.Replace(".", "%2E");
-            encoded = encoded.Replace(" ", "%20");
-            encoded = encoded.Replace(":", "%3A");
-            encoded = encoded.Replace(";", "%3B");
-            encoded = encoded.Replace("'", "%27");
-            insertDataSQLite("paper", "id, title, paperyear, publishin", String.Format("{0}, '{1}', {2}, '{3}'", pair.Key, encoded, 0000, "placeholder"));
+            var date = apipapers[i]["date"];
+            string year = null;
+
+            if (date != null && date.ToString().Length > 0)
+            {
+                year = date.ToString().Substring(0, 4);
+            }
+            
+            int paperid = i;
+            JArray authors = (JArray)apipapers[i]["authors"];
+            
+            insertDataSQLite("paper", "id, title, pubyear, date", String.Format("{0}, '{1}', {2}, '{3}'", paperid, apipapers[i]["title"], year == null ? 0 : Int32.Parse(year), date == null ? "" : date));
+
+            // AUTHORS
+            for(int j = 0; j < authors.Count; j++)
+            {
+                int authorid = getAuthorByOpenAlexId((string)authors[j]["openalexid"], (string)authors[j]["name"]);
+
+                if(authorid == -1) // se não existir author já com id com o mesmo open alex id que o autor j nem com o mesmo nome
+                {
+                    if((string)authors[j]["openalexid"] == null) // se ele não tiver open alex id
+                    {
+                        insertDataSQLite("author", "name", String.Format("'{0}'", authors[j]["name"])); // crio e dá uma auto id
+                    } 
+                    else // se tiver open alex id
+                    {
+                        insertDataSQLite("author", "name, openalexid", String.Format("'{0}', '{1}'", authors[j]["name"], authors[j]["openalexid"])); // crio e dá uma auto id e guarda a nova openalexid
+                    }
+                    
+                    authorid = getAuthorByOpenAlexId((string)authors[j]["openalexid"], (string)authors[j]["name"]); // guardo o id novo do autor para meter na tabela de relação
+                }
+                
+                insertDataSQLite("author_paper", "author_id, paper_id", String.Format("{0}, {1}", authorid, paperid)); // insiro dados na tabela de relação
+
+                // INSTITUTIONS
+                if(authors[j]["institution"] != null && authors[j]["institution"].ToString().Length > 0)
+                {
+                    int institutionid = getInstitutionByOpenAlexId((string)authors[j]["institution"]["openalexid"], (string)authors[j]["institution"]["name"]);
+                    
+                    if (institutionid == -1) // se não existir uma instituição com o mesmo nome nem com o mesmo openalex eu crio e crio a relação autor instituição
+                    {
+                        if ((string)authors[j]["institution"]["openalexid"] == null)
+                        {
+                            string cc = (string)authors[j]["institution"]["name"];
+
+                            insertDataSQLite("institution", "name, countrycode", String.Format("'{0}', '{1}'", authors[j]["institution"]["name"], cc == null ? "" : cc));
+                        }
+                        else
+                        {
+                            string cc = (string)authors[j]["institution"]["name"];
+
+                            insertDataSQLite("institution", "name, countrycode, openalexid", String.Format("'{0}', '{1}', '{2}'", authors[j]["institution"]["name"], cc == null ? "" : cc, authors[j]["institution"]["openalexid"]));
+                        }
+
+                        institutionid = getInstitutionByOpenAlexId((string)authors[j]["institution"]["openalexid"], (string)authors[j]["institution"]["name"]);
+
+                        insertDataSQLite("author_institution", "author_id, institution_id", String.Format("{0}, {1}", authorid, institutionid));
+                    }
+                    else // se a instituição já existe
+                    {
+                        if (!checkAuthorInstRelation(authorid, institutionid)) // se o autor não tiver uma relação com essa instituição eu crio
+                        {
+                            insertDataSQLite("author_institution", "author_id, institution_id", String.Format("{0}, {1}", authorid, institutionid));
+                        }
+                    }
+                } 
+            }
+
+            // PUB OUTLET  
+            if (apipapers[i]["journal"] != null && apipapers[i]["journal"].ToString().Length > 0)
+            {
+                string journalname = (string)apipapers[i]["journal"]["name"];
+                if (journalname == null && (string)apipapers[i]["journal"]["publisher"] != null)
+                {
+                    journalname = (string)apipapers[i]["journal"]["publisher"];
+                }
+
+                int puboutletid = getPubOutletByOpenAlexId((string)apipapers[i]["journal"]["openalexid"], journalname);
+
+                if (puboutletid == -1)
+                {
+                    string url = (string)apipapers[i]["journal"]["url"];
+                    string issn = (string)apipapers[i]["journal"]["issn"];
+
+                    if ((string)apipapers[i]["journal"]["openalexid"] == null)
+                    {
+                        insertDataSQLite("puboutlet", "name, url, issn", String.Format("'{0}', '{1}', '{2}'", apipapers[i]["journal"]["name"], (url == null ? "" : url), (issn == null ? "" : issn)));
+                    }
+                    else
+                    {
+                        insertDataSQLite("puboutlet", "name, url, issn, openalexid", String.Format("'{0}', '{1}', '{2}', '{3}'", apipapers[i]["journal"]["name"], (url == null ? "" : url), (issn == null ? "" : issn), apipapers[i]["journal"]["openalexid"]));
+                    }
+
+                    puboutletid = getPubOutletByOpenAlexId((string)apipapers[i]["journal"]["openalexid"], journalname);
+                }
+
+                insertDataSQLite("puboutlet_paper", "puboutlet_id, paper_id", String.Format("{0}, {1}", puboutletid, paperid));
+            }
         }
 
+
+        // ACCOUNT
         List<RelationTable> origin_account = new List<RelationTable>();
-        ReadCsvRelationTable("account_origin.csv", origin_account);
+        ReadCsvRelationTable("origin_account.csv", origin_account);
 
         for(int i = 0; i < origin_account.Count; i++)
         {
@@ -293,6 +383,88 @@ public class PaperData : MonoBehaviour
 
             Debug.Log("id = " + value + " text =" + name + " survey_id =" + rand);
         }
+    }
+
+    int getInstitutionByOpenAlexId(string openalexid, string instname)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT id FROM institution WHERE openalexid LIKE '" + (openalexid == null ? "dummyid" : openalexid) + "' OR name LIKE '" + instname + "'";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int instid = -1;
+        while (reader.Read())
+        {
+            instid = reader.GetInt32(0);
+        }
+
+        return instid;
+    }
+
+    bool checkAuthorInstRelation(int authorid, int institutionid)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT institution_id FROM author_institution WHERE author_id =" + authorid + " AND institution_id=" + institutionid;
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int value = -1;
+        bool exists = false;
+        while (reader.Read())
+        {
+            value = reader.GetInt32(0);
+        }
+
+        if(value != -1)
+        {
+            exists = true;
+        }
+
+        return exists;
+    }
+
+    int getAuthorByOpenAlexId(string openalexid, string authorname)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT id FROM author WHERE openalexid LIKE '" + (openalexid == null ? "dummyid" : openalexid) + "' OR name LIKE '" + authorname + "'";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int authorid = -1;
+        while (reader.Read())
+        {
+            authorid = reader.GetInt32(0);
+        }
+
+        return authorid;
+    }
+
+    int getPubOutletByOpenAlexId(string openalexid, string pubname)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT id FROM puboutlet WHERE openalexid LIKE '" + (openalexid == null ? "dummyid" : openalexid) + "' OR name LIKE '" + pubname + "'";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int pubid = -1;
+        while (reader.Read())
+        {
+            pubid = reader.GetInt32(0);
+        }
+
+        return pubid;
     }
 
     int getAccountByOrigin(int id)

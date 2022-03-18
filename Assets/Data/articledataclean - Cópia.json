@@ -4,7 +4,13 @@
       "openalexid": null,
       "title": "Unspecified in Original Survey",
       "date": null,
-      "journal": null,
+      "journal": {
+        "name": null,
+        "publisher": null,
+        "url": null,
+        "openalexid": null,
+        "issn": null
+      },
       "authors": []
     },
     {
@@ -47,13 +53,21 @@
           "name": "E C Jacober",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "R Tori",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -156,46 +170,66 @@
       ]
     },
     {
-      "openalexid": null,
-      "title": "A Collaborative VR-Based Simulator for Surgical Teamwork Education",
+      "openalexid": "https://openalex.org/W2796609773",
+      "title": "SimCEC: A Collaborative VR-Based Simulator for Surgical Teamwork Education",
       "date": "2018-04-10",
       "journal": {
         "name": "Computers in Entertainment",
         "publisher": "ACM",
         "url": "https://doi.org/10.1145/3177747",
-        "openalexid": null,
+        "openalexid": "https://openalex.org/V131145815",
         "issn": "1544-3981"
       },
       "authors": [
         {
           "name": "Paulo Vinícius de Farias Paiva",
-          "openalexid": null,
+          "openalexid": "https://openalex.org/A2134451881",
           "rawaffiliation": "LabTEVE, Federal University of Paraíba, Brazil#TAB#",
-          "institution": null
+          "institution": {
+            "name": "Federal University of Paraíba",
+            "countrycode": "BR",
+            "openalexid": "https://openalex.org/I169045520"
+          }
         },
         {
           "name": "Liliane dos Santos Machado",
-          "openalexid": null,
+          "openalexid": "https://openalex.org/A2156440408",
           "rawaffiliation": "LabTEVE, Federal University of Paraíba, Brazil#TAB#",
-          "institution": null
+          "institution": {
+            "name": "Federal University of Paraíba",
+            "countrycode": "BR",
+            "openalexid": "https://openalex.org/I169045520"
+          }
         },
         {
           "name": "Ana Maria Gondim Valença",
-          "openalexid": null,
+          "openalexid": "https://openalex.org/A1963515115",
           "rawaffiliation": "LabTEVE, Federal University of Paraíba, Brazil#TAB#",
-          "institution": null
+          "institution": {
+            "name": "Federal University of Paraíba",
+            "countrycode": "BR",
+            "openalexid": "https://openalex.org/I169045520"
+          }
         },
         {
           "name": "Thiago V. V. Batista",
-          "openalexid": null,
+          "openalexid": "https://openalex.org/A2223118804",
           "rawaffiliation": "LabTEVE, Federal University of Paraíba, Brazil#TAB#",
-          "institution": null
+          "institution": {
+            "name": "Federal University of Paraíba",
+            "countrycode": "BR",
+            "openalexid": "https://openalex.org/I169045520"
+          }
         },
         {
           "name": "Ronei Marcos de Moraes",
-          "openalexid": null,
+          "openalexid": "https://openalex.org/A2108761530",
           "rawaffiliation": "LabTEVE, Federal University of Paraíba, Brazil#TAB#",
-          "institution": null
+          "institution": {
+            "name": "Federal University of Paraíba",
+            "countrycode": "BR",
+            "openalexid": "https://openalex.org/I169045520"
+          }
         }
       ]
     },
@@ -765,18 +799,26 @@
           "name": "Sharon Judge",
           "openalexid": "https://openalex.org/A2118630563",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Jonna Bobzien",
           "openalexid": "https://openalex.org/A1827462485",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Ann Maydosz",
           "openalexid": "https://openalex.org/A704078358",
-          "rawaffiliation": "Old Dominion University",
+          "rawaffiliation": "‡Old Dominion University",
           "institution": {
             "name": "Old Dominion University",
             "countrycode": "US",
@@ -787,13 +829,21 @@
           "name": "Sabra B. Gear",
           "openalexid": "https://openalex.org/A2095726392",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Petros J. Katsioloudis",
           "openalexid": "https://openalex.org/A715525693",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -867,19 +917,31 @@
           "name": "Krista Vince Garland",
           "openalexid": "https://openalex.org/A2255597493",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Eleazar Vasquez",
           "openalexid": "https://openalex.org/A2117179295",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Cynthia Pearl",
           "openalexid": "https://openalex.org/A2657706861",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -1017,19 +1079,31 @@
           "name": "J T.m. Berlage",
           "openalexid": "https://openalex.org/A2775883018",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Marlies P. Schijven",
           "openalexid": "https://openalex.org/A2601348698",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Jack J. Jakimowicz",
           "openalexid": "https://openalex.org/A1903686929",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -1581,13 +1655,21 @@
           "name": "P Sommerauer",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "O Müller",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -1815,13 +1897,21 @@
           "name": "D Atwood-Blaine",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "D Huffman",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -2303,13 +2393,21 @@
           "name": "C M Chen",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Y N Tsai",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -2923,7 +3021,11 @@
           "name": "D Preuveneers",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -3027,13 +3129,21 @@
           "name": "S Karmokar",
           "openalexid": "https://openalex.org/A2721946731",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Pete Rive",
           "openalexid": "https://openalex.org/A2396367767",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -3077,7 +3187,11 @@
           "name": "Michelle Aebersold",
           "openalexid": "https://openalex.org/A2004014559",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -3097,7 +3211,11 @@
           "name": "Thomas Cochrane",
           "openalexid": "https://openalex.org/A2047002153",
           "rawaffiliation": "Centre for Learning and Teaching, Auckland University of Technology , Auckland , New Zealand",
-          "institution": null
+          "institution": {
+            "name": "Auckland University of Technology",
+            "countrycode": "NZ",
+            "openalexid": "https://openalex.org/I39854758"
+          }
         }
       ]
     },
@@ -3141,31 +3259,51 @@
           "name": "M M Choiri",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "A Basuki",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "A Y Bagus",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S Sukaridhoto",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M Jannah",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -3323,7 +3461,11 @@
           "name": "Katerina Kalyvioti",
           "openalexid": "https://openalex.org/A275010725",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Tassos A. Mikropoulos",
@@ -3521,19 +3663,31 @@
           "name": "Tolutope O. Oyasiji",
           "openalexid": "https://openalex.org/A2635624461",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Pragatheeshwar Thirunavukarasu",
           "openalexid": "https://openalex.org/A1893190829",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Steven J. Nurkin",
           "openalexid": "https://openalex.org/A1982144649",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -3949,25 +4103,41 @@
           "name": "M A Bucceroni",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution":null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "G D Lecakes",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M Lalovic-Hand",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S Mandayam",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -3987,13 +4157,21 @@
           "name": "Sidney Newton",
           "openalexid": "https://openalex.org/A2108073453",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Russell Lowe",
           "openalexid": "https://openalex.org/A2154499293",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -4013,13 +4191,21 @@
           "name": "K Tajiri",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "N Setozaki",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -4133,25 +4319,41 @@
           "name": "Fotis Liarokapis",
           "openalexid": "https://openalex.org/A2460039973",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Panagiotis Petridis",
           "openalexid": "https://openalex.org/A2097088390",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Paul Lister",
           "openalexid": "https://openalex.org/A3131983135",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Martin White",
           "openalexid": "https://openalex.org/A2322519432",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -4337,19 +4539,31 @@
           "name": "Tansel Tepe",
           "openalexid": "https://openalex.org/A2749660379",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Devkan Kaleci",
           "openalexid": "https://openalex.org/A2666190927",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Hakan Tüzün",
           "openalexid": "https://openalex.org/A2301239445",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -4443,37 +4657,61 @@
           "name": "M R Veronez",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "L Gonzaga",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "F Bordin",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "L Kupssinsku",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution":null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "G L Kannenberg",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "T Duarte",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -4493,19 +4731,31 @@
           "name": "C Wang",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "H Li",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S Y Kho",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -4593,25 +4843,41 @@
           "name": "Raquel Menéndez Ferreira",
           "openalexid": "https://openalex.org/A2562543587",
           "rawaffiliation": null,
-          "institution":null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Aquilino Adolfo Juan Fuente",
           "openalexid": "https://openalex.org/A2119643456",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Melchor Gómez García",
           "openalexid": "https://openalex.org/A2953650729",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "David Camacho Fernández",
           "openalexid": "https://openalex.org/A2116307095",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -4759,25 +5025,41 @@
           "name": "T Im",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution":null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "D An",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "O Y Kwon",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S Y Kim",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -4923,25 +5205,41 @@
           "name": "S Matsutomo",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "T Manabe",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "V Cingoski",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S Noguchi",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -5153,19 +5451,31 @@
           "name": "Kung Wong Lau",
           "openalexid": "https://openalex.org/A2155258072",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Chi Wai Kan",
           "openalexid": "https://openalex.org/A2133299745",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Pui Yuen Lee",
           "openalexid": "https://openalex.org/A2183374146",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -5185,37 +5495,61 @@
           "name": "V Potkonjak",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M Gardner",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "V Callaghan",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "P Mattila",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "C Guetl",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "V M Petrovic",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -5823,7 +6157,11 @@
           "name": "Sun, Chengyu, Xu, Diqiong, Daria, Kryvko and Tao, Peihong",
           "openalexid": "https://openalex.org/A2804599948",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -6273,25 +6611,41 @@
           "name": "Dejian Liu",
           "openalexid": "https://openalex.org/A3189041357",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Chris Dede",
           "openalexid": "https://openalex.org/A2001100365",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Ronghuai Huang",
           "openalexid": "https://openalex.org/A3190422042",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "John Richards",
           "openalexid": "https://openalex.org/A2426931052",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -6311,7 +6665,11 @@
           "name": "Mihaly Csikszentmihalyi",
           "openalexid": "https://openalex.org/A197007559",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -6331,7 +6689,11 @@
           "name": "Pamela R. Jeffries",
           "openalexid": "https://openalex.org/A2992723368",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -6351,7 +6713,11 @@
           "name": "David A. Kolb",
           "openalexid": "https://openalex.org/A2102128815",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -6439,7 +6805,11 @@
           "name": "James A. Russell",
           "openalexid": "https://openalex.org/A2128044640",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -6493,25 +6863,41 @@
           "name": "Reinhard Pekrun",
           "openalexid": "https://openalex.org/A710093384",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Krista R. Muis",
           "openalexid": "https://openalex.org/A2093128375",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Anne C. Frenzel",
           "openalexid": "https://openalex.org/A1817891692",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Thomas Götz",
           "openalexid": "https://openalex.org/A2091595644",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -6589,49 +6975,81 @@
           "name": "C M Harrington",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "D O Kavanagh",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "G Wright Ballester",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "A Wright Ballester",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "P Dicker",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "O Traynor",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "A Hill",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S Tierney",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -6651,25 +7069,41 @@
           "name": "O Timcenko",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "L B Kofoed",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "H Schoenau-Fog",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "L Reng",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -6861,19 +7295,31 @@
           "name": "Marcus Specht",
           "openalexid": "https://openalex.org/A2275370300",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Stefaan Ternier",
           "openalexid": "https://openalex.org/A2806373737",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Wolfgang Greller",
           "openalexid": "https://openalex.org/A1216871176",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -6987,19 +7433,31 @@
           "name": "T C Huang",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "C C Chen",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Y W Chou",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -7097,25 +7555,41 @@
           "name": "Susan A. Yoon",
           "openalexid": "https://openalex.org/A2114988781",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Emma Anderson",
           "openalexid": "https://openalex.org/A2421090467",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Joyce Lin",
           "openalexid": "https://openalex.org/A2648120207",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Karen Elinich",
           "openalexid": "https://openalex.org/A1235949217",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -7525,19 +7999,31 @@
           "name": "Cynthia Tandy",
           "openalexid": "https://openalex.org/A2528417004",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Robert Vernon",
           "openalexid": "https://openalex.org/A2479544975",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Darlene Lynch",
           "openalexid": "https://openalex.org/A2156023387",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -7557,13 +8043,21 @@
           "name": "Mark Doel",
           "openalexid": "https://openalex.org/A2644790551",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Tarsem Singh Cooner",
           "openalexid": "https://openalex.org/A100397646",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -7583,31 +8077,51 @@
           "name": "Leonard A. Annetta",
           "openalexid": "https://openalex.org/A2917671735",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Erin Peters Burton",
           "openalexid": "https://openalex.org/A2118999713",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Wendy M. Frazier",
           "openalexid": "https://openalex.org/A2106413623",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Rebecca Cheng",
           "openalexid": "https://openalex.org/A2131261931",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Margaret Chmiel",
           "openalexid": "https://openalex.org/A3081068944",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -7627,7 +8141,11 @@
           "name": "Ellen Forsyth",
           "openalexid": "https://openalex.org/A2633889775",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -7941,13 +8459,21 @@
           "name": "Patricia J. Erwin",
           "openalexid": "https://openalex.org/A2181975042",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Marc M. Triola",
           "openalexid": "https://openalex.org/A1978866056",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -8109,19 +8635,31 @@
           "name": "B Eschenbrenner",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "F F H Nah",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "K Siau",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -8279,25 +8817,41 @@
           "name": "Philippe Bertrand",
           "openalexid": "https://openalex.org/A3189398646",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Daniel Gonzalez-Franco",
           "openalexid": "https://openalex.org/A2549620801",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Christian Cherene",
           "openalexid": "https://openalex.org/A2183619461",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Arthur Pointeau",
           "openalexid": "https://openalex.org/A2187965496",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -8317,7 +8871,11 @@
           "name": "B Kuchera",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -8337,7 +8895,11 @@
           "name": "L Rutherford-Morrison",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -8357,25 +8919,41 @@
           "name": "T Dumol",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "P Lascano",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "J Magno",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "R Tiongson",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -8547,25 +9125,41 @@
           "name": "Lisa A. Dieker",
           "openalexid": "https://openalex.org/A1598902908",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Michael C. Hynes",
           "openalexid": "https://openalex.org/A2431574660",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Charles E. Hughes",
           "openalexid": "https://openalex.org/A2106883904",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Eileen Smith",
           "openalexid": "https://openalex.org/A2161361179",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -8585,13 +9179,21 @@
           "name": "Janet B. Andreasen",
           "openalexid": "https://openalex.org/A2480015660",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Erhan Selcuk Haciomeroglu",
           "openalexid": "https://openalex.org/A79175480",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -8911,49 +9513,81 @@
           "name": "Michael Lemole",
           "openalexid": "https://openalex.org/A1967173846",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Joshua H Finkle",
           "openalexid": "https://openalex.org/A2716134540",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Rachel Yudkowsky",
           "openalexid": "https://openalex.org/A306553753",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Adam N. Wallace",
           "openalexid": "https://openalex.org/A2113010357",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Cristian Luciano",
           "openalexid": "https://openalex.org/A2151058718",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Pat Banerjee",
           "openalexid": "https://openalex.org/A2283106435",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Silvio Rizzi",
           "openalexid": "https://openalex.org/A2109430293",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Fady T. Charbel",
           "openalexid": "https://openalex.org/A61315105",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -9037,19 +9671,31 @@
           "name": "Todd Bowerly",
           "openalexid": "https://openalex.org/A2304073195",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "J. Galen Buckwalter",
           "openalexid": "https://openalex.org/A430308770",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Dean Klimchuk",
           "openalexid": "https://openalex.org/A2942634815",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Roman Mitura",
@@ -9065,7 +9711,11 @@
           "name": "Thomas D. Parsons",
           "openalexid": "https://openalex.org/A1941580188",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -9085,13 +9735,21 @@
           "name": "E A L Lee",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "K W Wong",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -9121,13 +9779,21 @@
           "name": "Jayne Pivik",
           "openalexid": "https://openalex.org/A2617520030",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Marc Laflamme",
           "openalexid": "https://openalex.org/A2155695143",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -9147,37 +9813,61 @@
           "name": "K E Stavroulia",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "E Baka",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M Christofi",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "D Michael-Grigoriou",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "N Magnenat-Thalmann",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "A Lanitis",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -10177,19 +10867,31 @@
           "name": "Michele Fiorentino",
           "openalexid": "https://openalex.org/A2109393959",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Giuseppe Monno",
           "openalexid": "https://openalex.org/A1972573051",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Antonio Emmanuele Uva",
           "openalexid": "https://openalex.org/A2311808830",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -10567,31 +11269,51 @@
           "name": "F J Torregrosa",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "J Torralba",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M A Jimenez",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S García",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "J M Barcia",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -10697,37 +11419,63 @@
       "openalexid": "https://openalex.org/W2740676967",
       "title": "A Review of the Features of Augmented Reality Science Textbook",
       "date": "2014-01-01",
-      "journal": null,
+      "journal": {
+        "name": null,
+        "publisher": null,
+        "url": null,
+        "openalexid": null,
+        "issn": null
+      },
       "authors": [
         {
           "name": "Valarmathie Gopalan",
           "openalexid": "https://openalex.org/A2602251420",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Abdul Nasir Zulkifli",
           "openalexid": "https://openalex.org/A2146334973",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Nur Fadziana Faisal",
           "openalexid": "https://openalex.org/A2740628845",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Juliana Aida",
           "openalexid": "https://openalex.org/A2148534786",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Abu Bakar",
           "openalexid": "https://openalex.org/A2511042725",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -11069,13 +11817,21 @@
           "name": "J McKenzie",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name":null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "D Darnell",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name":null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -11095,25 +11851,41 @@
           "name": "M Akcayir",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name":null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "G Akcayir",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name":null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "H M Pektas",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name":null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M A Ocak",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name":null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -11447,7 +12219,11 @@
           "name": "Richard E. Mayer",
           "openalexid": "https://openalex.org/A3211591289",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -11467,13 +12243,21 @@
           "name": "David Pérez-López",
           "openalexid": "https://openalex.org/A2437311542",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Manuel Contero",
           "openalexid": "https://openalex.org/A238840419",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -11777,13 +12561,21 @@
           "name": "J A Frank",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "V Kapila",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -11881,25 +12673,41 @@
           "name": "Natalie Bursztyn",
           "openalexid": "https://openalex.org/A1659133325",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Brett E. Shelton",
           "openalexid": "https://openalex.org/A2186161060",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Andrew Walker",
           "openalexid": "https://openalex.org/A2108756041",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Joel L. Pederson",
           "openalexid": "https://openalex.org/A2121250905",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -11919,43 +12727,71 @@
           "name": "V Gopalan",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "A N Zulkifli",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "N F Faisal Mohamed",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "A Alwi",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "R Che Mat",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "J A Abu Bakar",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "A Z Saidin",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -12029,25 +12865,41 @@
           "name": "Wernhuar Tarng",
           "openalexid": "https://openalex.org/A257670669",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Yu-Sheng Lin",
           "openalexid": "https://openalex.org/A2660203128",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Chiu-Pin Lin",
           "openalexid": "https://openalex.org/A2101966688",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Kuo-Liang Ou",
           "openalexid": "https://openalex.org/A2114225693",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -12131,19 +12983,31 @@
           "name": "H T Zimmerman",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S M Land",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Y J Jung",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -12487,13 +13351,21 @@
           "name": "N Aottiwerch",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "U Kokaew",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -12523,13 +13395,21 @@
           "name": "Shatha Abu Shanab",
           "openalexid": "https://openalex.org/A2009618201",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Mahasen Anabtawi",
           "openalexid": "https://openalex.org/A1994063639",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -12697,37 +13577,61 @@
           "name": "B Parhizkar",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M Islam",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "A Lashkari",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M Abdullas-Al-Jubair",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Z Gebril",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M Zarrabi",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -12967,25 +13871,41 @@
           "name": "T Lundblad",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "C Malmberg",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M Areskoug",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "P Jönsson",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -13059,25 +13979,41 @@
           "name": "Lluís Vicent Safont",
           "openalexid": "https://openalex.org/A2654237773",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Sergi Villagrasa",
           "openalexid": "https://openalex.org/A1951599216",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "David Fonseca",
           "openalexid": "https://openalex.org/A2268440790",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Ernest Redondo",
           "openalexid": "https://openalex.org/A2109233600",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -13097,31 +14033,51 @@
           "name": "María Blanca Ibáñez",
           "openalexid": "https://openalex.org/A2136504908",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "David Maroto",
           "openalexid": "https://openalex.org/A2096124651",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "José Jesús García Rueda",
           "openalexid": "https://openalex.org/A2110644809",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Derick Leony",
           "openalexid": "https://openalex.org/A1027839785",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Carlos Delgado Kloos",
           "openalexid": "https://openalex.org/A1995220988",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -13209,7 +14165,11 @@
           "name": "H McLellan",
           "openalexid": null,
           "rawaffiliation": "Englewood Cliffs, NJ",
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -13411,13 +14371,21 @@
           "name": "Christine Redman",
           "openalexid": "https://openalex.org/A1979088193",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Joanne Blannin",
           "openalexid": "https://openalex.org/A2767749543",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -13501,31 +14469,51 @@
           "name": "Stefaan Ternier",
           "openalexid": "https://openalex.org/A2806373737",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Roland Klemke",
           "openalexid": "https://openalex.org/A2072624884",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Marco Kalz",
           "openalexid": "https://openalex.org/A322202385",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Patricia Van Ulzen",
           "openalexid": "https://openalex.org/A211045815",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Marcus Specht",
           "openalexid": "https://openalex.org/A2275370300",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -13545,7 +14533,11 @@
           "name": "H Jenkins",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -13565,13 +14557,21 @@
           "name": "J Carmigniani",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "B Furht",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -13791,7 +14791,11 @@
           "name": "B Perry",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -13967,7 +14971,11 @@
           "name": "A King",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -13987,7 +14995,11 @@
           "name": "K Schrock",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -14075,7 +15087,11 @@
           "name": "Nor Nashirah Nor Mahadzir",
           "openalexid": "https://openalex.org/A2798669486",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -14095,13 +15111,21 @@
           "name": "Onuma Lakarnchua",
           "openalexid": "https://openalex.org/A2416967960",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Hayo Reinders",
           "openalexid": "https://openalex.org/A2251444607",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -14121,7 +15145,11 @@
           "name": "S Pilton",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -14141,19 +15169,31 @@
           "name": "S Küçük",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "R M Yýlmaz",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Y Göktaþ",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -14231,13 +15271,21 @@
           "name": "Ekrem Solak",
           "openalexid": "https://openalex.org/A1984178737",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Recep Çakir",
           "openalexid": "https://openalex.org/A2072661603",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -14615,7 +15663,11 @@
           "name": "Julie M. Sykes",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -14743,25 +15795,41 @@
           "name": "J Joo-Nagata",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M Abad",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "G Giner",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "F Garcia-Penalvo",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -14849,19 +15917,31 @@
           "name": "Athanasios Gaitatzes",
           "openalexid": "https://openalex.org/A1969454915",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Pavlos Mavridis",
           "openalexid": "https://openalex.org/A1894868093",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Georgios Papaioannou",
           "openalexid": "https://openalex.org/A2068285530",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -14881,13 +15961,21 @@
           "name": "A Perez-Valle",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "D Sagasti",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -14961,31 +16049,51 @@
           "name": "D Ewert",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "K Schuster",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "D Johansson",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "D Schilberg",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S Jeschke",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -15247,19 +16355,31 @@
           "name": "K T Sun",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "C L Lin",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S M Wang",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -15481,7 +16601,11 @@
           "name": "John A. Vozenilek",
           "openalexid": "https://openalex.org/A793449034",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Douglas R. Danforth",
@@ -15879,25 +17003,41 @@
           "name": "Telmo Zarraonandia",
           "openalexid": "https://openalex.org/A337078076",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Ignacio Aedo",
           "openalexid": "https://openalex.org/A2173996686",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Paloma Díaz",
           "openalexid": "https://openalex.org/A2118717156",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Alvaro Montero",
           "openalexid": "https://openalex.org/A2494899133",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -15917,13 +17057,21 @@
           "name": "S-J Lu",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Y-C Liu",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -16095,49 +17243,81 @@
           "name": "Fotis Liarokapis",
           "openalexid": "https://openalex.org/A2460039973",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Nikolaos Mourkoussis",
           "openalexid": "https://openalex.org/A2343587182",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Martin White",
           "openalexid": "https://openalex.org/A2322519432",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Joe Darcy",
           "openalexid": "https://openalex.org/A2148389321",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Maria Sifniotis",
           "openalexid": "https://openalex.org/A264685482",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Panos Petridis",
           "openalexid": "https://openalex.org/A2734957635",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Anirban Basu",
           "openalexid": "https://openalex.org/A2103666405",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Paul Lister",
           "openalexid": "https://openalex.org/A3131983135",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -16255,25 +17435,41 @@
           "name": "J Han",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M Jo",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "E Hyun",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "H J So",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -16381,13 +17577,21 @@
           "name": "Y Cheng",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S H Wang",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -16407,19 +17611,31 @@
           "name": "J Bertram",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "J Moskaliuk",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "U Cress",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -16439,7 +17655,11 @@
           "name": "C Dede",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -16503,25 +17723,41 @@
           "name": "E. A. Attree",
           "openalexid": "https://openalex.org/A1547487847",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "B. M. Brooks",
           "openalexid": "https://openalex.org/A2096207056",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "D. M. Parslow",
           "openalexid": "https://openalex.org/A2693353151",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "P. R. Penn",
           "openalexid": "https://openalex.org/A2485998643",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -16541,7 +17777,11 @@
           "name": "Marek Bures",
           "openalexid": "https://openalex.org/A2114643588",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -16571,13 +17811,21 @@
           "name": "Peter A. Hancock",
           "openalexid": "https://openalex.org/A2341044899",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S. T. Chrysler",
           "openalexid": "https://openalex.org/A2253325744",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -16671,13 +17919,21 @@
           "name": "Nathan V. Persaud",
           "openalexid": "https://openalex.org/A2647264717",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Theresa Powell",
           "openalexid": "https://openalex.org/A2154104852",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -16707,7 +17963,11 @@
           "name": "Paul Brna",
           "openalexid": "https://openalex.org/A296843076",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -16727,7 +17987,11 @@
           "name": "Margarita Dubourdieu",
           "openalexid": "https://openalex.org/A3097494634",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -16875,7 +18139,11 @@
           "name": "Peter Mitchell",
           "openalexid": "https://openalex.org/A3189424691",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Anne Leonard",
@@ -17223,13 +18491,21 @@
           "name": "Rena M. Palloff",
           "openalexid": "https://openalex.org/A20379826",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Keith Pratt",
           "openalexid": "https://openalex.org/A2651351888",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -17491,19 +18767,33 @@
       "openalexid": null,
       "title": "ARG Educational Games: a New Type of Educational Game e-Education Research",
       "date": "2014",
-      "journal": null,
+      "journal": {
+        "name": null,
+        "publisher": null,
+        "url": null,
+        "openalexid": null,
+        "issn": null
+      },
       "authors": [
         {
           "name": "R Zhou",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "K Fang",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -17523,7 +18813,11 @@
           "name": "Nicola Whitton",
           "openalexid": "https://openalex.org/A1694146243",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -17727,19 +19021,31 @@
           "name": "T Y Liu",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "T-H Tan",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Y-L Chu",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -17857,7 +19163,11 @@
           "name": "I Radu",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -18299,25 +19609,41 @@
           "name": "T Civelek",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "E Ucar",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "H Ustunel",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M K Aydın",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -18337,25 +19663,41 @@
           "name": "N Ali",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S Ullah",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "A Alam",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "J Rafique",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -18375,13 +19717,21 @@
           "name": "Antonieta Ângulo",
           "openalexid": "https://openalex.org/A2246510259",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Guillermo Vásquez de Velasco",
           "openalexid": "https://openalex.org/A2573946985",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -18943,25 +20293,43 @@
       "openalexid": null,
       "title": "EKGAR: Interactive ECG Learning with AugmentedReality",
       "date": "2007",
-      "journal": null,
+      "journal": {
+        "name": null,
+        "publisher": null,
+        "url": null,
+        "openalexid": null,
+        "issn": null
+      },
       "authors": [
         {
           "name": "H Hedegaard",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M R Dahl",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "K Grinbaek",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -19035,25 +20403,41 @@
           "name": "Samarth Singhal",
           "openalexid": "https://openalex.org/A2325253190",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Sameer Bagga",
           "openalexid": "https://openalex.org/A2319322079",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Praroop Goyal",
           "openalexid": "https://openalex.org/A2318596311",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Vikas Saxena",
           "openalexid": "https://openalex.org/A2222313589",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -19161,7 +20545,11 @@
           "name": "Ryutarou Ohbuchi",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -19929,49 +21317,81 @@
           "name": "Larry Davis",
           "openalexid": "https://openalex.org/A2203689259",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Felix G. Hamza-Lup",
           "openalexid": "https://openalex.org/A2777031776",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Jason Daly",
           "openalexid": "https://openalex.org/A2102218861",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Yonggang Ha",
           "openalexid": "https://openalex.org/A2135885274",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Glenn A. Martin",
           "openalexid": "https://openalex.org/A2793606897",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Jack Norfleet",
           "openalexid": "https://openalex.org/A2918469001",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Richard Thumann",
           "openalexid": "https://openalex.org/A1982165333",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Celina Imielinska",
           "openalexid": "https://openalex.org/A1967690906",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -20297,25 +21717,41 @@
           "name": "U. von Jan",
           "openalexid": "https://openalex.org/A2777081697",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Christoph Noll",
           "openalexid": "https://openalex.org/A2168917745",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Marianne Behrends",
           "openalexid": "https://openalex.org/A2465770557",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Urs-Vito Albrecht",
           "openalexid": "https://openalex.org/A2143429460",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -20809,25 +22245,41 @@
           "name": "N Li",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "L Chang",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Y X Gu",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "H L Duh",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -20915,7 +22367,11 @@
           "name": "Y C Chen",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -20935,19 +22391,31 @@
           "name": "Pedro Campos",
           "openalexid": "https://openalex.org/A2105193017",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Sofia Pessanha",
           "openalexid": "https://openalex.org/A1981085797",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Joaquim Jorge",
           "openalexid": "https://openalex.org/A2120678171",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -21305,19 +22773,31 @@
           "name": "J Good",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "K Howland",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "L Thackray",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -21393,13 +22873,23 @@
       "openalexid": "https://openalex.org/W157122589",
       "title": "12 VR Learning: Potential and Challenges for the Use of 3D Environments in Education and Training",
       "date": "2003-01-01",
-      "journal": null,
+      "journal": {
+        "name": null,
+        "publisher": null,
+        "url": null,
+        "openalexid": null,
+        "issn": null
+      },
       "authors": [
         {
           "name": "Fabrizia Mantovani",
           "openalexid": "https://openalex.org/A2140609610",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -21551,7 +23041,11 @@
           "name": "Barney Dalgarno",
           "openalexid": "https://openalex.org/A2105252278",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -21625,13 +23119,21 @@
           "name": "Michele Smith",
           "openalexid": "https://openalex.org/A2685085748",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Zane L. Berge",
           "openalexid": "https://openalex.org/A3191268358",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -21705,7 +23207,11 @@
           "name": "Sue Cobb",
           "openalexid": "https://openalex.org/A2098335699",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -21725,13 +23231,21 @@
           "name": "Schwebel",
           "openalexid":  null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "McClure",
           "openalexid":  null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -21921,13 +23435,21 @@
           "name": "Maureen Ellis",
           "openalexid": "https://openalex.org/A2559812433",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Patricia Anderson",
           "openalexid": "https://openalex.org/A2196265617",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -22045,13 +23567,21 @@
           "name": "B C Nelson",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "D J Ketelhut",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -22125,7 +23655,11 @@
           "name": "Ann A. Wolf",
           "openalexid": "https://openalex.org/A2573879847",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -22339,13 +23873,21 @@
           "name": "Persefoni Karamanoli",
           "openalexid": "https://openalex.org/A2403237654",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Avgoustos A. Tsinakos",
           "openalexid": "https://openalex.org/A486071799",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -22365,7 +23907,11 @@
           "name": "D Schmalstiegs",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -22483,7 +24029,11 @@
           "name": "Bernd Meyer",
           "openalexid": "https://openalex.org/A2116107781",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -23009,7 +24559,11 @@
           "name": "Anthony Grafton",
           "openalexid": "https://openalex.org/A2125537194",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -23029,43 +24583,71 @@
           "name": "G Papagiannakis",
           "openalexid": "https://openalex.org/A2435868845",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M. Ponder",
           "openalexid": "https://openalex.org/A1988279761",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "T Molet",
           "openalexid": "https://openalex.org/A3075515472",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "S Kshirsagar",
           "openalexid": "https://openalex.org/A2983519864",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Frederic Cordier",
           "openalexid": "https://openalex.org/A2150787340",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "M Magnenat-Thalmann",
           "openalexid": "https://openalex.org/A2691882208",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "D Thalmann",
           "openalexid": "https://openalex.org/A2974475043",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -23119,25 +24701,41 @@
           "name": "Kelley Reinsmith-Jones",
           "openalexid": "https://openalex.org/A2225160571",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Sharon Kibbe",
           "openalexid": "https://openalex.org/A2704436494",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Traci Crayton",
           "openalexid": "https://openalex.org/A2563727162",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Elana Zipkin Campbell",
           "openalexid": "https://openalex.org/A2206695719",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -23211,7 +24809,11 @@
           "name": "A Correia",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -23275,7 +24877,11 @@
           "name": "Z Merchant",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -23308,19 +24914,31 @@
           "name": "E Djebbari",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "A Ailincai",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "X Boissarie",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -23500,19 +25118,33 @@
       "openalexid": null,
       "title": "The educational possibilities of Augmented Reality. New approaches in educational research",
       "date": "2016",
-      "journal": null,
+      "journal": {
+        "name": null,
+        "publisher": null,
+        "url": null,
+        "openalexid": null,
+        "issn": null
+      },
       "authors": [
         {
           "name": "Julio Barroso-Osuna",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Julio Cabero-Almenara",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -23566,7 +25198,11 @@
           "name": "David Passig",
           "openalexid": "https://openalex.org/A204581235",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -23586,7 +25222,11 @@
           "name": "Philip Auslander",
           "openalexid": "https://openalex.org/A78872387",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -23808,19 +25448,31 @@
           "name": "G Palaigeorgiou",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "A Karakostas",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "K Skenteridou",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -24184,25 +25836,41 @@
           "name": "Z Zhou",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "A Cheok",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "J Tedjokusumo",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "G Omer",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -24222,7 +25890,11 @@
           "name": "M Sugimoto",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -24242,7 +25914,11 @@
           "name": "Stergios Kalpakis",
           "openalexid": "https://openalex.org/A2906118969",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "George Palaigeorgiou",
@@ -24258,7 +25934,11 @@
           "name": "Kostas Kasvikis",
           "openalexid": "https://openalex.org/A2979397206",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -24356,37 +26036,61 @@
           "name": "Ruben Heradio",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Luis de la Torre",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Daniel Galan",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Francisco Javier Cabrerizo",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Enrique Herrera-Viedma",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "Sebastian Dormido",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -24504,7 +26208,11 @@
           "name": "Lucie Lindsay",
           "openalexid": "https://openalex.org/A2141557120",
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
@@ -24632,19 +26340,31 @@
           "name": "A García",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "R Guerrero",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         },
         {
           "name": "J Granados",
           "openalexid": null,
           "rawaffiliation": null,
-          "institution": null
+          "institution": {
+            "name": null,
+            "countrycode": null,
+            "openalexid": null
+          }
         }
       ]
     },
