@@ -36,11 +36,18 @@ public class Database : MonoBehaviour
         JObject apidata = JObject.Parse(APIDataTextFile.text);
         JArray apipapers = (JArray)apidata["objects"];
 
+        if(FILL_TABLES)
+        {
+            StartDataSQLite();
+            FillTables(apipapers);
+        }
+
         StartDataSQLite();
-        FillTables(apipapers);
+        Debug.Log(getAuthorAndInstitutionByPaperId(3));
+        
     }
 
-    void StartDataSQLite()
+    public void StartDataSQLite()
     {
         string urlDataBase = "URI = file:Assets/Data/dbupdated.db";
 
@@ -51,6 +58,125 @@ public class Database : MonoBehaviour
     }
   
     // DB functions
+    public string getTitleById(int id)
+    {      
+        IDbCommand _command = _connection.CreateCommand();
+        
+        string sqlQuery = "SELECT title FROM paper WHERE id =" + id;
+        _command.CommandText = sqlQuery;
+        
+        IDataReader reader = _command.ExecuteReader();
+
+        string title = "";
+        while (reader.Read())
+        {
+           title = reader.GetString(0); ;
+        }
+
+        return title;
+    }
+
+    public int getYearById(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT pubyear FROM paper WHERE id =" + id;
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int year = 0000;
+        while (reader.Read())
+        {
+            year = reader.GetInt32(0); ;
+        }
+
+        return year;
+    }
+
+    public string getDateById(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT date FROM paper WHERE id =" + id;
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        string date = "";
+        while (reader.Read())
+        {
+            date = reader.GetString(0); ;
+        }
+
+        return date;
+    }
+
+    public List<Author> getAuthorAndInstitutionByPaperId(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+    
+        string sqlQuery = "SELECT author.id, author.name, author.openalexid, institution.id, institution.name, institution.countrycode, institution.openalexid FROM author, author_paper, institution, author_institution WHERE author_paper.author_id = author.id AND author_institution.author_id = author_paper.author_id AND author_institution.author_id = author.id AND author_institution.institution_id = institution.id AND author_paper.paper_id =" + id;
+        _command.CommandText = sqlQuery;
+    
+        IDataReader reader = _command.ExecuteReader();
+
+        List<Author> authors = new List<Author>();
+        while (reader.Read())
+        {
+            authors.Add(new Author(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetString(4), reader.GetString(5), reader.GetString(6)));
+        }
+    
+        return authors;
+    }
+
+    public PubOutlet getPubOutletByPaperId(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT puboutlet.id, puboutlet.name, puboutlet.url, puboutlet.openalexid, puboutlet.issn FROM puboutlet, puboutlet_paper WHERE puboutlet_paper.puboutlet_id = puboutlet.id AND puboutlet_paper.paper_id =" + id;
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int pubid = -1;
+        string pubname = "";
+        string puburl = "";
+        string puboalexid = "";
+        string pubissn = "";
+
+        while (reader.Read())
+        {
+            pubid = reader.GetInt32(0);
+            pubname = reader.GetString(1);
+            puburl = reader.GetString(2);
+            puboalexid = reader.GetString(3);
+            pubissn = reader.GetString(4);
+        }
+        
+        PubOutlet publicationoutlet = new PubOutlet(pubid, pubname, puburl, puboalexid, pubissn);
+        
+        return publicationoutlet;
+    }
+
+    public int getTotalPapers()
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT COUNT(id) FROM paper";
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int total = -1;
+        while (reader.Read())
+        {
+            total = reader.GetInt32(0);
+        }
+
+        return total;
+    }
+
     int getInstitutionByOpenAlexId(string openalexid, string instname)
     {
         IDbCommand _command = _connection.CreateCommand();
@@ -178,11 +304,6 @@ public class Database : MonoBehaviour
     // run one time only method to fill DB tables
     void FillTables(JArray apipaperlist)
     {
-        if (FILL_TABLES == false)
-        {
-            return;
-        }
-
         // PAPERS
         for (int i = 0; i < apipaperlist.Count; i++)
         {
@@ -194,10 +315,12 @@ public class Database : MonoBehaviour
                 year = date.ToString().Substring(0, 4);
             }
 
+            string oaid = (string)apipaperlist[i]["openalexid"];
+
             int paperid = i;
             JArray authors = (JArray)apipaperlist[i]["authors"];
 
-            insertDataSQLite("paper", "id, title, pubyear, date", String.Format("{0}, '{1}', {2}, '{3}'", paperid, apipaperlist[i]["title"], year == null ? 0 : Int32.Parse(year), date == null ? "" : date));
+            insertDataSQLite("paper", "id, title, pubyear, date, openalexid", String.Format("{0}, '{1}', {2}, '{3}', '{4}'", paperid, apipaperlist[i]["title"], year == null ? 0 : Int32.Parse(year), date == null ? "" : date, oaid == null ? null : oaid));
 
             // AUTHORS
             for (int j = 0; j < authors.Count; j++)
@@ -227,7 +350,7 @@ public class Database : MonoBehaviour
 
                     if (institutionid == -1) // se não existir uma instituição com o mesmo nome nem com o mesmo openalex eu crio e crio a relação autor instituição
                     {
-                        if ((string)authors[j]["institution"]["openalexid"] == null)
+                        if ((string)authors[j]["institution"]["countrycode"] == null)
                         {
                             string cc = (string)authors[j]["institution"]["name"];
 
@@ -235,7 +358,7 @@ public class Database : MonoBehaviour
                         }
                         else
                         {
-                            string cc = (string)authors[j]["institution"]["name"];
+                            string cc = (string)authors[j]["institution"]["countrycode"];
 
                             insertDataSQLite("institution", "name, countrycode, openalexid", String.Format("'{0}', '{1}', '{2}'", authors[j]["institution"]["name"], cc == null ? "" : cc, authors[j]["institution"]["openalexid"]));
                         }

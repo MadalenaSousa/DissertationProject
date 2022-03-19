@@ -8,36 +8,112 @@ using UnityEngine.UI;
 
 public class Paper : MonoBehaviour
 {
-    // outlet means journal, save ids (mine) for authors and journals and institutions
-    public string title, institution, author, pub_outlet;
-    public int id, year, use_id, practice_id, strategy_id;
-    public float x, y, z, radius;
-    public Paper instance;
+    Database db;
 
-    public Paper() 
-    {   
-        x = 0;
-        y = 0;
-        z = 0;
-        radius = 100;
-    }
+    // DB based variables
+    string title, date;
+    int year;
+    List<Author> author;
+    PubOutlet publication_outlet;
 
-    void Awake()
+    // externaly defined variables
+    int id;
+
+    public Paper(int id)
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-    }
+        this.id = id;
+        this.db = Database.instance;
+        db.StartDataSQLite();
 
-    void Start()
-    {
-        gameObject.transform.position = new Vector3(x, y, z);
-        gameObject.GetComponent<SphereCollider>().radius = radius;
-    }
+        this.title = db.getTitleById(id);
+        this.date = db.getDateById(id);
+        this.year = db.getYearById(id);
 
-    void Update()
-    {
-        
+        this.author = db.getAuthorAndInstitutionByPaperId(id);
+        this.publication_outlet = db.getPubOutletByPaperId(id);
     }
 }
+
+public class Author
+{
+    int id;
+    public string name;
+    public string openalexid;
+    public Institution institution;
+
+    public Author(int id, string name, string authoropenalexid, int instid, string instname, string countrycode, string instopenalexid)
+    {
+        this.id = id;
+        this.name = name;
+        this.openalexid = authoropenalexid;
+        this.institution = new Institution(instid, instname, countrycode, instopenalexid);
+    }
+}
+
+public class Institution
+{
+    public int id;
+    public string name;
+    public string countrycode;
+    public string openalexid;
+
+    public Institution(int id, string name, string countrycode, string openalexid)
+    {
+        this.id = id;
+        this.name = name;
+        this.countrycode = countrycode;
+        this.openalexid = openalexid;
+    }
+}
+
+public class PubOutlet
+{
+    public int id;
+    public string name;
+    public string url;
+    public string openalexid;
+    public string issn;
+
+    public PubOutlet(int id, string name, string url, string openalexid, string issn)
+    {
+        this.id = id;
+        this.name = name;
+        this.url = url;
+        this.openalexid = openalexid;
+        this.issn = issn;
+    }
+}
+
+public class Practice : Category
+{
+    public Practice()
+    {
+        this.id = 1;
+        this.name = "Alface";
+    }
+}
+
+public class Strategy : Category
+{
+    public Strategy()
+    {
+        this.id = 1;
+        this.name = "Cebola";
+    }
+}
+
+public class Use : Category
+{
+    public Use()
+    {
+        this.id = 1;
+        this.name = "Cacau";
+    }
+}
+
+public class Category
+{
+    public int id;
+    public string name;
+}
+
