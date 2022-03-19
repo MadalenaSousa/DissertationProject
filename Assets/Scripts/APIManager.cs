@@ -42,15 +42,17 @@ public class APIManager : MonoBehaviour
 
         // Call API
         List<InitData> temppaperdata = new List<InitData>();
+
         if(getApiData)
         {
             StartCoroutine(WriteData(titles, temppaperdata));
         }
-        
+
     }
 
     IEnumerator WriteData(string[] papertitles, List<InitData> paperlist) // Write Json with API data
     {
+        
         for (int i = 0; i < papertitles.Length; i++)
         {
             string encoded = papertitles[i].Replace(",", "%2C");
@@ -58,7 +60,9 @@ public class APIManager : MonoBehaviour
             encoded = encoded.Replace(" ", "%20");
             encoded = encoded.Replace(":", "%3A");
             encoded = encoded.Replace(";", "%3B");
-
+            
+            Debug.Log("Current Call: " + i);
+            
             yield return StartCoroutine(GetRequest("https://api.openalex.org/works?mailto=up202003391@up.pt&filter=title.search:" + encoded, paperlist));
 
             Thread.Sleep(200);

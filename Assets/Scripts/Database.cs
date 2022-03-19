@@ -17,7 +17,9 @@ public class Database : MonoBehaviour
     public static Database instance;
 
     private IDbConnection _connection;
-    private const bool FILL_TABLES = true;
+    
+    [SerializeField]
+    private bool FILL_TABLES = false;
 
     public TextAsset APIDataTextFile;
 
