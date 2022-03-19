@@ -161,6 +161,7 @@ public class Database : MonoBehaviour
 
     public int getTotalPapers()
     {
+        StartDataSQLite();
         IDbCommand _command = _connection.CreateCommand();
 
         string sqlQuery = "SELECT COUNT(id) FROM paper";

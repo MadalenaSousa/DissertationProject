@@ -15,8 +15,10 @@ public class NetworkView : MonoBehaviour
     public static NetworkView instance;
 
     int totalpapers;
-    List<Paper> papers;
     Database db;
+
+    public GameObject NodePrefab;
+    public GameObject[] papers;
     
 
     private void Awake()
@@ -29,14 +31,17 @@ public class NetworkView : MonoBehaviour
 
     void Start()
     {
-        //db = Database.instance;
-        //db.StartDataSQLite();
-        //totalpapers = db.getTotalPapers();
-        //
-        //for(int i = 0; i < totalpapers; i++)
-        //{
-        //    papers.Add(new Paper(i));
-        //}
+        db = Database.instance;
+        totalpapers = db.getTotalPapers();
+        papers = new GameObject[totalpapers];
+
+        for(int i = 0; i < totalpapers; i++)
+        {
+            papers[i] = Instantiate(NodePrefab);
+            papers[i].gameObject.transform.position = new Vector3(0, 0, 0);
+            papers[i].gameObject.GetComponent<SphereCollider>().radius = 50;
+        }
+
     }
 }
 
