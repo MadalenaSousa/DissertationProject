@@ -41,6 +41,7 @@ public class Database : MonoBehaviour
             StartDataSQLite();
             FillTables(apipapers);
         }
+
     }
 
     public void StartDataSQLite()
@@ -329,7 +330,10 @@ public class Database : MonoBehaviour
 
         while (reader.Read())
         {
-            use.Add(new Use(reader.GetInt32(0), reader.GetString(1)));
+            if(!reader.IsDBNull(0))
+            {
+                use.Add(new Use(reader.GetInt32(0), reader.GetString(1)));
+            }       
         }
 
         return use;

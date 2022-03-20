@@ -24,6 +24,9 @@ public class Paper :  MonoBehaviour
     // externaly defined variables
     public int id;
 
+    //UI Elements
+    public GameObject titleBox;
+
     public void setValues(int id)
     {
         this.id = id;
@@ -40,6 +43,8 @@ public class Paper :  MonoBehaviour
         this.practice = db.getPracticeByPaperId(id);
         this.strategy = db.getStrategyByPaperId(id);
         this.use = db.getUseByPaperId(id);
+
+        titleBox.GetComponent<Text>().text = this.title;
     }
 
     public void setPosition(float x, float y, float z)
