@@ -6,20 +6,25 @@ using System;
 using LumenWorks.Framework.IO.Csv;
 using UnityEngine.UI;
 
-public class Paper : MonoBehaviour
+public class Paper :  MonoBehaviour
 {
     Database db;
 
     // DB based variables
-    string title, date;
-    int year;
-    List<Author> author;
-    PubOutlet publication_outlet;
+    public string title, date;
+    public int year;
+
+    public List<Author> author = new List<Author>();
+    public PubOutlet publication_outlet;
+    
+    public List<Practice> practice = new List<Practice>();
+    public List<Strategy> strategy = new List<Strategy>();
+    public List<Use> use = new List<Use>();
 
     // externaly defined variables
-    int id;
+    public int id;
 
-    public Paper(int id)
+    public void setValues(int id)
     {
         this.id = id;
         this.db = Database.instance;
@@ -31,12 +36,26 @@ public class Paper : MonoBehaviour
 
         this.author = db.getAuthorAndInstitutionByPaperId(id);
         this.publication_outlet = db.getPubOutletByPaperId(id);
+
+        this.practice = db.getPracticeByPaperId(id);
+        this.strategy = db.getStrategyByPaperId(id);
+        this.use = db.getUseByPaperId(id);
+    }
+
+    public void setPosition(float x, float y, float z)
+    {
+        gameObject.transform.position = new Vector3(x, y, z);
+    }
+
+    public void setColor(Color color)
+    {
+        gameObject.GetComponentInChildren<Renderer>().material.color = color;
     }
 }
 
 public class Author
 {
-    int id;
+    public int id;
     public string name;
     public string openalexid;
     public Institution institution;
@@ -86,28 +105,28 @@ public class PubOutlet
 
 public class Practice : Category
 {
-    public Practice()
+    public Practice(int id, string name)
     {
-        this.id = 1;
-        this.name = "Alface";
+        this.id = id;
+        this.name = name;
     }
 }
 
 public class Strategy : Category
 {
-    public Strategy()
+    public Strategy(int id, string name)
     {
-        this.id = 1;
-        this.name = "Cebola";
+        this.id = id;
+        this.name = name;
     }
 }
 
 public class Use : Category
 {
-    public Use()
+    public Use(int id, string name)
     {
-        this.id = 1;
-        this.name = "Cacau";
+        this.id = id;
+        this.name = name;
     }
 }
 

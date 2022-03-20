@@ -41,10 +41,6 @@ public class Database : MonoBehaviour
             StartDataSQLite();
             FillTables(apipapers);
         }
-
-        StartDataSQLite();
-        Debug.Log(getAuthorAndInstitutionByPaperId(3));
-        
     }
 
     public void StartDataSQLite()
@@ -106,7 +102,7 @@ public class Database : MonoBehaviour
         string date = "";
         while (reader.Read())
         {
-            date = reader.GetString(0); ;
+            date = reader.GetString(0);
         }
 
         return date;
@@ -124,7 +120,13 @@ public class Database : MonoBehaviour
         List<Author> authors = new List<Author>();
         while (reader.Read())
         {
-            authors.Add(new Author(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetString(4), reader.GetString(5), reader.GetString(6)));
+            string authoropenalexid = "";
+            string instopenalexid = "";
+            
+            if (!reader.IsDBNull(2)) { authoropenalexid = reader.GetString(2); }
+            if (!reader.IsDBNull(6)) { instopenalexid = reader.GetString(6); }
+
+            authors.Add(new Author(reader.GetInt32(0), reader.GetString(1), authoropenalexid, reader.GetInt32(3), reader.GetString(4), reader.GetString(5), instopenalexid));
         }
     
         return authors;
@@ -149,9 +151,9 @@ public class Database : MonoBehaviour
         {
             pubid = reader.GetInt32(0);
             pubname = reader.GetString(1);
-            puburl = reader.GetString(2);
-            puboalexid = reader.GetString(3);
-            pubissn = reader.GetString(4);
+            if (!reader.IsDBNull(2)) { puburl = reader.GetString(2); }
+            if (!reader.IsDBNull(3)) { puboalexid = reader.GetString(3); }
+            if (!reader.IsDBNull(4)) { pubissn = reader.GetString(4); }
         }
         
         PubOutlet publicationoutlet = new PubOutlet(pubid, pubname, puburl, puboalexid, pubissn);
@@ -273,24 +275,64 @@ public class Database : MonoBehaviour
         return accountid;
     }
 
-    int getPracticeByOrigin(int id)
+    public List<Practice> getPracticeByPaperId(int id)
     {
-        int accountid = getAccountByOrigin(id);
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT practices_id FROM practices_account WHERE account_id=" + accountid;
+        string sqlQuery = "SELECT practices.id, practices.name  FROM practices, practices_account, paper_account WHERE practices_account.account_id = paper_account.account_id AND practices.id = practices_account.practices_id AND paper_account.paper_id =" + id;
 
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
 
-        int practiceid = 0;
+        List<Practice> practice = new List<Practice>();
+        
         while (reader.Read())
         {
-            practiceid = reader.GetInt32(0);
+            practice.Add(new Practice(reader.GetInt32(0), reader.GetString(1)));
         }
 
-        return practiceid;
+        return practice;
+    }
+
+    public List<Strategy> getStrategyByPaperId(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT strategies.id, strategies.name  FROM strategies, account_strategies, paper_account WHERE account_strategies.account_id = paper_account.account_id AND strategies.id = account_strategies.strategies_id AND paper_account.paper_id =" + id;
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<Strategy> strategy = new List<Strategy>();
+
+        while (reader.Read())
+        {
+            strategy.Add(new Strategy(reader.GetInt32(0), reader.GetString(1)));
+        }
+
+        return strategy;
+    }
+
+    public List<Use> getUseByPaperId(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT uses.id, uses.name  FROM uses, uses_account, paper_account WHERE uses_account.account_id = paper_account.account_id AND uses.id = uses_account.uses_id AND paper_account.paper_id =" + id;
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<Use> use = new List<Use>();
+
+        while (reader.Read())
+        {
+            use.Add(new Use(reader.GetInt32(0), reader.GetString(1)));
+        }
+
+        return use;
     }
 
     void insertDataSQLite(string insertTable, string insertFields, string insertValues)

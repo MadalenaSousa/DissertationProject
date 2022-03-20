@@ -18,9 +18,11 @@ public class NetworkView : MonoBehaviour
     Database db;
 
     public GameObject NodePrefab;
-    public GameObject[] papers;
-    
+    List<GameObject> papers;
 
+    float x, y, z, radius;
+    Color color;
+    
     private void Awake()
     {
         if (instance == null)
@@ -33,13 +35,21 @@ public class NetworkView : MonoBehaviour
     {
         db = Database.instance;
         totalpapers = db.getTotalPapers();
-        papers = new GameObject[totalpapers];
 
-        for(int i = 0; i < totalpapers; i++)
+        papers = new List<GameObject>();
+
+        for (int i = 0; i < totalpapers; i++)
         {
-            papers[i] = Instantiate(NodePrefab);
-            papers[i].gameObject.transform.position = new Vector3(0, 0, 0);
-            papers[i].gameObject.GetComponent<SphereCollider>().radius = 50;
+            x = UnityEngine.Random.Range(-20, 20);
+            y = UnityEngine.Random.Range(-20, 20);
+            z = UnityEngine.Random.Range(-20, 20);
+
+            radius = UnityEngine.Random.Range(0, 10);
+
+            papers.Add(Instantiate(NodePrefab));
+            papers[i].GetComponent<Paper>().setValues(i);
+            papers[i].GetComponent<Paper>().setPosition(x, y, z);
+            papers[i].GetComponent<Paper>().setColor(Color.magenta);
         }
 
     }
