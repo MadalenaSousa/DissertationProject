@@ -9,9 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/Brain.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/Home.unity
-    guid: 846a9cad7cde8be4bace277229bca1c6
+    path: Assets/Scenes/Uses.unity
+    guid: 89353a8537824ab418253c7468a76dbf
+  - enabled: 1
+    path: Assets/Scenes/Practices.unity
+    guid: 19cc9af9070d7ba42b5d993e62326275
+  - enabled: 1
+    path: Assets/Scenes/Strategies.unity
+    guid: bcadba6bc3471f14c99608b904ed0f6b
   - enabled: 0
-    path: Assets/Scenes/Home.unity
-    guid: 846a9cad7cde8be4bace277229bca1c6
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}

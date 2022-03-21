@@ -339,6 +339,83 @@ public class Database : MonoBehaviour
         return use;
     }
 
+    public List<int> getPapersWithUses()
+    {
+        StartDataSQLite();
+
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT DISTINCT paper_account.paper_id  FROM paper_account, uses_account WHERE uses_account.account_id = paper_account.account_id";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<int> papers = new List<int>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                papers.Add(reader.GetInt32(0));
+            }
+        }
+
+        return papers;
+    }
+
+    public List<int> getPapersWithPractices()
+    {
+        StartDataSQLite();
+
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT DISTINCT paper_account.paper_id  FROM paper_account, practices_account WHERE practices_account.account_id = paper_account.account_id";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<int> papers = new List<int>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                papers.Add(reader.GetInt32(0));
+            }
+        }
+
+        return papers;
+    }
+
+    public List<int> getPapersWithStrategies()
+    {
+        StartDataSQLite();
+
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT DISTINCT paper_account.paper_id  FROM paper_account, account_strategies WHERE account_strategies.account_id = paper_account.account_id";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<int> papers = new List<int>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                papers.Add(reader.GetInt32(0));
+            }
+        }
+
+        return papers;
+    }
+
+    //----------------------------------------------------------------------------------------------------------------------------//
+
     void insertDataSQLite(string insertTable, string insertFields, string insertValues)
     {
         IDbCommand _command = _connection.CreateCommand();

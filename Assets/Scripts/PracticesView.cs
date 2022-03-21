@@ -11,9 +11,9 @@ using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Linq;
 
-public class UsesView : MonoBehaviour
+public class PracticesView : MonoBehaviour
 {
-    public static UsesView instance;
+    public static PracticesView instance;
 
     int totalpapers;
     Database db;
@@ -35,11 +35,11 @@ public class UsesView : MonoBehaviour
     void Start()
     {
         db = Database.instance;
-        List<int> toDraw = db.getPapersWithUses();
+        List<int> toDraw = db.getPapersWithPractices();
         totalpapers = toDraw.Count;
 
         papers = new List<GameObject>();
-        
+
         for (int i = 0; i < totalpapers; i++)
         {
             papers.Add(Instantiate(NodePrefab));
@@ -53,6 +53,6 @@ public class UsesView : MonoBehaviour
             papers[i].GetComponent<Paper>().setValues(toDraw[i]);
             papers[i].GetComponent<Paper>().setPosition(x, y, z);
             papers[i].GetComponent<Paper>().setColor(Color.magenta);
-        }   
+        }
     }
 }
