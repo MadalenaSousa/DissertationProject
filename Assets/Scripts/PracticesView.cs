@@ -48,7 +48,7 @@ public class PracticesView : MonoBehaviour
             y = UnityEngine.Random.Range(-20, 20);
             z = UnityEngine.Random.Range(-20, 20);
 
-            radius = UnityEngine.Random.Range(0, 10);
+            radius = 10;
 
             papers[i].GetComponent<Paper>().setValues(toDraw[i]);
             papers[i].GetComponent<Paper>().setPosition(x, y, z);

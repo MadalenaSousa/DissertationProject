@@ -44,14 +44,12 @@ public class BrainView : MonoBehaviour
             y = UnityEngine.Random.Range(-20, 20);
             z = UnityEngine.Random.Range(-20, 20);
 
-            radius = UnityEngine.Random.Range(0, 10);
+            radius = 10;
 
             papers.Add(Instantiate(NodePrefab));
             papers[i].GetComponent<Paper>().setValues(i);
             papers[i].GetComponent<Paper>().setPosition(x, y, z);
             papers[i].GetComponent<Paper>().setColor(Color.magenta);
-
-
         }
 
     }
