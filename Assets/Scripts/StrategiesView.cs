@@ -42,17 +42,12 @@ public class StrategiesView : MonoBehaviour
 
         for (int i = 0; i < totalpapers; i++)
         {
+            radius = 20;
+            
             papers.Add(Instantiate(NodePrefab));
-
-            x = UnityEngine.Random.Range(-20, 20);
-            y = UnityEngine.Random.Range(-20, 20);
-            z = UnityEngine.Random.Range(-20, 20);
-
-            radius = 10;
-
             papers[i].GetComponent<Paper>().setValues(toDraw[i]);
-            papers[i].GetComponent<Paper>().setPosition(x, y, z);
-            papers[i].GetComponent<Paper>().setColor(Color.magenta);
+            papers[i].GetComponent<Paper>().setPositionSphere(UnityEngine.Random.insideUnitSphere * radius);
+            papers[i].GetComponent<Paper>().setColor(Color.cyan);
         }
     }
 }

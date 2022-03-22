@@ -17,6 +17,12 @@ public class Filters : MonoBehaviour
     List<string> allAuthors = new List<string>();
     Dictionary<int, string> authorsFromDB = new Dictionary<int, string>();
 
+    public AutoCompleteComboBox journalSearch;
+    public GameObject journalOptionList;
+    Button[] journalOptions;
+    List<string> allJournals = new List<string>();
+    Dictionary<int, string> journalsFromDB = new Dictionary<int, string>();
+
     public Button resetFilters;
 
     BrainView bv;
@@ -24,11 +30,10 @@ public class Filters : MonoBehaviour
     void Start()
     {
         db = Database.instance;
-        authorsFromDB = db.getAllInTable("author");
-
         bv = BrainView.instance;
-
-        foreach(KeyValuePair<int, string> author in authorsFromDB)
+        
+        authorsFromDB = db.getAllInTable("author");
+        foreach (KeyValuePair<int, string> author in authorsFromDB)
         {
             allAuthors.Add(author.Value);
         }
@@ -41,11 +46,32 @@ public class Filters : MonoBehaviour
             options[i].onClick.AddListener(filterByAuthor);
         }
 
+        journalsFromDB = db.getAllInTable("puboutlet");
+        foreach (KeyValuePair<int, string> journal in journalsFromDB)
+        {
+            allJournals.Add(journal.Value);
+        }
+
+        journalSearch.SetAvailableOptions(allJournals);
+        journalOptions = journalOptionList.GetComponentsInChildren<Button>();
+
+        for (int i = 0; i < journalOptions.Length; i++)
+        {
+            journalOptions[i].onClick.AddListener(filterByJournal);
+        }
+
+
+
         resetFilters.onClick.AddListener(bv.resetPapers);
     }
 
     public void filterByAuthor()
     {
         bv.deactivatePapers(1, authorSearch.Text);
+    }
+
+    public void filterByJournal()
+    {
+        bv.deactivatePapers(2, journalSearch.Text);
     }
 }

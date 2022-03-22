@@ -41,16 +41,12 @@ public class BrainView : MonoBehaviour
 
         for (int i = 0; i < totalpapers; i++)
         {
-            x = UnityEngine.Random.Range(-20, 20);
-            y = UnityEngine.Random.Range(-20, 20);
-            z = UnityEngine.Random.Range(-20, 20);
-
-            radius = 10;
+            radius = 20;
 
             papers.Add(Instantiate(NodePrefab));
             papers[i].transform.parent = parentObject.transform;
             papers[i].GetComponent<Paper>().setValues(i);
-            papers[i].GetComponent<Paper>().setPosition(x, y, z);
+            papers[i].GetComponent<Paper>().setPositionSphere(UnityEngine.Random.insideUnitSphere * radius);
             papers[i].GetComponent<Paper>().setColor(Color.magenta);
         }
 

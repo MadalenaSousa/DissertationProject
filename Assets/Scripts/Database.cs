@@ -25,10 +25,12 @@ public class Database : MonoBehaviour
 
     private void Awake()
     {
+        StartDataSQLite();
+
         if (instance == null)
         {
             instance = this;
-        }
+        }    
     }
 
     void Start()
@@ -38,13 +40,12 @@ public class Database : MonoBehaviour
 
         if(FILL_TABLES)
         {
-            StartDataSQLite();
             FillTables(apipapers);
         }
 
     }
 
-    public void StartDataSQLite()
+    void StartDataSQLite()
     {
         string urlDataBase = "URI = file:Assets/Data/dbupdated.db";
 
@@ -164,7 +165,6 @@ public class Database : MonoBehaviour
 
     public int getTotalPapers()
     {
-        StartDataSQLite();
         IDbCommand _command = _connection.CreateCommand();
 
         string sqlQuery = "SELECT COUNT(id) FROM paper";
@@ -341,8 +341,6 @@ public class Database : MonoBehaviour
 
     public List<int> getPapersWithUses()
     {
-        StartDataSQLite();
-
         IDbCommand _command = _connection.CreateCommand();
 
         string sqlQuery = "SELECT DISTINCT paper_account.paper_id  FROM paper_account, uses_account WHERE uses_account.account_id = paper_account.account_id";
@@ -366,8 +364,6 @@ public class Database : MonoBehaviour
 
     public List<int> getPapersWithPractices()
     {
-        StartDataSQLite();
-
         IDbCommand _command = _connection.CreateCommand();
 
         string sqlQuery = "SELECT DISTINCT paper_account.paper_id  FROM paper_account, practices_account WHERE practices_account.account_id = paper_account.account_id";
@@ -391,8 +387,6 @@ public class Database : MonoBehaviour
 
     public List<int> getPapersWithStrategies()
     {
-        StartDataSQLite();
-
         IDbCommand _command = _connection.CreateCommand();
 
         string sqlQuery = "SELECT DISTINCT paper_account.paper_id  FROM paper_account, account_strategies WHERE account_strategies.account_id = paper_account.account_id";
@@ -416,8 +410,6 @@ public class Database : MonoBehaviour
 
     public Dictionary<int, string> getAllInTable(string table)
     {
-        StartDataSQLite();
-
         IDbCommand _command = _connection.CreateCommand();
 
         string sqlQuery = "SELECT " + table + ".id, " + table + ".name FROM " + table;
@@ -441,8 +433,6 @@ public class Database : MonoBehaviour
 
     public List<int> filterByAuthorJournalInstitution(int type, string name)
     {
-        StartDataSQLite();
-
         IDbCommand _command = _connection.CreateCommand();
 
         string sqlQuery = "";

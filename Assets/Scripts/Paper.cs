@@ -32,7 +32,7 @@ public class Paper :  MonoBehaviour
     {
         this.id = id;
         this.db = Database.instance;
-        db.StartDataSQLite();
+
 
         this.title = db.getTitleById(id);
         this.date = db.getDateById(id);
@@ -56,6 +56,11 @@ public class Paper :  MonoBehaviour
     public void setPosition(float x, float y, float z)
     {
         gameObject.transform.position = new Vector3(x, y, z);
+    }
+
+    public void setPositionSphere(Vector3 sphere)
+    {
+        gameObject.transform.position = sphere;
     }
 
     public void setPositionByUse(Vector3[] UseCenterPoints)
