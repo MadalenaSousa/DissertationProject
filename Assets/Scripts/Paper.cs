@@ -26,6 +26,7 @@ public class Paper :  MonoBehaviour
 
     //UI Elements
     public GameObject titleBox;
+    public GameObject canvas;
 
     public void setValues(int id)
     {
@@ -61,34 +62,34 @@ public class Paper :  MonoBehaviour
     {        
         Vector3 paperPosition = UseCenterPoints[this.use[0].id - 1];
 
-        if (this.use.Count > 1)
-        {
-            List<Vector3> associatedCenters = new List<Vector3>();
-            
-            for (int i = 0; i < this.use.Count; i++)
-            {
-                associatedCenters.Add(UseCenterPoints[this.use[i].id - 1]);
-            }
+        //if (this.use.Count > 1)
+        //{
+        //    List<Vector3> associatedCenters = new List<Vector3>();
+        //    
+        //    for (int i = 0; i < this.use.Count; i++)
+        //    {
+        //        associatedCenters.Add(UseCenterPoints[this.use[i].id - 1]);
+        //    }
+        //
+        //    float xSum = 0;
+        //    float ySum = 0;
+        //    float zSum = 0;
+        //
+        //    for (int i = 0; i < associatedCenters.Count; i++)
+        //    {
+        //            xSum = xSum + associatedCenters[i].x;
+        //            ySum = ySum + associatedCenters[i].y;
+        //            zSum = zSum + associatedCenters[i].z;
+        //    }
+        //
+        //    float x = xSum / associatedCenters.Count;
+        //    float y = ySum / associatedCenters.Count;
+        //    float z = zSum / associatedCenters.Count;
+        //
+        //    paperPosition = new Vector3(x, y, z);
+        //}
 
-            float xSum = 0;
-            float ySum = 0;
-            float zSum = 0;
-
-            for (int i = 0; i < associatedCenters.Count; i++)
-            {
-                    xSum = xSum + associatedCenters[i].x;
-                    ySum = ySum + associatedCenters[i].y;
-                    zSum = zSum + associatedCenters[i].z;
-            }
-
-            float x = xSum / associatedCenters.Count;
-            float y = ySum / associatedCenters.Count;
-            float z = zSum / associatedCenters.Count;
-
-            paperPosition = new Vector3(x, y, z);
-        }
-
-        this.gameObject.transform.position = paperPosition;
+        this.gameObject.transform.position = paperPosition + new Vector3(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5));
     }
 
     public void setColor(Color color)
@@ -154,6 +155,16 @@ public class Paper :  MonoBehaviour
                 sphereToColor.color = new Color(0.8f, 0.2f, 0.9f);
                 break;
         }
+    }
+
+    private void OnMouseEnter()
+    {
+        this.canvas.SetActive(true);
+    }
+
+    private void OnMouseExit()
+    {
+        this.canvas.SetActive(false);
     }
 }
 

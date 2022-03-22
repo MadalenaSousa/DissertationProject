@@ -44,11 +44,6 @@ public class Filters : MonoBehaviour
         resetFilters.onClick.AddListener(bv.resetPapers);
     }
 
-    void Update()
-    {
-        
-    }
-
     public void filterByAuthor()
     {
         bv.deactivatePapers(1, authorSearch.Text);
