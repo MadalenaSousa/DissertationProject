@@ -13,6 +13,7 @@ using System.Threading;
 public class BrainView : MonoBehaviour
 {
     public static BrainView instance;
+    public GameObject parentObject;
 
     int totalpapers;
     Database db;
@@ -47,6 +48,7 @@ public class BrainView : MonoBehaviour
             radius = 10;
 
             papers.Add(Instantiate(NodePrefab));
+            papers[i].transform.parent = parentObject.transform;
             papers[i].GetComponent<Paper>().setValues(i);
             papers[i].GetComponent<Paper>().setPosition(x, y, z);
             papers[i].GetComponent<Paper>().setColor(Color.magenta);
