@@ -47,6 +47,11 @@ public class Paper :  MonoBehaviour
         titleBox.GetComponent<Text>().text = this.title;
     }
 
+    public int getId()
+    {
+        return this.id;
+    }
+
     public void setPosition(float x, float y, float z)
     {
         gameObject.transform.position = new Vector3(x, y, z);

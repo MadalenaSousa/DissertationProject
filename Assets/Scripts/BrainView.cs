@@ -53,6 +53,31 @@ public class BrainView : MonoBehaviour
         }
 
     }
+
+    public void deactivatePapers(int type, string name)
+    {
+        List<int> results = db.filterByAuthorJournalInstitution(type, name);
+
+        for(int i = 0; i < papers.Count; i++)
+        {
+            if(results.Contains(papers[i].GetComponent<Paper>().getId()))
+            {
+                papers[i].SetActive(true);
+            } 
+            else
+            {
+                papers[i].SetActive(false);
+            }
+        }
+    }
+
+    public void resetPapers()
+    {
+        for (int i = 0; i < papers.Count; i++)
+        {
+            papers[i].SetActive(true);
+        }
+    }
 }
 
 

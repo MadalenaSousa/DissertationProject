@@ -414,6 +414,69 @@ public class Database : MonoBehaviour
         return papers;
     }
 
+    public Dictionary<int, string> getAllInTable(string table)
+    {
+        StartDataSQLite();
+
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT " + table + ".id, " + table + ".name FROM " + table;
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        Dictionary<int, string> elementsInTable = new Dictionary<int, string>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                elementsInTable.Add(reader.GetInt32(0), reader.GetString(1));
+            }
+        }
+
+        return elementsInTable;
+    }
+
+    public List<int> filterByAuthorJournalInstitution(int type, string name)
+    {
+        StartDataSQLite();
+
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "";
+
+        if(type == 1)
+        {
+            sqlQuery = "SELECT author_paper.paper_id  FROM author_paper, author WHERE author_paper.author_id = author.id AND author.name LIKE '%" + name + "%'";
+        } 
+        else if (type == 2)
+        {
+            sqlQuery = "SELECT puboutlet_paper.paper_id FROM puboutlet_paper, puboutlet WHERE puboutlet_paper.puboutlet_id = puboutlet.id AND puboutlet.name LIKE '%" + name + "%'";
+        } 
+        else if(type == 3)
+        {
+            sqlQuery = "SELECT author_paper.paper_id  FROM author_paper, author_institution, institution WHERE author_paper.author_id = author_institution.author_id AND author_institution.institution_id = institution.id AND institution.name LIKE '%" + name +"%'";
+        }
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<int> results = new List<int>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                results.Add(reader.GetInt32(0));
+            }
+        }
+
+        return results;
+    }
+
     //----------------------------------------------------------------------------------------------------------------------------//
 
     void insertDataSQLite(string insertTable, string insertFields, string insertValues)
