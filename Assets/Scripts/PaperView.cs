@@ -6,51 +6,25 @@ using System;
 using LumenWorks.Framework.IO.Csv;
 using UnityEngine.UI;
 
-public class Paper :  MonoBehaviour
-{
-    Database db;
-
-    // DB based variables
-    public string title, date;
-    public int year;
-
-    public List<Author> author = new List<Author>();
-    public PubOutlet publication_outlet;
-    
-    public List<Practice> practice = new List<Practice>();
-    public List<Strategy> strategy = new List<Strategy>();
-    public List<Use> use = new List<Use>();
-
-    // externaly defined variables
-    public int id;
+public class PaperView :  MonoBehaviour
+{    
+    public Paper paper { get; private set; }
 
     //UI Elements
     public GameObject titleBox;
     public GameObject canvas;
 
-    public void setValues(int id)
+    public bool mousePressed = false;
+
+    public void bootstrap(int id)
     {
-        this.id = id;
-        this.db = Database.instance;
-
-
-        this.title = db.getTitleById(id);
-        this.date = db.getDateById(id);
-        this.year = db.getYearById(id);
-
-        this.author = db.getAuthorAndInstitutionByPaperId(id);
-        this.publication_outlet = db.getPubOutletByPaperId(id);
-
-        this.practice = db.getPracticeByPaperId(id);
-        this.strategy = db.getStrategyByPaperId(id);
-        this.use = db.getUseByPaperId(id);
-
-        titleBox.GetComponent<Text>().text = this.title;
+        paper = Database.instance.getPaperById(id);
+        titleBox.GetComponent<Text>().text = this.paper.title;
     }
 
     public int getId()
     {
-        return this.id;
+        return this.paper.id;
     }
 
     public void setPosition(float x, float y, float z)
@@ -63,9 +37,9 @@ public class Paper :  MonoBehaviour
         gameObject.transform.position = sphere;
     }
 
-    public void setPositionByUse(Vector3[] UseCenterPoints)
+    public void setPositionByUse(Vector3[] UseCenterPoints) // will be changed
     {        
-        Vector3 paperPosition = UseCenterPoints[this.use[0].id - 1];
+        Vector3 paperPosition = UseCenterPoints[this.paper.use[0].id - 1];
 
         //if (this.use.Count > 1)
         //{
@@ -102,11 +76,11 @@ public class Paper :  MonoBehaviour
         gameObject.GetComponentInChildren<Renderer>().material.color = color;
     }
 
-    public void setColorByUse()
+    public void setColorByUse() // will be changed
     {
         Material sphereToColor = this.gameObject.GetComponentInChildren<Renderer>().material;
         
-        switch (this.use[0].id)
+        switch (this.paper.use[0].id)
         {
             case 1:
                 sphereToColor.color = Color.blue;
@@ -162,6 +136,11 @@ public class Paper :  MonoBehaviour
         }
     }
 
+    private void OnMouseDown()
+    {
+        this.mousePressed = true;
+    }
+
     private void OnMouseEnter()
     {
         this.canvas.SetActive(true);
@@ -173,86 +152,7 @@ public class Paper :  MonoBehaviour
     }
 }
 
-public class Author
-{
-    public int id;
-    public string name;
-    public string openalexid;
-    public Institution institution;
 
-    public Author(int id, string name, string authoropenalexid, int instid, string instname, string countrycode, string instopenalexid)
-    {
-        this.id = id;
-        this.name = name;
-        this.openalexid = authoropenalexid;
-        this.institution = new Institution(instid, instname, countrycode, instopenalexid);
-    }
-}
 
-public class Institution
-{
-    public int id;
-    public string name;
-    public string countrycode;
-    public string openalexid;
 
-    public Institution(int id, string name, string countrycode, string openalexid)
-    {
-        this.id = id;
-        this.name = name;
-        this.countrycode = countrycode;
-        this.openalexid = openalexid;
-    }
-}
-
-public class PubOutlet
-{
-    public int id;
-    public string name;
-    public string url;
-    public string openalexid;
-    public string issn;
-
-    public PubOutlet(int id, string name, string url, string openalexid, string issn)
-    {
-        this.id = id;
-        this.name = name;
-        this.url = url;
-        this.openalexid = openalexid;
-        this.issn = issn;
-    }
-}
-
-public class Practice : Category
-{
-    public Practice(int id, string name)
-    {
-        this.id = id;
-        this.name = name;
-    }
-}
-
-public class Strategy : Category
-{
-    public Strategy(int id, string name)
-    {
-        this.id = id;
-        this.name = name;
-    }
-}
-
-public class Use : Category
-{
-    public Use(int id, string name)
-    {
-        this.id = id;
-        this.name = name;
-    }
-}
-
-public class Category
-{
-    public int id = 0;
-    public string name = "none";
-}
 

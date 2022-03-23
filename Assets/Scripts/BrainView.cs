@@ -14,12 +14,21 @@ public class BrainView : MonoBehaviour
 {
     public static BrainView instance;
     public GameObject parentObject;
+    
+    public GameObject popUp;
+    public Button closePopUpButton;
+    public Text title;
+    public Text puboutletname;
+    public Text puboutleturl;
+    public Text puboutletissn;
+    public GameObject authorPanel;
+    public GameObject authorPrefab;
 
     int totalpapers;
     Database db;
 
     public GameObject NodePrefab;
-    List<GameObject> papers;
+    List<PaperView> papers;
 
     float x, y, z, radius;
     Color color;
@@ -37,19 +46,46 @@ public class BrainView : MonoBehaviour
         db = Database.instance;
         totalpapers = db.getTotalPapers();
 
-        papers = new List<GameObject>();
+        papers = new List<PaperView>();
 
         for (int i = 0; i < totalpapers; i++)
         {
             radius = 20;
 
-            papers.Add(Instantiate(NodePrefab));
+            papers.Add(Instantiate(NodePrefab).GetComponent<PaperView>());
             papers[i].transform.parent = parentObject.transform;
-            papers[i].GetComponent<Paper>().setValues(i);
-            papers[i].GetComponent<Paper>().setPositionSphere(UnityEngine.Random.insideUnitSphere * radius);
-            papers[i].GetComponent<Paper>().setColor(Color.magenta);
+            papers[i].bootstrap(i);
+            papers[i].setPositionSphere(UnityEngine.Random.insideUnitSphere * radius);
+            papers[i].setColor(Color.magenta);
         }
 
+        closePopUpButton.onClick.AddListener(closePopUp);
+
+    }
+
+    private void Update()
+    {
+        for(int i = 0; i < papers.Count; i++)
+        {
+            if (papers[i].mousePressed)
+            {
+                popUp.SetActive(true);
+                title.text = papers[i].paper.title;
+                puboutletname.text = papers[i].paper.publication_outlet.name;
+                puboutleturl.text = papers[i].paper.publication_outlet.url;
+                puboutletissn.text = papers[i].paper.publication_outlet.issn;
+            }
+        }
+        
+    }
+
+    public void closePopUp()
+    {
+        for (int i = 0; i < papers.Count; i++)
+        {
+            papers[i].mousePressed = false;
+        }
+        popUp.SetActive(false);
     }
 
     public void deactivatePapers(int type, string name)
@@ -58,13 +94,30 @@ public class BrainView : MonoBehaviour
 
         for(int i = 0; i < papers.Count; i++)
         {
-            if(results.Contains(papers[i].GetComponent<Paper>().getId()))
+            if(results.Contains(papers[i].GetComponent<PaperView>().getId()))
             {
-                papers[i].SetActive(true);
+                papers[i].gameObject.SetActive(true);
             } 
             else
             {
-                papers[i].SetActive(false);
+                papers[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void deactivatePapersByYear(int min, int max)
+    {
+        List<int> results = db.getPapersByYearInterval(min, max);
+
+        for (int i = 0; i < papers.Count; i++)
+        {
+            if (results.Contains(papers[i].GetComponent<PaperView>().getId()))
+            {
+                papers[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                papers[i].gameObject.SetActive(false);
             }
         }
     }
@@ -73,7 +126,7 @@ public class BrainView : MonoBehaviour
     {
         for (int i = 0; i < papers.Count; i++)
         {
-            papers[i].SetActive(true);
+            papers[i].gameObject.SetActive(true);
         }
     }
 }

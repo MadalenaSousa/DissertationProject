@@ -41,7 +41,7 @@ public class UsesView : MonoBehaviour
 
         totalUses = 17;
 
-        UseCenterPoints = new Vector3[totalUses];
+        UseCenterPoints = new Vector3[totalUses]; // will be changed
 
         //for(int i = 0; i < totalUses; i ++)
         //{
@@ -85,9 +85,9 @@ public class UsesView : MonoBehaviour
 
             radius = 10;
 
-            papers[i].GetComponent<Paper>().setValues(toDraw[i]);
-            papers[i].GetComponent<Paper>().setPositionByUse(UseCenterPoints);
-            papers[i].GetComponent<Paper>().setColorByUse();
+            papers[i].GetComponent<PaperView>().bootstrap(toDraw[i]);
+            papers[i].GetComponent<PaperView>().setPositionByUse(UseCenterPoints);
+            papers[i].GetComponent<PaperView>().setColorByUse();
         }
         
     }

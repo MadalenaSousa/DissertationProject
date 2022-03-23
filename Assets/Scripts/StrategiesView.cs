@@ -45,9 +45,9 @@ public class StrategiesView : MonoBehaviour
             radius = 20;
             
             papers.Add(Instantiate(NodePrefab));
-            papers[i].GetComponent<Paper>().setValues(toDraw[i]);
-            papers[i].GetComponent<Paper>().setPositionSphere(UnityEngine.Random.insideUnitSphere * radius);
-            papers[i].GetComponent<Paper>().setColor(Color.cyan);
+            papers[i].GetComponent<PaperView>().bootstrap(toDraw[i]);
+            papers[i].GetComponent<PaperView>().setPositionSphere(UnityEngine.Random.insideUnitSphere * radius);
+            papers[i].GetComponent<PaperView>().setColor(Color.cyan);
         }
     }
 }

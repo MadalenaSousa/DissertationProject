@@ -56,6 +56,52 @@ public class Database : MonoBehaviour
     }
   
     // DB functions
+    public List<int> getPapersByYearInterval(int min, int max)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT paper.id FROM paper WHERE paper.pubyear>" + min + " AND paper.pubyear<" + max;
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<int> papers = new List<int>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                papers.Add(reader.GetInt32(0));
+            }
+        }
+
+        return papers;
+    }
+
+    public Paper getPaperById(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT paper.title, paper.date, paper.pubyear FROM paper WHERE id =" + id;
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+        
+        string title = "";
+        string date = "";
+        int year = -1;
+
+        while (reader.Read())
+        {
+            title = reader.GetString(0);
+            date = reader.GetString(1);
+            year = reader.GetInt32(2);
+        }
+
+        return new Paper(id, title, date, year, getAuthorAndInstitutionByPaperId(id), getPubOutletByPaperId(id), getPracticeByPaperId(id), getStrategyByPaperId(id), getUseByPaperId(id));
+    }
+
     public string getTitleById(int id)
     {      
         IDbCommand _command = _connection.CreateCommand();

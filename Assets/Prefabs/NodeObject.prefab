@@ -320,12 +320,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c867c04bceac8e4a9291872c1727efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: 
-  date: 
-  year: 0
-  id: 0
   titleBox: {fileID: 3635370564300296530}
   canvas: {fileID: 588245091821199680}
+  popUp: {fileID: 0}
 --- !u!135 &3156612648459487927
 SphereCollider:
   m_ObjectHideFlags: 0
