@@ -47,11 +47,10 @@ public class BrainView : MonoBehaviour
         totalpapers = db.getTotalPapers();
 
         papers = new List<PaperView>();
+        radius = 25;
 
         for (int i = 0; i < totalpapers; i++)
         {
-            radius = 20;
-
             papers.Add(Instantiate(NodePrefab).GetComponent<PaperView>());
             papers[i].transform.parent = parentObject.transform;
             papers[i].bootstrap(i);

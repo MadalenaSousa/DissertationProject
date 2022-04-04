@@ -28,12 +28,12 @@ public class Filters : MonoBehaviour
 
     public Button resetFilters;
 
-    BrainView bv;
+    PracticesAndStrategies bv;
 
     void Start()
     {
         db = Database.instance;
-        bv = BrainView.instance;
+        bv = PracticesAndStrategies.instance;
         
         authorsFromDB = db.getAllInTable("author");
         foreach (KeyValuePair<int, string> author in authorsFromDB)

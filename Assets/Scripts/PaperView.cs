@@ -20,6 +20,31 @@ public class PaperView :  MonoBehaviour
     {
         paper = Database.instance.getPaperById(id);
         titleBox.GetComponent<Text>().text = this.paper.title;
+        gameObject.GetComponentInChildren<SphereCollider>().radius = 1;
+    }
+
+    public List<int> getPractices()
+    {
+        List<int> practicesId = new List<int>();
+
+        for(int i = 0; i < paper.practice.Count; i++)
+        {
+            practicesId.Add(paper.practice[i].id);
+        }
+
+        return practicesId;
+    }
+
+    public List<int> getStrategies()
+    {
+        List<int> strategiesId = new List<int>();
+
+        for (int i = 0; i < paper.strategy.Count; i++)
+        {
+            strategiesId.Add(paper.strategy[i].id);
+        }
+
+        return strategiesId;
     }
 
     public int getId()
@@ -41,13 +66,13 @@ public class PaperView :  MonoBehaviour
     {        
         Vector3 paperPosition = UseCenterPoints[this.paper.use[0].id - 1];
 
-        //if (this.use.Count > 1)
+        //if (this.paper.use.Count > 1)
         //{
         //    List<Vector3> associatedCenters = new List<Vector3>();
         //    
-        //    for (int i = 0; i < this.use.Count; i++)
+        //    for (int i = 0; i < this.paper.use.Count; i++)
         //    {
-        //        associatedCenters.Add(UseCenterPoints[this.use[i].id - 1]);
+        //        associatedCenters.Add(UseCenterPoints[this.paper.use[i].id - 1]);
         //    }
         //
         //    float xSum = 0;
@@ -69,6 +94,13 @@ public class PaperView :  MonoBehaviour
         //}
 
         this.gameObject.transform.position = paperPosition + new Vector3(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5));
+
+        //this.gameObject.transform.position = paperPosition;
+    }
+
+    public Vector3 getPaperPosition()
+    {
+        return gameObject.transform.position;
     }
 
     public void setColor(Color color)

@@ -7,6 +7,8 @@ public class Movement : MonoBehaviour
     Vector3 initialPos;
     Quaternion initialRot;
 
+    public Transform target;
+
     private void Start()
     {
         initialPos = transform.position;
@@ -14,7 +16,8 @@ public class Movement : MonoBehaviour
     }
     private void Update()
     {
-        transform.Translate(0, 0, Input.GetAxis("Mouse ScrollWheel") * 15);
+        //transform.LookAt(target);
+        transform.Translate(0, 0, Input.GetAxis("Mouse ScrollWheel") * 15);    
     }
     private void OnMouseDrag()
     {
@@ -23,6 +26,7 @@ public class Movement : MonoBehaviour
 
     public void resetPosition()
     {
+        Debug.Log("reset");
         transform.position = initialPos;
         transform.rotation = initialRot;
     }

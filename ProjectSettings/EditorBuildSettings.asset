@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Practices.unity
     guid: 19cc9af9070d7ba42b5d993e62326275
   - enabled: 1
-    path: Assets/Scenes/Strategies.unity
+    path: Assets/Scenes/PracticesAndStrategies.unity
     guid: bcadba6bc3471f14c99608b904ed0f6b
   - enabled: 0
     path: 
