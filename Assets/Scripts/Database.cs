@@ -56,6 +56,52 @@ public class Database : MonoBehaviour
     }
   
     // DB functions
+    public List<int> getPapersByYearInterval(int min, int max)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT paper.id FROM paper WHERE paper.pubyear>" + min + " AND paper.pubyear<" + max;
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<int> papers = new List<int>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                papers.Add(reader.GetInt32(0));
+            }
+        }
+
+        return papers;
+    }
+
+    public Paper getPaperById(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT paper.title, paper.date, paper.pubyear FROM paper WHERE id =" + id;
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+        
+        string title = "";
+        string date = "";
+        int year = -1;
+
+        while (reader.Read())
+        {
+            title = reader.GetString(0);
+            date = reader.GetString(1);
+            year = reader.GetInt32(2);
+        }
+
+        return new Paper(id, title, date, year, getAuthorAndInstitutionByPaperId(id), getPubOutletByPaperId(id), getPracticeByPaperId(id), getStrategyByPaperId(id), getUseByPaperId(id));
+    }
+
     public string getTitleById(int id)
     {      
         IDbCommand _command = _connection.CreateCommand();
@@ -280,7 +326,7 @@ public class Database : MonoBehaviour
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT practices.id, practices.name  FROM practices, practices_account, paper_account WHERE practices_account.account_id = paper_account.account_id AND practices.id = practices_account.practices_id AND paper_account.paper_id =" + id;
+        string sqlQuery = "SELECT DISTINCT practices.id, practices.name  FROM practices, practices_account, paper_account WHERE practices_account.account_id = paper_account.account_id AND practices.id = practices_account.practices_id AND paper_account.paper_id =" + id;
 
         _command.CommandText = sqlQuery;
 
@@ -300,7 +346,7 @@ public class Database : MonoBehaviour
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT strategies.id, strategies.name  FROM strategies, account_strategies, paper_account WHERE account_strategies.account_id = paper_account.account_id AND strategies.id = account_strategies.strategies_id AND paper_account.paper_id =" + id;
+        string sqlQuery = "SELECT DISTINCT strategies.id, strategies.name  FROM strategies, account_strategies, paper_account WHERE account_strategies.account_id = paper_account.account_id AND strategies.id = account_strategies.strategies_id AND paper_account.paper_id =" + id;
 
         _command.CommandText = sqlQuery;
 
@@ -408,6 +454,29 @@ public class Database : MonoBehaviour
         return papers;
     }
 
+    public List<int> getPapersWithPracticesOrStrategies()
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT DISTINCT paper_account.paper_id FROM paper_account, practices_account, account_strategies WHERE practices_account.account_id = paper_account.account_id OR account_strategies.account_id = paper_account.account_id";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<int> papers = new List<int>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                papers.Add(reader.GetInt32(0));
+            }
+        }
+
+        return papers;
+    }
+
     public Dictionary<int, string> getAllInTable(string table)
     {
         IDbCommand _command = _connection.CreateCommand();
@@ -466,6 +535,99 @@ public class Database : MonoBehaviour
 
         return results;
     }
+
+    public Practice getPracticeById(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT practices.id, practices.name FROM practices WHERE practices.id=" + id;
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        Practice practice = null;
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                practice = new Practice(reader.GetInt32(0), reader.GetString(1));
+            }
+        }
+
+        return practice;
+    }
+
+    public Strategy getStrategyById(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT strategies.id, strategies.name FROM strategies WHERE strategies.id=" + id;
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        Strategy strategy = null;
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                strategy = new Strategy(reader.GetInt32(0), reader.GetString(1));
+            }
+        }
+
+        return strategy;
+    }
+
+    public List<int> getStrategies()
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT strategies.id FROM strategies";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<int> strategies = new List<int>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                strategies.Add(reader.GetInt32(0));
+            }
+        }
+
+        return strategies;
+    }
+
+    public List<int> getPractices()
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT practices.id FROM practices";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<int> practices = new List<int>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                practices.Add(reader.GetInt32(0));
+            }
+        }
+
+        return practices;
+    }
+
 
     //----------------------------------------------------------------------------------------------------------------------------//
 
