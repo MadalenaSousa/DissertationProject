@@ -6,7 +6,6 @@ using UnityEngine.UI.Extensions;
 using System.Linq;
 using UnityEngine.Events;
 using System;
-using System.Linq;
 
 public class Filters : MonoBehaviour
 {

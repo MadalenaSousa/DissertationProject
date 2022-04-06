@@ -301,7 +301,7 @@ Transform:
   m_GameObject: {fileID: 7736988333915888838}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 1260342182843471971}
   - {fileID: 8798746059962758107}
@@ -323,8 +323,6 @@ MonoBehaviour:
   titleBox: {fileID: 3635370564300296530}
   canvas: {fileID: 588245091821199680}
   mousePressed: 0
-  connectionPrefab: {fileID: 8823406051019003901, guid: b10c957ca67efbf429fbe402811ca7a9,
-    type: 3}
 --- !u!135 &3156612648459487927
 SphereCollider:
   m_ObjectHideFlags: 0

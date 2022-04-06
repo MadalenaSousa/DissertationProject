@@ -17,7 +17,7 @@ public class Movement : MonoBehaviour
     private void Update()
     {
         //transform.LookAt(target);
-        transform.Translate(0, 0, Input.GetAxis("Mouse ScrollWheel") * 15);    
+        transform.Translate(0, 0, Input.GetAxis("Mouse ScrollWheel") * 30);    
     }
     private void OnMouseDrag()
     {
