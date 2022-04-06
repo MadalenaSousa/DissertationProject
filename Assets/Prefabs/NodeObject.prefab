@@ -322,7 +322,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleBox: {fileID: 3635370564300296530}
   canvas: {fileID: 588245091821199680}
-  popUp: {fileID: 0}
+  mousePressed: 0
+  connectionPrefab: {fileID: 8823406051019003901, guid: b10c957ca67efbf429fbe402811ca7a9,
+    type: 3}
 --- !u!135 &3156612648459487927
 SphereCollider:
   m_ObjectHideFlags: 0

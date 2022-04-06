@@ -8,28 +8,37 @@ using UnityEngine.UI;
 
 public class CategoryView : MonoBehaviour
 {
+    //Instances
     public Category category;
 
-    //UI Elements
+    //UI Elements and Interactions
     public GameObject titleBox;
 
-    public void bootstrap(int id, int type)
+    public void bootstrapPractices(int id)
     {
-        if (type == 0)
-        {
-            category = Database.instance.getPracticeById(id); 
-        } 
-        else if (type == 1)
-        {
-            category = Database.instance.getStrategyById(id);
-        }
+        category = Database.instance.getPracticeById(id); //Set category data
 
-        titleBox.GetComponent<Text>().text = this.category.name;
+        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 80; //Set visual
+        gameObject.GetComponentInChildren<Renderer>().material.color = Color.cyan;
+        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale * 3;
+
+        titleBox.GetComponent<Text>().text = this.category.name; //Set UI
     }
 
-    public void setPositionSphere(Vector3 sphere)
+    public void bootstrapStrategies(int id)
     {
-        gameObject.transform.position = sphere;
+        category = Database.instance.getStrategyById(id); //Set category data
+
+        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 80; //Set visual
+        gameObject.GetComponentInChildren<Renderer>().material.color = Color.yellow;
+        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale * 3;
+
+        titleBox.GetComponent<Text>().text = this.category.name; //Set UI
+    }
+
+    public void setPositionSphere(int id)
+    {
+        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 80;   
     }
 
     public void setColor(Color color)

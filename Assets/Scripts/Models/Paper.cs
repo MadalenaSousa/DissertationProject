@@ -26,5 +26,6 @@ public class Paper
         this.practice = practice;
         this.strategy = strategy;
         this.use = use;
+  
     }
 }
