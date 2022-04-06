@@ -47,7 +47,6 @@ public class BrainView : MonoBehaviour
         totalpapers = db.getTotalPapers();
 
         papers = new List<PaperView>();
-        radius = 25;
 
         for (int i = 0; i < totalpapers; i++)
         {
