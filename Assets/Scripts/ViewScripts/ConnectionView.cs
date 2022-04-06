@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ConnectionView : MonoBehaviour
 {
+    //Instances
     public Connection connection;
 
     public void setConnection(Vector3 initNode, Vector3 endNode, int paperId, Category category)

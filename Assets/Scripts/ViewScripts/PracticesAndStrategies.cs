@@ -111,6 +111,7 @@ public class PracticesAndStrategies : MonoBehaviour
                         if(newPaper.connections[j].category.id == practices[k].category.id)
                         {
                             categoryLocation = practices[k].gameObject.transform.position;
+                            practices[k].totalConnections++;
                         }
                     }
                 } 
@@ -121,6 +122,7 @@ public class PracticesAndStrategies : MonoBehaviour
                         if (newPaper.connections[j].category.id == strategies[k].category.id)
                         {
                             categoryLocation = strategies[k].gameObject.transform.position;
+                            strategies[k].totalConnections++;
                         }
                     }
                 }
@@ -131,7 +133,15 @@ public class PracticesAndStrategies : MonoBehaviour
         }
 
         //--- OTHER STUFF ---//
+        for (int i = 0; i < totalstrat; i++)
+        {
+            strategies[i].setRadius(strategies[i].totalConnections);
+        }
 
+        for (int i = 0; i < totalpract; i++)
+        {
+            practices[i].setRadius(practices[i].totalConnections);
+        }
         closePopUpButton.onClick.AddListener(closePopUp);
     }
 

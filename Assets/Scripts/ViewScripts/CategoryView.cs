@@ -14,11 +14,14 @@ public class CategoryView : MonoBehaviour
     //UI Elements and Interactions
     public GameObject titleBox;
 
+    //Other Variables
+    public int totalConnections = 0;
+
     public void bootstrapPractices(int id)
     {
         category = Database.instance.getPracticeById(id); //Set category data
 
-        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 80; //Set visual
+        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 250; //Set visual
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.cyan;
         gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale * 3;
 
@@ -29,7 +32,7 @@ public class CategoryView : MonoBehaviour
     {
         category = Database.instance.getStrategyById(id); //Set category data
 
-        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 80; //Set visual
+        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 250; //Set visual
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.yellow;
         gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale * 3;
 
@@ -58,7 +61,7 @@ public class CategoryView : MonoBehaviour
 
     public void setRadius(float radius)
     {
-        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale * radius;
+        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale + new Vector3(radius, radius, radius);
     }
 }
  
