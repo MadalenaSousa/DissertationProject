@@ -25,7 +25,6 @@ public class Paper
         this.publication_outlet = puboutlet;
         this.practice = practice;
         this.strategy = strategy;
-        this.use = use;
-  
+        this.use = use; 
     }
 }
