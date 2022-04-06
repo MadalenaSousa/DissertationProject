@@ -57,12 +57,10 @@ public class Filters : MonoBehaviour
         journalsFromDB = db.getAllInTable("puboutlet");
         foreach (KeyValuePair<int, string> journal in journalsFromDB)
         {
-            string newjournal = journal.Value;
             allJournals.Add(journal.Value);
-            Debug.Log(newjournal);
         }
 
-        journalSearch.SetAvailableOptions(allJournals);   
+        journalSearch.SetAvailableOptions(allJournals.Distinct().ToList());   
         journalOptions = journalOptionList.GetComponentsInChildren<Button>();
 
         for (int i = 0; i < journalOptions.Length; i++)
