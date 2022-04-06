@@ -47,8 +47,6 @@ public class PracticesView : MonoBehaviour
             papers.Add(Instantiate(NodePrefab));
 
             papers[i].GetComponent<PaperView>().bootstrap(toDraw[i]);
-            papers[i].GetComponent<PaperView>().setPositionSphere(UnityEngine.Random.insideUnitSphere * radius);
-            papers[i].GetComponent<PaperView>().setColor(Color.yellow);
         }
     }
 }

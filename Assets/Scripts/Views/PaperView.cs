@@ -8,43 +8,45 @@ using UnityEngine.UI;
 
 public class PaperView :  MonoBehaviour
 {    
+    //Instances
     public Paper paper { get; private set; }
 
-    //UI Elements
+    //UI Elements and Interactions
     public GameObject titleBox;
     public GameObject canvas;
 
     public bool mousePressed = false;
 
+    //Variables
+    public List<Connection> connections;
+    //public GameObject connectionPrefab;
+
     public void bootstrap(int id)
     {
-        paper = Database.instance.getPaperById(id);
-        titleBox.GetComponent<Text>().text = this.paper.title;
-        gameObject.GetComponentInChildren<SphereCollider>().radius = 1;
-    }
+        paper = Database.instance.getPaperById(id); //Set paper data
 
-    public List<int> getPractices()
-    {
-        List<int> practicesId = new List<int>();
+        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 80; //Set visual characteristics
+        gameObject.GetComponentInChildren<Renderer>().material.color = Color.white;
 
-        for(int i = 0; i < paper.practice.Count; i++)
+        titleBox.GetComponent<Text>().text = this.paper.title; //Set UI
+
+        //Set Connections
+        connections = new List<Connection>();
+
+        for (int i = 0; i < paper.practice.Count; i++)
         {
-            practicesId.Add(paper.practice[i].id);
+            Connection newConnection = new Connection(paper.id, paper.practice[i]);
+            connections.Add(newConnection);
+            
+            //GameObject connection = Instantiate(connectionPrefab);
+            //connection.GetComponent<ConnectionView>().setConnection(gameObject.transform.position, new Vector3(0, 0, 0));
         }
-
-        return practicesId;
-    }
-
-    public List<int> getStrategies()
-    {
-        List<int> strategiesId = new List<int>();
-
+        
         for (int i = 0; i < paper.strategy.Count; i++)
         {
-            strategiesId.Add(paper.strategy[i].id);
+            Connection newConnection = new Connection(paper.id, paper.strategy[i]);
+            connections.Add(newConnection);
         }
-
-        return strategiesId;
     }
 
     public int getId()
@@ -52,15 +54,38 @@ public class PaperView :  MonoBehaviour
         return this.paper.id;
     }
 
-    public void setPosition(float x, float y, float z)
+    public void setPosition(Vector3 newPosition)
     {
-        gameObject.transform.position = new Vector3(x, y, z);
+        gameObject.transform.position = newPosition;
     }
 
-    public void setPositionSphere(Vector3 sphere)
+    public Vector3 getPosition()
     {
-        gameObject.transform.position = sphere;
+        return gameObject.transform.position;
     }
+
+    public void setColor(Color color)
+    {
+        gameObject.GetComponentInChildren<Renderer>().material.color = color;
+    }
+
+    private void OnMouseDown()
+    {
+        this.mousePressed = true;
+    }
+
+    private void OnMouseEnter()
+    {
+        this.canvas.SetActive(true);
+    }
+
+    private void OnMouseExit()
+    {
+        this.canvas.SetActive(false);
+    }
+
+
+    //TEST FUNCTIONS
 
     public void setPositionByUse(Vector3[] UseCenterPoints) // will be changed
     {        
@@ -96,16 +121,6 @@ public class PaperView :  MonoBehaviour
         this.gameObject.transform.position = paperPosition + new Vector3(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5));
 
         //this.gameObject.transform.position = paperPosition;
-    }
-
-    public Vector3 getPaperPosition()
-    {
-        return gameObject.transform.position;
-    }
-
-    public void setColor(Color color)
-    {
-        gameObject.GetComponentInChildren<Renderer>().material.color = color;
     }
 
     public void setColorByUse() // will be changed
@@ -166,21 +181,6 @@ public class PaperView :  MonoBehaviour
                 sphereToColor.color = new Color(0.8f, 0.2f, 0.9f);
                 break;
         }
-    }
-
-    private void OnMouseDown()
-    {
-        this.mousePressed = true;
-    }
-
-    private void OnMouseEnter()
-    {
-        this.canvas.SetActive(true);
-    }
-
-    private void OnMouseExit()
-    {
-        this.canvas.SetActive(false);
     }
 }
 

@@ -54,8 +54,31 @@ public class Database : MonoBehaviour
 
         _connection.Open();
     }
-  
+
     // DB functions
+    public Paper getPaperById(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT paper.title, paper.date, paper.pubyear FROM paper WHERE id =" + id;
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        string title = "";
+        string date = "";
+        int year = -1;
+
+        while (reader.Read())
+        {
+            title = reader.GetString(0);
+            date = reader.GetString(1);
+            year = reader.GetInt32(2);
+        }
+
+        return new Paper(id, title, date, year, getAuthorAndInstitutionByPaperId(id), getPubOutletByPaperId(id), getPracticeByPaperId(id), getStrategyByPaperId(id), getUseByPaperId(id));
+    }
+
     public List<int> getPapersByYearInterval(int min, int max)
     {
         IDbCommand _command = _connection.CreateCommand();
@@ -79,134 +102,132 @@ public class Database : MonoBehaviour
         return papers;
     }
 
-    public Paper getPaperById(int id)
+    public List<int> filterByAuthorJournalInstitution(int type, string name)
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT paper.title, paper.date, paper.pubyear FROM paper WHERE id =" + id;
+        string sqlQuery = "";
+
+        if (type == 1)
+        {
+            sqlQuery = "SELECT author_paper.paper_id  FROM author_paper, author WHERE author_paper.author_id = author.id AND author.name LIKE '%" + name + "%'";
+        }
+        else if (type == 2)
+        {
+            sqlQuery = "SELECT puboutlet_paper.paper_id FROM puboutlet_paper, puboutlet WHERE puboutlet_paper.puboutlet_id = puboutlet.id AND puboutlet.name LIKE '%" + name + "%'";
+        }
+        else if (type == 3)
+        {
+            sqlQuery = "SELECT author_paper.paper_id  FROM author_paper, author_institution, institution WHERE author_paper.author_id = author_institution.author_id AND author_institution.institution_id = institution.id AND institution.name LIKE '%" + name + "%'";
+        }
+
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
-        
-        string title = "";
-        string date = "";
-        int year = -1;
+
+        List<int> results = new List<int>();
 
         while (reader.Read())
         {
-            title = reader.GetString(0);
-            date = reader.GetString(1);
-            year = reader.GetInt32(2);
+            if (!reader.IsDBNull(0))
+            {
+                results.Add(reader.GetInt32(0));
+            }
         }
 
-        return new Paper(id, title, date, year, getAuthorAndInstitutionByPaperId(id), getPubOutletByPaperId(id), getPracticeByPaperId(id), getStrategyByPaperId(id), getUseByPaperId(id));
+        return results;
     }
 
-    public string getTitleById(int id)
-    {      
-        IDbCommand _command = _connection.CreateCommand();
-        
-        string sqlQuery = "SELECT title FROM paper WHERE id =" + id;
-        _command.CommandText = sqlQuery;
-        
-        IDataReader reader = _command.ExecuteReader();
-
-        string title = "";
-        while (reader.Read())
-        {
-           title = reader.GetString(0); ;
-        }
-
-        return title;
-    }
-
-    public int getYearById(int id)
+    public Practice getPracticeById(int id)
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT pubyear FROM paper WHERE id =" + id;
+        string sqlQuery = "SELECT practices.id, practices.name FROM practices WHERE practices.id=" + id;
+
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
 
-        int year = 0000;
+        Practice practice = null;
+
         while (reader.Read())
         {
-            year = reader.GetInt32(0); ;
+            if (!reader.IsDBNull(0))
+            {
+                practice = new Practice(reader.GetInt32(0), reader.GetString(1));
+            }
         }
 
-        return year;
+        return practice;
     }
 
-    public string getDateById(int id)
+    public Strategy getStrategyById(int id)
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT date FROM paper WHERE id =" + id;
+        string sqlQuery = "SELECT strategies.id, strategies.name FROM strategies WHERE strategies.id=" + id;
+
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
 
-        string date = "";
+        Strategy strategy = null;
+
         while (reader.Read())
         {
-            date = reader.GetString(0);
+            if (!reader.IsDBNull(0))
+            {
+                strategy = new Strategy(reader.GetInt32(0), reader.GetString(1));
+            }
         }
 
-        return date;
+        return strategy;
     }
 
-    public List<Author> getAuthorAndInstitutionByPaperId(int id)
-    {
-        IDbCommand _command = _connection.CreateCommand();
-    
-        string sqlQuery = "SELECT author.id, author.name, author.openalexid, institution.id, institution.name, institution.countrycode, institution.openalexid FROM author, author_paper, institution, author_institution WHERE author_paper.author_id = author.id AND author_institution.author_id = author_paper.author_id AND author_institution.author_id = author.id AND author_institution.institution_id = institution.id AND author_paper.paper_id =" + id;
-        _command.CommandText = sqlQuery;
-    
-        IDataReader reader = _command.ExecuteReader();
-
-        List<Author> authors = new List<Author>();
-        while (reader.Read())
-        {
-            string authoropenalexid = "";
-            string instopenalexid = "";
-            
-            if (!reader.IsDBNull(2)) { authoropenalexid = reader.GetString(2); }
-            if (!reader.IsDBNull(6)) { instopenalexid = reader.GetString(6); }
-
-            authors.Add(new Author(reader.GetInt32(0), reader.GetString(1), authoropenalexid, reader.GetInt32(3), reader.GetString(4), reader.GetString(5), instopenalexid));
-        }
-    
-        return authors;
-    }
-
-    public PubOutlet getPubOutletByPaperId(int id)
+    public List<int> getStrategies()
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT puboutlet.id, puboutlet.name, puboutlet.url, puboutlet.openalexid, puboutlet.issn FROM puboutlet, puboutlet_paper WHERE puboutlet_paper.puboutlet_id = puboutlet.id AND puboutlet_paper.paper_id =" + id;
+        string sqlQuery = "SELECT strategies.id FROM strategies";
+
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
 
-        int pubid = -1;
-        string pubname = "";
-        string puburl = "";
-        string puboalexid = "";
-        string pubissn = "";
+        List<int> strategies = new List<int>();
 
         while (reader.Read())
         {
-            pubid = reader.GetInt32(0);
-            pubname = reader.GetString(1);
-            if (!reader.IsDBNull(2)) { puburl = reader.GetString(2); }
-            if (!reader.IsDBNull(3)) { puboalexid = reader.GetString(3); }
-            if (!reader.IsDBNull(4)) { pubissn = reader.GetString(4); }
+            if (!reader.IsDBNull(0))
+            {
+                strategies.Add(reader.GetInt32(0));
+            }
         }
-        
-        PubOutlet publicationoutlet = new PubOutlet(pubid, pubname, puburl, puboalexid, pubissn);
-        
-        return publicationoutlet;
+
+        return strategies;
+    }
+
+    public List<int> getPractices()
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT practices.id FROM practices";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<int> practices = new List<int>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                practices.Add(reader.GetInt32(0));
+            }
+        }
+
+        return practices;
     }
 
     public int getTotalPapers()
@@ -225,164 +246,6 @@ public class Database : MonoBehaviour
         }
 
         return total;
-    }
-
-    int getInstitutionByOpenAlexId(string openalexid, string instname)
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT id FROM institution WHERE openalexid LIKE '" + (openalexid == null ? "dummyid" : openalexid) + "' OR name LIKE '" + instname + "'";
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        int instid = -1;
-        while (reader.Read())
-        {
-            instid = reader.GetInt32(0);
-        }
-
-        return instid;
-    }
-
-    bool checkAuthorInstRelation(int authorid, int institutionid)
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT institution_id FROM author_institution WHERE author_id =" + authorid + " AND institution_id=" + institutionid;
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        int value = -1;
-        bool exists = false;
-        while (reader.Read())
-        {
-            value = reader.GetInt32(0);
-        }
-
-        if (value != -1)
-        {
-            exists = true;
-        }
-        return exists;
-    }
-
-    int getAuthorByOpenAlexId(string openalexid, string authorname)
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT id FROM author WHERE openalexid LIKE '" + (openalexid == null ? "dummyid" : openalexid) + "' OR name LIKE '" + authorname + "'";
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        int authorid = -1;
-        while (reader.Read())
-        {
-            authorid = reader.GetInt32(0);
-        }
-
-        return authorid;
-    }
-
-    int getPubOutletByOpenAlexId(string openalexid, string pubname)
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT id FROM puboutlet WHERE openalexid LIKE '" + (openalexid == null ? "dummyid" : openalexid) + "' OR name LIKE '" + pubname + "'";
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        int pubid = -1;
-        while (reader.Read())
-        {
-            pubid = reader.GetInt32(0);
-        }
-
-        return pubid;
-    }
-
-    int getAccountByOrigin(int id)
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT account_id FROM paper_account WHERE paper_id=" + id;
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        int accountid = 0;
-        while (reader.Read())
-        {
-            accountid = reader.GetInt32(0);
-        }
-
-        return accountid;
-    }
-
-    public List<Practice> getPracticeByPaperId(int id)
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT DISTINCT practices.id, practices.name  FROM practices, practices_account, paper_account WHERE practices_account.account_id = paper_account.account_id AND practices.id = practices_account.practices_id AND paper_account.paper_id =" + id;
-
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        List<Practice> practice = new List<Practice>();
-        
-        while (reader.Read())
-        {
-            practice.Add(new Practice(reader.GetInt32(0), reader.GetString(1)));
-        }
-
-        return practice;
-    }
-
-    public List<Strategy> getStrategyByPaperId(int id)
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT DISTINCT strategies.id, strategies.name  FROM strategies, account_strategies, paper_account WHERE account_strategies.account_id = paper_account.account_id AND strategies.id = account_strategies.strategies_id AND paper_account.paper_id =" + id;
-
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        List<Strategy> strategy = new List<Strategy>();
-
-        while (reader.Read())
-        {
-            strategy.Add(new Strategy(reader.GetInt32(0), reader.GetString(1)));
-        }
-
-        return strategy;
-    }
-
-    public List<Use> getUseByPaperId(int id)
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT uses.id, uses.name  FROM uses, uses_account, paper_account WHERE uses_account.account_id = paper_account.account_id AND uses.id = uses_account.uses_id AND paper_account.paper_id =" + id;
-
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        List<Use> use = new List<Use>();
-
-        while (reader.Read())
-        {
-            if(!reader.IsDBNull(0))
-            {
-                use.Add(new Use(reader.GetInt32(0), reader.GetString(1)));
-            }       
-        }
-
-        return use;
     }
 
     public List<int> getPapersWithUses()
@@ -500,136 +363,204 @@ public class Database : MonoBehaviour
         return elementsInTable;
     }
 
-    public List<int> filterByAuthorJournalInstitution(int type, string name)
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+    //Functions for the FillTables() (one run only)
+
+    public List<Author> getAuthorAndInstitutionByPaperId(int id)
     {
         IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "";
-
-        if(type == 1)
-        {
-            sqlQuery = "SELECT author_paper.paper_id  FROM author_paper, author WHERE author_paper.author_id = author.id AND author.name LIKE '%" + name + "%'";
-        } 
-        else if (type == 2)
-        {
-            sqlQuery = "SELECT puboutlet_paper.paper_id FROM puboutlet_paper, puboutlet WHERE puboutlet_paper.puboutlet_id = puboutlet.id AND puboutlet.name LIKE '%" + name + "%'";
-        } 
-        else if(type == 3)
-        {
-            sqlQuery = "SELECT author_paper.paper_id  FROM author_paper, author_institution, institution WHERE author_paper.author_id = author_institution.author_id AND author_institution.institution_id = institution.id AND institution.name LIKE '%" + name +"%'";
-        }
-
+    
+        string sqlQuery = "SELECT author.id, author.name, author.openalexid, institution.id, institution.name, institution.countrycode, institution.openalexid FROM author, author_paper, institution, author_institution WHERE author_paper.author_id = author.id AND author_institution.author_id = author_paper.author_id AND author_institution.author_id = author.id AND author_institution.institution_id = institution.id AND author_paper.paper_id =" + id;
         _command.CommandText = sqlQuery;
-
+    
         IDataReader reader = _command.ExecuteReader();
 
-        List<int> results = new List<int>();
-
+        List<Author> authors = new List<Author>();
         while (reader.Read())
         {
-            if (!reader.IsDBNull(0))
-            {
-                results.Add(reader.GetInt32(0));
-            }
-        }
+            string authoropenalexid = "";
+            string instopenalexid = "";
+            
+            if (!reader.IsDBNull(2)) { authoropenalexid = reader.GetString(2); }
+            if (!reader.IsDBNull(6)) { instopenalexid = reader.GetString(6); }
 
-        return results;
+            authors.Add(new Author(reader.GetInt32(0), reader.GetString(1), authoropenalexid, reader.GetInt32(3), reader.GetString(4), reader.GetString(5), instopenalexid));
+        }
+    
+        return authors;
     }
 
-    public Practice getPracticeById(int id)
+    public PubOutlet getPubOutletByPaperId(int id)
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT practices.id, practices.name FROM practices WHERE practices.id=" + id;
+        string sqlQuery = "SELECT puboutlet.id, puboutlet.name, puboutlet.url, puboutlet.openalexid, puboutlet.issn FROM puboutlet, puboutlet_paper WHERE puboutlet_paper.puboutlet_id = puboutlet.id AND puboutlet_paper.paper_id =" + id;
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int pubid = -1;
+        string pubname = "";
+        string puburl = "";
+        string puboalexid = "";
+        string pubissn = "";
+
+        while (reader.Read())
+        {
+            pubid = reader.GetInt32(0);
+            pubname = reader.GetString(1);
+            if (!reader.IsDBNull(2)) { puburl = reader.GetString(2); }
+            if (!reader.IsDBNull(3)) { puboalexid = reader.GetString(3); }
+            if (!reader.IsDBNull(4)) { pubissn = reader.GetString(4); }
+        }
+        
+        PubOutlet publicationoutlet = new PubOutlet(pubid, pubname, puburl, puboalexid, pubissn);
+        
+        return publicationoutlet;
+    }
+
+    int getInstitutionByOpenAlexId(string openalexid, string instname)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT id FROM institution WHERE openalexid LIKE '" + (openalexid == null ? "dummyid" : openalexid) + "' OR name LIKE '" + instname + "'";
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int instid = -1;
+        while (reader.Read())
+        {
+            instid = reader.GetInt32(0);
+        }
+
+        return instid;
+    }
+
+    bool checkAuthorInstRelation(int authorid, int institutionid)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT institution_id FROM author_institution WHERE author_id =" + authorid + " AND institution_id=" + institutionid;
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int value = -1;
+        bool exists = false;
+        while (reader.Read())
+        {
+            value = reader.GetInt32(0);
+        }
+
+        if (value != -1)
+        {
+            exists = true;
+        }
+        return exists;
+    }
+
+    int getAuthorByOpenAlexId(string openalexid, string authorname)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT id FROM author WHERE openalexid LIKE '" + (openalexid == null ? "dummyid" : openalexid) + "' OR name LIKE '" + authorname + "'";
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int authorid = -1;
+        while (reader.Read())
+        {
+            authorid = reader.GetInt32(0);
+        }
+
+        return authorid;
+    }
+
+    int getPubOutletByOpenAlexId(string openalexid, string pubname)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT id FROM puboutlet WHERE openalexid LIKE '" + (openalexid == null ? "dummyid" : openalexid) + "' OR name LIKE '" + pubname + "'";
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int pubid = -1;
+        while (reader.Read())
+        {
+            pubid = reader.GetInt32(0);
+        }
+
+        return pubid;
+    }
+
+    public List<Practice> getPracticeByPaperId(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT DISTINCT practices.id, practices.name  FROM practices, practices_account, paper_account WHERE practices_account.account_id = paper_account.account_id AND practices.id = practices_account.practices_id AND paper_account.paper_id =" + id;
 
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
 
-        Practice practice = null;
-
+        List<Practice> practice = new List<Practice>();
+        
         while (reader.Read())
         {
-            if (!reader.IsDBNull(0))
-            {
-                practice = new Practice(reader.GetInt32(0), reader.GetString(1));
-            }
+            practice.Add(new Practice(reader.GetInt32(0), reader.GetString(1)));
         }
 
         return practice;
     }
 
-    public Strategy getStrategyById(int id)
+    public List<Strategy> getStrategyByPaperId(int id)
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT strategies.id, strategies.name FROM strategies WHERE strategies.id=" + id;
+        string sqlQuery = "SELECT DISTINCT strategies.id, strategies.name  FROM strategies, account_strategies, paper_account WHERE account_strategies.account_id = paper_account.account_id AND strategies.id = account_strategies.strategies_id AND paper_account.paper_id =" + id;
 
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
 
-        Strategy strategy = null;
+        List<Strategy> strategy = new List<Strategy>();
 
         while (reader.Read())
         {
-            if (!reader.IsDBNull(0))
-            {
-                strategy = new Strategy(reader.GetInt32(0), reader.GetString(1));
-            }
+            strategy.Add(new Strategy(reader.GetInt32(0), reader.GetString(1)));
         }
 
         return strategy;
     }
 
-    public List<int> getStrategies()
+    public List<Use> getUseByPaperId(int id)
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT strategies.id FROM strategies";
+        string sqlQuery = "SELECT uses.id, uses.name  FROM uses, uses_account, paper_account WHERE uses_account.account_id = paper_account.account_id AND uses.id = uses_account.uses_id AND paper_account.paper_id =" + id;
 
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
 
-        List<int> strategies = new List<int>();
+        List<Use> use = new List<Use>();
 
         while (reader.Read())
         {
-            if (!reader.IsDBNull(0))
+            if(!reader.IsDBNull(0))
             {
-                strategies.Add(reader.GetInt32(0));
-            }
+                use.Add(new Use(reader.GetInt32(0), reader.GetString(1)));
+            }       
         }
 
-        return strategies;
+        return use;
     }
-
-    public List<int> getPractices()
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT practices.id FROM practices";
-
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        List<int> practices = new List<int>();
-
-        while (reader.Read())
-        {
-            if (!reader.IsDBNull(0))
-            {
-                practices.Add(reader.GetInt32(0));
-            }
-        }
-
-        return practices;
-    }
-
-
-    //----------------------------------------------------------------------------------------------------------------------------//
 
     void insertDataSQLite(string insertTable, string insertFields, string insertValues)
     {
@@ -640,7 +571,7 @@ public class Database : MonoBehaviour
         _command.ExecuteNonQuery();
     }
 
-    // run one time only method to fill DB tables
+    // Run one time only method to fill DB tables
     void FillTables(JArray apipaperlist)
     {
         // PAPERS
@@ -824,12 +755,12 @@ public class Database : MonoBehaviour
         }
     }
 
-    // data storing classes
+    // Data storing classes
     public class RelationTable { public int col1, col2; }
     public class DoubleColNameTable { public int col1; public string col2; }
     public class AccountTable { public int col1, col2; public string col3; }
 
-    // read CSV methods
+    // Read CSV methods
     void ReadCsv(string filename, Dictionary<int, string> dict)
     {
         using (CachedCsvReader csv = new CachedCsvReader(new StreamReader("Assets/Resources/" + filename), true, ';'))

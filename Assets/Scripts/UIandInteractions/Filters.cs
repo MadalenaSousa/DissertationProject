@@ -83,7 +83,6 @@ public class Filters : MonoBehaviour
             max = int.Parse(maxInput.text);
         }
 
-
         bv.deactivatePapersByYear(min, max);
     }
 
