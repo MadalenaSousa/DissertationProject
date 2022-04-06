@@ -36,9 +36,9 @@ public class CategoryView : MonoBehaviour
         titleBox.GetComponent<Text>().text = this.category.name; //Set UI
     }
 
-    public void setPositionSphere(int id)
+    public void setPosition(Vector3 newPosition)
     {
-        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 80;   
+        gameObject.transform.position = newPosition;   
     }
 
     public void setColor(Color color)
@@ -46,7 +46,7 @@ public class CategoryView : MonoBehaviour
         gameObject.GetComponentInChildren<Renderer>().material.color = color;
     }
 
-    public Vector3 getCategoryPosition()
+    public Vector3 getPosition()
     {
         return gameObject.transform.position;
     }
@@ -58,7 +58,7 @@ public class CategoryView : MonoBehaviour
 
     public void setRadius(float radius)
     {
-        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale + new Vector3(radius, radius, radius);
+        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale * radius;
     }
 }
  

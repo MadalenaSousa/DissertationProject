@@ -54,15 +54,38 @@ public class PaperView :  MonoBehaviour
         return this.paper.id;
     }
 
-    public void setPosition(float x, float y, float z)
+    public void setPosition(Vector3 newPosition)
     {
-        gameObject.transform.position = new Vector3(x, y, z);
+        gameObject.transform.position = newPosition;
     }
 
-    public void setPositionSphere(Vector3 sphere)
+    public Vector3 getPosition()
     {
-        gameObject.transform.position = sphere;
+        return gameObject.transform.position;
     }
+
+    public void setColor(Color color)
+    {
+        gameObject.GetComponentInChildren<Renderer>().material.color = color;
+    }
+
+    private void OnMouseDown()
+    {
+        this.mousePressed = true;
+    }
+
+    private void OnMouseEnter()
+    {
+        this.canvas.SetActive(true);
+    }
+
+    private void OnMouseExit()
+    {
+        this.canvas.SetActive(false);
+    }
+
+
+    //TEST FUNCTIONS
 
     public void setPositionByUse(Vector3[] UseCenterPoints) // will be changed
     {        
@@ -98,16 +121,6 @@ public class PaperView :  MonoBehaviour
         this.gameObject.transform.position = paperPosition + new Vector3(UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5), UnityEngine.Random.Range(-5, 5));
 
         //this.gameObject.transform.position = paperPosition;
-    }
-
-    public Vector3 getPaperPosition()
-    {
-        return gameObject.transform.position;
-    }
-
-    public void setColor(Color color)
-    {
-        gameObject.GetComponentInChildren<Renderer>().material.color = color;
     }
 
     public void setColorByUse() // will be changed
@@ -168,21 +181,6 @@ public class PaperView :  MonoBehaviour
                 sphereToColor.color = new Color(0.8f, 0.2f, 0.9f);
                 break;
         }
-    }
-
-    private void OnMouseDown()
-    {
-        this.mousePressed = true;
-    }
-
-    private void OnMouseEnter()
-    {
-        this.canvas.SetActive(true);
-    }
-
-    private void OnMouseExit()
-    {
-        this.canvas.SetActive(false);
     }
 }
 

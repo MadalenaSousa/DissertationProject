@@ -54,8 +54,6 @@ public class BrainView : MonoBehaviour
             papers.Add(Instantiate(NodePrefab).GetComponent<PaperView>());
             papers[i].transform.parent = parentObject.transform;
             papers[i].bootstrap(i);
-            papers[i].setPositionSphere(UnityEngine.Random.insideUnitSphere * radius);
-            papers[i].setColor(Color.magenta);
         }
 
         closePopUpButton.onClick.AddListener(closePopUp);
