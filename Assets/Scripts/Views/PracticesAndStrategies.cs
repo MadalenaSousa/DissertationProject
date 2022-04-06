@@ -132,18 +132,6 @@ public class PracticesAndStrategies : MonoBehaviour
 
         //--- OTHER STUFF ---//
 
-        for(int i = 0; i < totalpract; i++)
-        {
-            for(int j = 0; i < connections.Count; j++)
-            {
-                if(connections[j].connection.category == practices[i].category)
-                {
-                    //practices[i].setRadius(connections);
-                }
-            }
-            
-        }
-
         closePopUpButton.onClick.AddListener(closePopUp);
     }
 
