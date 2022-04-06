@@ -53,6 +53,8 @@ public class PracticesAndStrategies : MonoBehaviour
     {
         db = Database.instance;       
 
+        //--- BASE DRAWING ---//
+
         //Draw Practices
         List<int> temppractices = db.getPractices();
         int totalpract = temppractices.Count;
@@ -126,6 +128,20 @@ public class PracticesAndStrategies : MonoBehaviour
                 newConnection.setConnection(paperLocation, categoryLocation, newPaper.getId(), newPaper.connections[j].category);
                 connections.Add(newConnection);
             }
+        }
+
+        //--- OTHER STUFF ---//
+
+        for(int i = 0; i < totalpract; i++)
+        {
+            for(int j = 0; i < connections.Count; j++)
+            {
+                if(connections[j].connection.category == practices[i].category)
+                {
+                    //practices[i].setRadius(connections);
+                }
+            }
+            
         }
 
         closePopUpButton.onClick.AddListener(closePopUp);
