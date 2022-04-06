@@ -83,8 +83,6 @@ public class UsesView : MonoBehaviour
             y = UnityEngine.Random.Range(-20, 20);
             z = UnityEngine.Random.Range(-20, 20);
 
-            radius = 10;
-
             papers[i].GetComponent<PaperView>().bootstrap(toDraw[i]);
             papers[i].GetComponent<PaperView>().setPositionByUse(UseCenterPoints);
             papers[i].GetComponent<PaperView>().setColorByUse();
