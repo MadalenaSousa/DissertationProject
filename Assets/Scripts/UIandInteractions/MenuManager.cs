@@ -6,14 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+
     void Start()
     {
         
-    }
-
-    public void SwitchScene(string scene)
-    {
-        SceneManager.LoadScene(scene);
     }
 
 }
