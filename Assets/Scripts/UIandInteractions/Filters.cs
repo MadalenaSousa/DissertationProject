@@ -15,8 +15,8 @@ public class Filters : MonoBehaviour
 
     //Author Filter UI
     public AutoCompleteComboBox authorSearch;
-    public GameObject optionlist;
-    Button[] options;
+    public GameObject authorOptionlist;
+    Button[] authorOptions;
     List<string> allAuthors = new List<string>();
     Dictionary<int, string> authorsFromDB = new Dictionary<int, string>();
 
@@ -46,11 +46,11 @@ public class Filters : MonoBehaviour
         }
 
         authorSearch.SetAvailableOptions(allAuthors);
-        options = optionlist.GetComponentsInChildren<Button>();
+        authorOptions = authorOptionlist.GetComponentsInChildren<Button>();
 
-        for (int i = 0; i < options.Length; i++)
+        for (int i = 0; i < authorOptions.Length; i++)
         {
-            options[i].onClick.AddListener(filterByAuthor);
+            authorOptions[i].onClick.AddListener(filterByAuthor);
         }
 
         journalsFromDB = db.getAllInTable("puboutlet");

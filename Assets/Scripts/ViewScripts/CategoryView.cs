@@ -20,10 +20,12 @@ public class CategoryView : MonoBehaviour
     public void bootstrapPractices(int id)
     {
         category = Database.instance.getPracticeById(id); //Set category data
+        //totalConnections = Database.instance.getTotalConnections(category, id); //Set total connections
 
         gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 250; //Set visual
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.cyan;
-        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale * 3;
+
+        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale *3;
 
         titleBox.GetComponent<Text>().text = this.category.name; //Set UI
     }
@@ -31,9 +33,11 @@ public class CategoryView : MonoBehaviour
     public void bootstrapStrategies(int id)
     {
         category = Database.instance.getStrategyById(id); //Set category data
+        //totalConnections = Database.instance.getTotalConnections(category, id); //Set total connections
 
         gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 250; //Set visual
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.yellow;
+
         gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale * 3;
 
         titleBox.GetComponent<Text>().text = this.category.name; //Set UI

@@ -79,6 +79,39 @@ public class Database : MonoBehaviour
         return new Paper(id, title, date, year, getAuthorAndInstitutionByPaperId(id), getPubOutletByPaperId(id), getPracticeByPaperId(id), getStrategyByPaperId(id), getUseByPaperId(id));
     }
 
+    public int getTotalConnections(Category type, int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "";
+
+        if (type is Practice)
+        {
+            sqlQuery = "SELECT SUM(practices_account.practices_id) FROM practices_account, paper_account WHERE paper_account.account_id = practices_account.account_id AND practices_account.practices_id =" + id;
+        }
+        else if (type is Strategy)
+        {
+            sqlQuery = "SELECT SUM(account_strategies.strategies_id) FROM account_strategies, paper_account WHERE paper_account.account_id = account_strategies.account_id AND account_strategies.strategies_id =" + id;
+        }
+        else if (type is Use)
+        {
+            sqlQuery = "SELECT SUM(uses_account.uses_id) FROM uses_account, paper_account WHERE paper_account.account_id = uses_account.account_id AND uses_account.uses_id =" + id;
+        }
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int total = 0;
+
+        while (reader.Read())
+        {
+            total = reader.GetInt32(0);
+        }
+
+        return total;
+    }
+
     public List<int> getPapersByYearInterval(int min, int max)
     {
         IDbCommand _command = _connection.CreateCommand();
@@ -363,17 +396,11 @@ public class Database : MonoBehaviour
         return elementsInTable;
     }
 
-
-    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
-
-
-    //Functions for the FillTables() (one run only)
-
     public List<Author> getAuthorAndInstitutionByPaperId(int id)
     {
         IDbCommand _command = _connection.CreateCommand();
     
-        string sqlQuery = "SELECT author.id, author.name, author.openalexid, institution.id, institution.name, institution.countrycode, institution.openalexid FROM author, author_paper, institution, author_institution WHERE author_paper.author_id = author.id AND author_institution.author_id = author_paper.author_id AND author_institution.author_id = author.id AND author_institution.institution_id = institution.id AND author_paper.paper_id =" + id;
+        string sqlQuery = "SELECT author.id, author.name, author.openalexid, author_institution.institution_id FROM author INNER JOIN author_paper ON author_paper.author_id = author.id LEFT JOIN author_institution ON author_institution.author_id = author.id WHERE author_paper.paper_id =" + id;
         _command.CommandText = sqlQuery;
     
         IDataReader reader = _command.ExecuteReader();
@@ -382,15 +409,48 @@ public class Database : MonoBehaviour
         while (reader.Read())
         {
             string authoropenalexid = "";
-            string instopenalexid = "";
-            
-            if (!reader.IsDBNull(2)) { authoropenalexid = reader.GetString(2); }
-            if (!reader.IsDBNull(6)) { instopenalexid = reader.GetString(6); }
 
-            authors.Add(new Author(reader.GetInt32(0), reader.GetString(1), authoropenalexid, reader.GetInt32(3), reader.GetString(4), reader.GetString(5), instopenalexid));
+            if (!reader.IsDBNull(2)) { authoropenalexid = reader.GetString(2); }
+            
+            if (!reader.IsDBNull(3)) {
+                Institution authorInst = getInstitutionById(reader.GetInt32(3));
+                
+                authors.Add(new Author(reader.GetInt32(0), reader.GetString(1), authoropenalexid, authorInst.id, authorInst.name, authorInst.countrycode, authorInst.openalexid));
+            } 
+            else
+            {
+                authors.Add(new Author(reader.GetInt32(0), reader.GetString(1), authoropenalexid, -1, "", "", ""));
+            }           
         }
     
         return authors;
+    }
+
+    public Institution getInstitutionById(int id)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT institution.id, institution.name, institution.countrycode, institution.openalexid FROM institution WHERE institution.id =" + id;
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int instId = -1;
+        string name = "";
+        string cc = "";
+        string oaId = "";
+            
+        while (reader.Read())
+        {
+            instId = reader.GetInt32(0);
+            if (!reader.IsDBNull(1)) { name = reader.GetString(1); }
+            if (!reader.IsDBNull(2)) { cc = reader.GetString(2); }
+            if (!reader.IsDBNull(3)) { oaId = reader.GetString(3); }            
+        }
+
+        Institution newInstitution = new Institution(instId, name, cc, oaId);
+
+        return newInstitution;
     }
 
     public PubOutlet getPubOutletByPaperId(int id)
@@ -421,6 +481,10 @@ public class Database : MonoBehaviour
         
         return publicationoutlet;
     }
+
+    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+    //Functions for the FillTables() (one run only)
 
     int getInstitutionByOpenAlexId(string openalexid, string instname)
     {
