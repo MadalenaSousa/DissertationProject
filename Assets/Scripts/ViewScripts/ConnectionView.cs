@@ -4,26 +4,19 @@ using UnityEngine;
 
 public class ConnectionView : MonoBehaviour
 {
-    //Instances
-    public Connection connection;
+    private PaperView paperView;
+    private CategoryView categoryView;
 
-    //Other
-    public Vector3 paperPos, catPos;
-
-    public void setConnection(Vector3 initNode, Vector3 endNode, int paperId, Category category)
+    public void setConnection(PaperView paperView, CategoryView categoryView)
     {
-        connection = new Connection(paperId, category);
-
-        gameObject.GetComponent<LineRenderer>().SetPosition(0, initNode);
-        gameObject.GetComponent<LineRenderer>().SetPosition(1, endNode);
-
-        paperPos = initNode;
-        catPos = endNode;
+        this.paperView = paperView;
+        this.categoryView = categoryView;
     }
 
-    public void updateConnection(Vector3 initNode, Vector3 endNode)
+    public void updateConnection()
     {
-        gameObject.GetComponent<LineRenderer>().SetPosition(0, initNode);
-        gameObject.GetComponent<LineRenderer>().SetPosition(1, endNode);
+        gameObject.SetActive(paperView.gameObject.activeInHierarchy);
+        gameObject.GetComponent<LineRenderer>().SetPosition(0, paperView.getPosition());
+        gameObject.GetComponent<LineRenderer>().SetPosition(1, categoryView.getPosition());
     }
 }

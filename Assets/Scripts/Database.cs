@@ -79,6 +79,57 @@ public class Database : MonoBehaviour
         return new Paper(id, title, date, year, getAuthorAndInstitutionByPaperId(id), getPubOutletByPaperId(id), getPracticeByPaperId(id), getStrategyByPaperId(id), getUseByPaperId(id));
     }
 
+    public int getMaxConnPS()
+    {
+        return Math.Max(getMaxConnPractices(), getMaxConnStrategies());
+    }
+
+    private int getMaxConnPractices()
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT MAX(count) FROM(SELECT practices_id, COUNT(*) as count FROM practices_account LEFT JOIN paper_account WHERE practices_account.account_id = paper_account.account_id GROUP BY practices_id)";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int max = 0;
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                max = reader.GetInt32(0);
+            }
+        }
+
+        return max;
+    }
+
+    private int getMaxConnStrategies()
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT MAX(count) FROM(SELECT strategies_id, COUNT(*) as count FROM account_strategies LEFT JOIN paper_account WHERE account_strategies.account_id = paper_account.account_id GROUP BY strategies_id)";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int max = 0;
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                max = reader.GetInt32(0);
+            }
+        }
+
+        return max;
+    }
+
     public int getTotalConnections(Category type, int id)
     {
         IDbCommand _command = _connection.CreateCommand();
@@ -217,23 +268,23 @@ public class Database : MonoBehaviour
         return strategy;
     }
 
-    public List<int> getStrategies()
+    public List<Strategy> getStrategies()
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT strategies.id FROM strategies";
+        string sqlQuery = "SELECT strategies.id, strategies.name FROM strategies";
 
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
 
-        List<int> strategies = new List<int>();
+        List<Strategy> strategies = new List<Strategy>();
 
         while (reader.Read())
         {
             if (!reader.IsDBNull(0))
             {
-                strategies.Add(reader.GetInt32(0));
+                strategies.Add(new Strategy(reader.GetInt32(0), reader.GetString(1)));
             }
         }
 
@@ -304,7 +355,7 @@ public class Database : MonoBehaviour
         return papers;
     }
 
-    public List<int> getPapersWithPractices()
+    public List<Paper> getPapersWithPractices()
     {
         IDbCommand _command = _connection.CreateCommand();
 
@@ -314,13 +365,13 @@ public class Database : MonoBehaviour
 
         IDataReader reader = _command.ExecuteReader();
 
-        List<int> papers = new List<int>();
+        List<Paper> papers = new List<Paper>();
 
         while (reader.Read())
         {
             if (!reader.IsDBNull(0))
             {
-                papers.Add(reader.GetInt32(0));
+                papers.Add(getPaperById(reader.GetInt32(0)));
             }
         }
 
@@ -400,27 +451,19 @@ public class Database : MonoBehaviour
     {
         IDbCommand _command = _connection.CreateCommand();
     
-        string sqlQuery = "SELECT author.id, author.name, author.openalexid, author_institution.institution_id FROM author INNER JOIN author_paper ON author_paper.author_id = author.id LEFT JOIN author_institution ON author_institution.author_id = author.id WHERE author_paper.paper_id =" + id;
+        string sqlQuery = "SELECT author.id, author.name, author.openalexid, author_institution.institution_id FROM author_paper LEFT JOIN author ON author_paper.author_id = author.id LEFT JOIN author_institution ON author.id = author_institution.author_id WHERE author_paper.paper_id =" + id;
         _command.CommandText = sqlQuery;
-    
+
         IDataReader reader = _command.ExecuteReader();
 
         List<Author> authors = new List<Author>();
         while (reader.Read())
         {
-            string authoropenalexid = "";
+            string authoropenalexid = !reader.IsDBNull(2) ? reader.GetString(2) : "";
 
-            if (!reader.IsDBNull(2)) { authoropenalexid = reader.GetString(2); }
-            
-            if (!reader.IsDBNull(3)) {
-                Institution authorInst = getInstitutionById(reader.GetInt32(3));
-                
-                authors.Add(new Author(reader.GetInt32(0), reader.GetString(1), authoropenalexid, authorInst.id, authorInst.name, authorInst.countrycode, authorInst.openalexid));
-            } 
-            else
-            {
-                authors.Add(new Author(reader.GetInt32(0), reader.GetString(1), authoropenalexid, -1, "", "", ""));
-            }           
+            Institution authorInst = !reader.IsDBNull(3) ? getInstitutionById(reader.GetInt32(3)) : new Institution(-1, "", "", "");
+
+            authors.Add(new Author(reader.GetInt32(0), reader.GetString(1), authoropenalexid, authorInst.id, authorInst.name, authorInst.countrycode, authorInst.openalexid));         
         }
     
         return authors;

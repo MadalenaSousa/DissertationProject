@@ -24,7 +24,7 @@ public class PaperView :  MonoBehaviour
     {
         paper = Database.instance.getPaperById(id); //Set paper data
         
-        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 250; //Set visual characteristics
+        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 500; //Set visual characteristics
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.white;
 
         titleBox.GetComponent<Text>().text = this.paper.title; //Set UI

@@ -27,24 +27,22 @@ public class PracticesAndStrategies : MonoBehaviour
     public GameObject authorPanel;
     public GameObject authorPrefab;
 
-    //Variables
-    int totalpapers;
-
     //Visual Objects
     public GameObject parentObject;
 
     public GameObject NodePrefab;
-    List<PaperView> papers;
+    List<PaperView> papers = new List<PaperView>();
 
     public GameObject CategoryPrefab;
-    List<CategoryView> practices;
-    List<CategoryView> strategies;
+
+    Dictionary<int, CategoryView> strategiesViews = new Dictionary<int, CategoryView>();
+    Dictionary<int, CategoryView> practicesViews = new Dictionary<int, CategoryView>();
 
     public GameObject ConnectionPrefab;
-    List<ConnectionView> connections;
+    List<ConnectionView> connections =  new List<ConnectionView>();
 
-    //Still Testing
-    List<ClusterThreshold> thresholds = new List<ClusterThreshold>();
+    int clusterConnInterval, totalClusters;
+    List<Cluster> clusters = new List<Cluster>();
 
     private void Awake()
     {
@@ -56,182 +54,107 @@ public class PracticesAndStrategies : MonoBehaviour
 
     void Start()
     {
-        db = Database.instance;       
+        db = Database.instance;
 
-        //--- BASE DRAWING ---//
+        //CLUSTERS
+        int maxConnections = db.getMaxConnPS();
+        totalClusters = 5; // why am i getting 7 clusters???
+        clusterConnInterval = maxConnections / totalClusters;
 
-        //Draw Practices
-        List<int> temppractices = db.getPractices();
-        int totalpract = temppractices.Count;
-        
-        practices = new List<CategoryView>();
+        for (int i = 0; i < totalClusters; i++)
+        {
+            int min = clusterConnInterval * i;
+            int max = clusterConnInterval * (i + 1);
 
+            clusters.Add(new Cluster(min, max));
+        }
 
-        for (int i = 0; i < totalpract; i++)
+        //CATEGORIES
+        List<int> PracticesId = db.getPractices();
+        int totalPractices = PracticesId.Count;
+
+        List<Strategy> StrategiesId = db.getStrategies();
+        int totalStrategies = StrategiesId.Count;
+
+        for (int i = 0; i < totalPractices; i++)
         {
             CategoryView newPractice = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
-            newPractice.bootstrapPractices(temppractices[i]);
-            
-            practices.Add(newPractice);
+            newPractice.bootstrapPractices(PracticesId[i]); //Which is the best way, this one or the one under?
+
+            for (int j = 0; j < clusters.Count; j++)
+            {
+                if (newPractice.totalConnections > clusters[j].min && newPractice.totalConnections < clusters[j].max)
+                {
+                    clusters[j].categories.Add(newPractice.category);
+                    newPractice.setPosition(clusters[j].center + clusters[j].getOffsetVector(newPractice));
+                    break;
+                }
+            }
+
+            practicesViews.Add(PracticesId[i], newPractice);
         }
 
-        //Draw Strategies
-        List<int> tempstrategies = db.getStrategies();
-        int totalstrat = tempstrategies.Count;
-        strategies = new List<CategoryView>();
-
-        for (int i = 0; i < totalstrat; i++)
+        for (int i = 0; i < totalStrategies; i++)
         {
             CategoryView newStrategy = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
-            newStrategy.bootstrapStrategies(tempstrategies[i]);
+            newStrategy.category = StrategiesId[i];
+            newStrategy.bootstrapStrategies();
 
-            strategies.Add(newStrategy);    
+            for (int j = 0; j < clusters.Count; j++)
+            {
+                if (newStrategy.totalConnections > clusters[j].min && newStrategy.totalConnections < clusters[j].max)
+                {
+                    clusters[j].categories.Add(newStrategy.category);
+                    newStrategy.setPosition(clusters[j].center + clusters[j].getOffsetVector(newStrategy));
+                    break;
+                }
+            }
+
+            strategiesViews.Add(StrategiesId[i].id, newStrategy);
         }
 
-
-        //Draw Papers & Connections
-        List<int> practicesandstrategies = db.getPapersWithPracticesOrStrategies();
-        totalpapers = practicesandstrategies.Count;
-
-        papers = new List<PaperView>();
-        connections = new List<ConnectionView>();
+        //PAPERS
+        List<int> PSPapersId = db.getPapersWithPracticesOrStrategies();
+        int totalpapers = PSPapersId.Count;
 
         for (int i = 0; i < totalpapers; i++)
         {
             PaperView newPaper = Instantiate(NodePrefab, parentObject.transform).GetComponent<PaperView>();
-            newPaper.bootstrap(practicesandstrategies[i]);
-            
+            newPaper.bootstrap(PSPapersId[i]);
+
             papers.Add(newPaper);
 
-            for(int j = 0; j < newPaper.connections.Count; j++)
+            foreach (Strategy paperStrategy in newPaper.paper.strategy)
             {
                 ConnectionView newConnection = Instantiate(ConnectionPrefab, parentObject.transform).GetComponent<ConnectionView>();
-                
-                Vector3 paperLocation = newPaper.gameObject.transform.position;
-                Vector3 categoryLocation = new Vector3(0, 0, 0);
-                
-                if(newPaper.connections[j].category is Practice)
-                {
-                    for(int k = 0; k < practices.Count; k++)
-                    {
-                        if(newPaper.connections[j].category.id == practices[k].category.id)
-                        {
-                            categoryLocation = practices[k].gameObject.transform.position;
-                            practices[k].totalConnections++;
-                        }
-                    }
-                } 
-                else if(newPaper.connections[j].category is Strategy)
-                {
-                    for (int k = 0; k < strategies.Count; k++)
-                    {
-                        if (newPaper.connections[j].category.id == strategies[k].category.id)
-                        {
-                            categoryLocation = strategies[k].gameObject.transform.position;
-                            strategies[k].totalConnections++;
-                        }
-                    }
-                }
+                newConnection.setConnection(newPaper, strategiesViews[paperStrategy.id]);
+                connections.Add(newConnection);
+            }
 
-                newConnection.setConnection(paperLocation, categoryLocation, newPaper.getId(), newPaper.connections[j].category);
+            foreach (Practice paperPractice in newPaper.paper.practice)
+            {
+                ConnectionView newConnection = Instantiate(ConnectionPrefab, parentObject.transform).GetComponent<ConnectionView>();
+                newConnection.setConnection(newPaper, practicesViews[paperPractice.id]);
                 connections.Add(newConnection);
             }
         }
 
-        //--- OTHER STUFF ---//
-        for (int i = 0; i < totalstrat; i++)
-        {
-            strategies[i].setRadius(strategies[i].totalConnections/2);
-        }
-
-        for (int i = 0; i < totalpract; i++)
-        {
-            practices[i].setRadius(practices[i].totalConnections/2);
-        }
-        
+        //OTHER
         closePopUpButton.onClick.AddListener(closePopUp);
-
-        //setClusters(50);
-        //setCategoryPositions();
 
     }
 
     private void Update()
     {
         openPopUp();
-        clearConnectionsWithPapers();       
+        updateConnections();
     }
 
-    public void setCategoryPositions() // this one i think is right
+    private void updateConnections()
     {
-        for(int i = 0; i < strategies.Count; i++)
+        foreach (ConnectionView connection in connections)
         {
-            for(int j = 0; j < thresholds.Count; j++)
-            {
-                if(strategies[i].totalConnections > thresholds[j].minValue && strategies[i].totalConnections <= thresholds[j].maxValue)
-                {
-                    int avg = (thresholds[j].minValue + thresholds[j].maxValue) / 2;
-                    int xOffset = Mathf.Abs(strategies[i].totalConnections - avg) * getRandom(-1, 1);
-                    int yOffset = Mathf.Abs(strategies[i].totalConnections - avg) * getRandom(-1, 1);
-                    int zOffset = Mathf.Abs(strategies[i].totalConnections - avg) * getRandom(-1, 1);
-
-                    Vector3 offsetV = new Vector3(xOffset, yOffset, zOffset);
-                        
-                    strategies[i].setPosition((thresholds[j].clusterCenter + offsetV));
-                }
-            }
-        }
-
-        for (int i = 0; i < practices.Count; i++)
-        {
-            for (int j = 0; j < thresholds.Count; j++)
-            {
-                if (practices[i].totalConnections > thresholds[j].minValue && practices[i].totalConnections <= thresholds[j].maxValue)
-                {
-                    int avg = (thresholds[j].minValue + thresholds[j].maxValue) / 2;
-                    int xOffset = Mathf.Abs(practices[i].totalConnections - avg) * getRandom(-1, 1);
-                    int yOffset = Mathf.Abs(practices[i].totalConnections - avg) * getRandom(-1, 1);
-                    int zOffset = Mathf.Abs(practices[i].totalConnections - avg) * getRandom(-1, 1);
-
-                    Vector3 offsetV = new Vector3(xOffset, yOffset, zOffset);
-
-                    practices[i].setPosition((thresholds[j].clusterCenter + offsetV));
-                }
-            }
-        }  
-    }
-
-    public void setClusters(int res) //this one i think is wrong
-    {
-        List<int> allConnections = new List<int>();
-
-        for (int i = 0; i < strategies.Count; i++)
-        {
-            allConnections.Add(strategies[i].totalConnections);
-        }
-
-        for (int i = 0; i < practices.Count; i++)
-        {
-            allConnections.Add(practices[i].totalConnections);
-        }
-
-        int totalClusters = MaxValue(allConnections.ToArray()) / res;
-
-        for(int i = 0; i < allConnections.Count; i = i + totalClusters)
-        {
-            int min = i;
-            int max = i + totalClusters;
-
-            thresholds.Add(new ClusterThreshold(min, max));
-        }
-
-        for(int i = 0; i < thresholds.Count; i++)
-        {
-            int x = i * 5 * getRandom(-1, 1);
-            int y = i * 5 * getRandom(-1, 1);
-            int z = i * 5 * getRandom(-1, 1);
-
-            thresholds[i].clusterCenter = new Vector3(x, y, z);
+            connection.updateConnection();
         }
     }
 
@@ -257,26 +180,28 @@ public class PracticesAndStrategies : MonoBehaviour
         for (int i = 0; i < papers.Count; i++)
         {
             papers[i].mousePressed = false;
-            
+
             foreach (Transform child in authorPanel.transform)
             {
                 Destroy(child.gameObject);
             }
         }
-        
+
         popUp.SetActive(false);
     }
 
-    public int MaxValue(int[] intArray) 
-    {    
+    public int MaxValue(int[] intArray)
+    {
         int max = intArray[0];
 
-            for (int i = 1; i<intArray.Length; i++) {
+        for (int i = 1; i < intArray.Length; i++)
+        {
 
-                if (intArray[i] > max) {
-                    max = intArray[i];
-                }
+            if (intArray[i] > max)
+            {
+                max = intArray[i];
             }
+        }
 
         return max;
     }
@@ -285,24 +210,26 @@ public class PracticesAndStrategies : MonoBehaviour
     {
         for (int i = 0; i < papers.Count; i++)
         {
-            if (papers[i].mousePressed)
+            PaperView paperView = papers[i];
+            if (paperView.mousePressed)
             {
                 popUp.SetActive(true);
-                title.text = papers[i].paper.title;
-                puboutletname.text = papers[i].paper.publication_outlet.name;
-                puboutleturl.text = papers[i].paper.publication_outlet.url;
-                puboutletissn.text = papers[i].paper.publication_outlet.issn;
+                title.text = paperView.paper.title;
+                puboutletname.text = paperView.paper.publication_outlet.name;
+                puboutleturl.text = paperView.paper.publication_outlet.url;
+                puboutletissn.text = paperView.paper.publication_outlet.issn;
 
-                Debug.Log(papers[i].paper.author.Count);
-
-                for(int j = 0; j < papers[i].paper.author.Count; j++)
+                for (int j = 0; j < paperView.paper.author.Count; j++)
                 {
-                    GameObject author = Instantiate(authorPrefab, authorPanel.transform);
-                    author.GetComponentsInChildren<Text>()[0].text = papers[i].paper.author[j].name;
-                    author.GetComponentsInChildren<Text>()[1].text = papers[i].paper.author[j].institution.name;
-                }  
+                    Author author = paperView.paper.author[j];
+                    GameObject authorView = Instantiate(authorPrefab, authorPanel.transform);
+                    authorView.GetComponentsInChildren<Text>()[0].text = author.name;
+                    authorView.GetComponentsInChildren<Text>()[1].text = author.institution.name;
+                }
 
-                papers[i].mousePressed = false;
+                paperView.mousePressed = false;
+
+                break;
             }
         }
     }
@@ -349,70 +276,4 @@ public class PracticesAndStrategies : MonoBehaviour
         }
     }
 
-    public void clearConnectionsWithPapers()
-    {
-        for(int i = 0; i < totalpapers; i++)
-        {
-            if(papers[i].gameObject.activeInHierarchy == false)
-            {              
-                for(int j = 0; j < connections.Count; j++)
-                {
-                    if(papers[i].getId() == connections[j].connection.paperId)
-                    {
-                        connections[j].gameObject.SetActive(false);
-                    }
-                }
-            } 
-            else
-            {
-                for (int j = 0; j < connections.Count; j++)
-                {
-                    if (papers[i].getId() == connections[j].connection.paperId)
-                    {
-                        connections[j].gameObject.SetActive(true);
-                    }
-                }
-            }
-        }
-    }
-
-    public void updateConnectionPos()
-    {
-        for (int i = 0; i < papers.Count; i++)
-        {
-            for (int j = 0; j < connections.Count; j++)
-            {
-                Vector3 paperLocation = connections[i].paperPos;
-                Vector3 categoryLocation = connections[i].catPos;
-
-                if (papers[i].paper.id == connections[i].connection.paperId)
-                {
-                    paperLocation = papers[i].transform.position;
-                }
-
-                if (connections[i].connection.category is Practice)
-                {
-                    for (int k = 0; k < practices.Count; k++)
-                    {
-                        if (connections[j].connection.category.id == practices[k].category.id)
-                        {
-                            categoryLocation = practices[k].gameObject.transform.position;
-                        }
-                    }
-                }
-                else if (connections[i].connection.category is Strategy)
-                {
-                    for (int k = 0; k < strategies.Count; k++)
-                    {
-                        if (connections[j].connection.category.id == strategies[k].category.id)
-                        {
-                            categoryLocation = strategies[k].gameObject.transform.position;
-                        }
-                    }
-                }
-
-                connections[j].updateConnection(paperLocation, categoryLocation);
-            }
-        }
-    }
 }

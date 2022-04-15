@@ -9,14 +9,35 @@ public class Cluster
     public Vector3 center;
     public int avg;
 
-    public Cluster(List<Category> clusterCategories, int min, int max)
+    public Cluster(int min, int max)
     {
-        this.categories = clusterCategories;
+        //this.categories = clusterCategories;
         this.min = min;
         this.max = max;
 
-        center = Random.insideUnitSphere * 250;
+        center = Random.insideUnitSphere * 500;
         avg = (min + max) / 2;
+    }
+
+    public Vector3 getOffsetVector(CategoryView category)
+    {
+        int xOffset = Mathf.Abs(category.totalConnections - avg) * getRandom(-1, 1);
+        int yOffset = Mathf.Abs(category.totalConnections - avg) * getRandom(-1, 1);
+        int zOffset = Mathf.Abs(category.totalConnections - avg) * getRandom(-1, 1);
+
+        return new Vector3(xOffset, yOffset, zOffset);
+    }
+
+    public int getRandom(int first, int second)
+    {
+        if (UnityEngine.Random.value < 0.5f)
+        {
+            return first;
+        }
+        else
+        {
+            return second;
+        }
     }
 }
 
