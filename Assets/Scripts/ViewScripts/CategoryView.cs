@@ -16,29 +16,31 @@ public class CategoryView : MonoBehaviour
 
     //Other Variables
     public int totalConnections = 0;
+    public List<Paper> associatedPapers = new List<Paper>();
 
     public void bootstrapPractices(int id)
     {
         category = Database.instance.getPracticeById(id); //Set category data
-        //totalConnections = Database.instance.getTotalConnections(category, id); //Set total connections
+        associatedPapers = Database.instance.getPapersWithPractices();
+        totalConnections = associatedPapers.Count; //Set total connections
 
-        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 250; //Set visual
+        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 500; //Set visual
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.cyan;
 
-        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale *3;
+        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale + new Vector3(totalConnections, totalConnections, totalConnections);
 
         titleBox.GetComponent<Text>().text = this.category.name; //Set UI
     }
 
-    public void bootstrapStrategies(int id)
+    public void bootstrapStrategies()
     {
-        category = Database.instance.getStrategyById(id); //Set category data
-        //totalConnections = Database.instance.getTotalConnections(category, id); //Set total connections
+        //category = Database.instance.getStrategyById(id); //Set category data
+        totalConnections = Database.instance.getTotalConnections(category, category.id); //Set total connections
 
-        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 250; //Set visual
+        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 500; //Set visual
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.yellow;
 
-        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale * 3;
+        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale * 10;
 
         titleBox.GetComponent<Text>().text = this.category.name; //Set UI
     }
