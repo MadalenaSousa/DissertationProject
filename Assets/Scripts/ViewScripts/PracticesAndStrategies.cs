@@ -62,7 +62,7 @@ public class PracticesAndStrategies : MonoBehaviour
         totalClusters = 40;
         clusterConnInterval = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(maxConnections) / Convert.ToDouble(totalClusters)));
 
-        for (int i = 0; i < totalClusters; i++)
+        for (int i = 0; i <= totalClusters; i++)
         {
             int min = clusterConnInterval * i;
             int max = clusterConnInterval * (i + 1);
@@ -115,10 +115,16 @@ public class PracticesAndStrategies : MonoBehaviour
             strategiesViews.Add(StrategiesId[i], newStrategy);
         }
 
-        for (int j = 0; j < clusters.Count; j++)
+        // Remove Empty Clusters
+        List<Cluster> nonEmptyClusters = new List<Cluster>();
+        foreach(Cluster cluster in clusters)
         {
-            Debug.Log(clusters[j].categories.Count);
+            if (cluster.categories.Count > 0)
+            {
+                nonEmptyClusters.Add(cluster);
+            }
         }
+        clusters = nonEmptyClusters;
 
         //PAPERS
         List<int> PSPapersId = db.getPapersWithPracticesOrStrategies();

@@ -81,8 +81,6 @@ public class Database : MonoBehaviour
 
     public int getMaxConnPS()
     {
-        Debug.Log("MAX P: " + getMaxConnPractices());
-        Debug.Log("MAX S: " + getMaxConnStrategies());
         return Math.Max(getMaxConnPractices(), getMaxConnStrategies());
     }
 
