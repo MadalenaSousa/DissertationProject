@@ -21,26 +21,27 @@ public class CategoryView : MonoBehaviour
     public void bootstrapPractices(int id)
     {
         category = Database.instance.getPracticeById(id); //Set category data
-        associatedPapers = Database.instance.getPapersWithPractices();
+        associatedPapers = Database.instance.getPapersForPracticeById(id);
         totalConnections = associatedPapers.Count; //Set total connections
 
         gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 500; //Set visual
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.cyan;
 
-        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale + new Vector3(totalConnections, totalConnections, totalConnections);
+        //gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale + new Vector3(totalConnections, totalConnections, totalConnections);
 
         titleBox.GetComponent<Text>().text = this.category.name; //Set UI
     }
 
-    public void bootstrapStrategies()
+    public void bootstrapStrategies(int id)
     {
-        //category = Database.instance.getStrategyById(id); //Set category data
-        totalConnections = Database.instance.getTotalConnections(category, category.id); //Set total connections
+        category = Database.instance.getStrategyById(id); //Set category data
+        associatedPapers = Database.instance.getPapersForStrategyById(id);
+        totalConnections = associatedPapers.Count; //Set total connections
 
         gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 500; //Set visual
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.yellow;
 
-        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale * 10;
+        //gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale * 10;
 
         titleBox.GetComponent<Text>().text = this.category.name; //Set UI
     }

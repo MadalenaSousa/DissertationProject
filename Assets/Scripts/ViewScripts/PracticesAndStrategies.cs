@@ -58,8 +58,9 @@ public class PracticesAndStrategies : MonoBehaviour
 
         //CLUSTERS
         int maxConnections = db.getMaxConnPS();
-        totalClusters = 5; // why am i getting 7 clusters???
-        clusterConnInterval = maxConnections / totalClusters;
+        int minConnections = db.getMinConnPS();
+        totalClusters = 40;
+        clusterConnInterval = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(maxConnections) / Convert.ToDouble(totalClusters)));
 
         for (int i = 0; i < totalClusters; i++)
         {
@@ -73,17 +74,18 @@ public class PracticesAndStrategies : MonoBehaviour
         List<int> PracticesId = db.getPractices();
         int totalPractices = PracticesId.Count;
 
-        List<Strategy> StrategiesId = db.getStrategies();
+        List<int> StrategiesId = db.getStrategies();
         int totalStrategies = StrategiesId.Count;
 
         for (int i = 0; i < totalPractices; i++)
         {
             CategoryView newPractice = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
-            newPractice.bootstrapPractices(PracticesId[i]); //Which is the best way, this one or the one under?
+            newPractice.bootstrapPractices(PracticesId[i]);
+            newPractice.setRadius(mapValues(newPractice.totalConnections, minConnections, maxConnections, 10, 80));
 
             for (int j = 0; j < clusters.Count; j++)
             {
-                if (newPractice.totalConnections > clusters[j].min && newPractice.totalConnections < clusters[j].max)
+                if (newPractice.totalConnections > clusters[j].min && newPractice.totalConnections <= clusters[j].max)
                 {
                     clusters[j].categories.Add(newPractice.category);
                     newPractice.setPosition(clusters[j].center + clusters[j].getOffsetVector(newPractice));
@@ -97,12 +99,12 @@ public class PracticesAndStrategies : MonoBehaviour
         for (int i = 0; i < totalStrategies; i++)
         {
             CategoryView newStrategy = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
-            newStrategy.category = StrategiesId[i];
-            newStrategy.bootstrapStrategies();
+            newStrategy.bootstrapStrategies(StrategiesId[i]);
+            newStrategy.setRadius(mapValues(newStrategy.totalConnections, minConnections, maxConnections, 10, 80));
 
             for (int j = 0; j < clusters.Count; j++)
             {
-                if (newStrategy.totalConnections > clusters[j].min && newStrategy.totalConnections < clusters[j].max)
+                if (newStrategy.totalConnections > clusters[j].min && newStrategy.totalConnections <= clusters[j].max)
                 {
                     clusters[j].categories.Add(newStrategy.category);
                     newStrategy.setPosition(clusters[j].center + clusters[j].getOffsetVector(newStrategy));
@@ -110,7 +112,12 @@ public class PracticesAndStrategies : MonoBehaviour
                 }
             }
 
-            strategiesViews.Add(StrategiesId[i].id, newStrategy);
+            strategiesViews.Add(StrategiesId[i], newStrategy);
+        }
+
+        for (int j = 0; j < clusters.Count; j++)
+        {
+            Debug.Log(clusters[j].categories.Count);
         }
 
         //PAPERS
