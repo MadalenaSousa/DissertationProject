@@ -81,6 +81,8 @@ public class Database : MonoBehaviour
 
     public int getMaxConnPS()
     {
+        Debug.Log("MAX P: " + getMaxConnPractices());
+        Debug.Log("MAX S: " + getMaxConnStrategies());
         return Math.Max(getMaxConnPractices(), getMaxConnStrategies());
     }
 
@@ -112,6 +114,57 @@ public class Database : MonoBehaviour
         IDbCommand _command = _connection.CreateCommand();
 
         string sqlQuery = "SELECT MAX(count) FROM(SELECT strategies_id, COUNT(*) as count FROM account_strategies LEFT JOIN paper_account WHERE account_strategies.account_id = paper_account.account_id GROUP BY strategies_id)";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int max = 0;
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                max = reader.GetInt32(0);
+            }
+        }
+
+        return max;
+    }
+
+    public int getMinConnPS()
+    {
+        return Math.Min(getMinConnPractices(), getMinConnStrategies());
+    }
+
+    private int getMinConnPractices()
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT MIN(count) FROM(SELECT practices_id, COUNT(*) as count FROM practices_account LEFT JOIN paper_account WHERE practices_account.account_id = paper_account.account_id GROUP BY practices_id)";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int max = 0;
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                max = reader.GetInt32(0);
+            }
+        }
+
+        return max;
+    }
+
+    private int getMinConnStrategies()
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT MIN(count) FROM(SELECT strategies_id, COUNT(*) as count FROM account_strategies LEFT JOIN paper_account WHERE account_strategies.account_id = paper_account.account_id GROUP BY strategies_id)";
 
         _command.CommandText = sqlQuery;
 
@@ -268,23 +321,23 @@ public class Database : MonoBehaviour
         return strategy;
     }
 
-    public List<Strategy> getStrategies()
+    public List<int> getStrategies()
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT strategies.id, strategies.name FROM strategies";
+        string sqlQuery = "SELECT strategies.id FROM strategies";
 
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
 
-        List<Strategy> strategies = new List<Strategy>();
+        List<int> strategies = new List<int>();
 
         while (reader.Read())
         {
             if (!reader.IsDBNull(0))
             {
-                strategies.Add(new Strategy(reader.GetInt32(0), reader.GetString(1)));
+                strategies.Add(reader.GetInt32(0));
             }
         }
 
@@ -355,11 +408,15 @@ public class Database : MonoBehaviour
         return papers;
     }
 
-    public List<Paper> getPapersWithPractices()
+    public List<Paper> getPapersForPracticeById(int practiceId)
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT DISTINCT paper_account.paper_id  FROM paper_account, practices_account WHERE practices_account.account_id = paper_account.account_id";
+        string sqlQuery = "SELECT DISTINCT paper_id"
+                        + " FROM paper"
+                        + " LEFT JOIN paper_account ON paper.id = paper_account.paper_id"
+                        + " LEFT JOIN practices_account ON paper_account.account_id = practices_account.account_id"
+                        + " WHERE practices_account.practices_id = " + practiceId;
 
         _command.CommandText = sqlQuery;
 
@@ -378,23 +435,27 @@ public class Database : MonoBehaviour
         return papers;
     }
 
-    public List<int> getPapersWithStrategies()
+    public List<Paper> getPapersForStrategyById(int strategyId)
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT DISTINCT paper_account.paper_id  FROM paper_account, account_strategies WHERE account_strategies.account_id = paper_account.account_id";
+        string sqlQuery = "SELECT DISTINCT paper_id"
+                + " FROM paper"
+                + " LEFT JOIN paper_account ON paper.id = paper_account.paper_id"
+                + " LEFT JOIN account_strategies ON paper_account.account_id = account_strategies.account_id"
+                + " WHERE account_strategies.strategies_id = " + strategyId;
 
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
 
-        List<int> papers = new List<int>();
+        List<Paper> papers = new List<Paper>();
 
         while (reader.Read())
         {
             if (!reader.IsDBNull(0))
             {
-                papers.Add(reader.GetInt32(0));
+                papers.Add(getPaperById(reader.GetInt32(0)));
             }
         }
 
