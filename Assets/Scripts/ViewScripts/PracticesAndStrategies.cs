@@ -44,6 +44,10 @@ public class PracticesAndStrategies : MonoBehaviour
     int clusterConnInterval, totalClusters;
     List<Cluster> clusters = new List<Cluster>();
 
+    //Other
+    public int minNodeRadius, masNodeRadius;
+    public int globalSphereRadius;
+
     private void Awake()
     {
         if (instance == null)
@@ -55,6 +59,9 @@ public class PracticesAndStrategies : MonoBehaviour
     void Start()
     {
         db = Database.instance;
+        minNodeRadius = 10;
+        masNodeRadius = 80;
+        globalSphereRadius = 500;
 
         //CLUSTERS
         int maxConnections = db.getMaxConnPS();

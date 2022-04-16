@@ -8,29 +8,27 @@ public class Cluster
     public List<Category> categories = new List<Category>();
     public Vector3 center;
     public int avg;
+    public int offsetMulti = 20;
 
     public Cluster(int min, int max)
     {
-        //this.categories = clusterCategories;
         this.min = min;
         this.max = max;
 
-        center = Random.insideUnitSphere * 500;
+        center = Random.insideUnitSphere * PracticesAndStrategies.instance.globalSphereRadius;
         avg = (min + max) / 2;
     }
 
     public Vector3 getOffsetVector(CategoryView category)
     {
-        int xOffset = Mathf.Abs(category.totalConnections - avg) * getRandom(-1, 1);
-        int yOffset = Mathf.Abs(category.totalConnections - avg) * getRandom(-1, 1);
-        int zOffset = Mathf.Abs(category.totalConnections - avg) * getRandom(-1, 1);
-
-        return new Vector3(xOffset, yOffset, zOffset);
+        int offsetRadius = Mathf.Abs(category.totalConnections - avg) * offsetMulti;
+        
+        return (Random.insideUnitSphere * offsetRadius);
     }
 
     public int getRandom(int first, int second)
     {
-        if (UnityEngine.Random.value < 0.5f)
+        if (Random.value < 0.5f)
         {
             return first;
         }

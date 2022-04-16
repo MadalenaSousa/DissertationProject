@@ -19,12 +19,13 @@ public class PaperView :  MonoBehaviour
 
     //Variables
     public List<Connection> connections;
+    public int globalSphereRadius;
 
     public void bootstrap(int id)
     {
         paper = Database.instance.getPaperById(id); //Set paper data
-        
-        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 500; //Set visual characteristics
+        globalSphereRadius = PracticesAndStrategies.instance.globalSphereRadius;
+        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * globalSphereRadius; //Set visual characteristics
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.white;
 
         titleBox.GetComponent<Text>().text = this.paper.title; //Set UI
