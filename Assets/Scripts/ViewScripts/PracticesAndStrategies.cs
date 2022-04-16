@@ -31,7 +31,7 @@ public class PracticesAndStrategies : MonoBehaviour
     public GameObject parentObject;
 
     public GameObject NodePrefab;
-    List<PaperView> papers = new List<PaperView>();
+    public List<PaperView> papers = new List<PaperView>();
 
     public GameObject CategoryPrefab;
 

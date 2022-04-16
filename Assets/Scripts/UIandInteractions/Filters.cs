@@ -39,12 +39,8 @@ public class Filters : MonoBehaviour
         db = Database.instance;
         bv = PracticesAndStrategies.instance;
         
-        authorsFromDB = db.getAllInTable("author");
-        foreach (KeyValuePair<int, string> author in authorsFromDB)
-        {
-            allAuthors.Add(author.Value);
-        }
-
+        //AUTHORS
+        allAuthors = db.getPSAuthors();
         authorSearch.SetAvailableOptions(allAuthors);
         authorOptions = authorOptionlist.GetComponentsInChildren<Button>();
 
@@ -53,11 +49,8 @@ public class Filters : MonoBehaviour
             authorOptions[i].onClick.AddListener(filterByAuthor);
         }
 
-        journalsFromDB = db.getAllInTable("puboutlet");
-        foreach (KeyValuePair<int, string> journal in journalsFromDB)
-        {
-            allJournals.Add(journal.Value);
-        }
+        //PUB OUTLET
+        allJournals = db.getPSJournals();
 
         journalSearch.SetAvailableOptions(allJournals.Distinct().ToList());   
         journalOptions = journalOptionList.GetComponentsInChildren<Button>();
