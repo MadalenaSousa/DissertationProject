@@ -27,6 +27,13 @@ public class Filters : MonoBehaviour
     List<string> allJournals = new List<string>();
     Dictionary<int, string> journalsFromDB = new Dictionary<int, string>();
 
+    //Institution Filter UI
+    public AutoCompleteComboBox instSearch;
+    public GameObject instOptionList;
+    Button[] instOptions;
+    List<string> allInstitutions = new List<string>();
+    Dictionary<int, string> instFromDB = new Dictionary<int, string>();
+
     //Year Interval UI
     public InputField minInput, maxInput;
     public Button triggerFilter;
@@ -49,10 +56,10 @@ public class Filters : MonoBehaviour
             authorOptions[i].onClick.AddListener(filterByAuthor);
         }
 
-        //PUB OUTLET
+        //PUB OUTLETS
         allJournals = db.getPSJournals();
 
-        journalSearch.SetAvailableOptions(allJournals.Distinct().ToList());   
+        journalSearch.SetAvailableOptions(allJournals);   
         journalOptions = journalOptionList.GetComponentsInChildren<Button>();
 
         for (int i = 0; i < journalOptions.Length; i++)
@@ -60,8 +67,21 @@ public class Filters : MonoBehaviour
             journalOptions[i].onClick.AddListener(filterByJournal);
         }
 
+        //INSTITUTIONS
+        allInstitutions = db.getPSInstitutions();
+
+        instSearch.SetAvailableOptions(allInstitutions);
+        instOptions = instOptionList.GetComponentsInChildren<Button>();
+
+        for (int i = 0; i < instOptions.Length; i++)
+        {
+            instOptions[i].onClick.AddListener(filterByInstitution);
+        }
+
+        //YEAR
         triggerFilter.onClick.AddListener(filterByYearInterval);
 
+        //--
         resetFilters.onClick.AddListener(bv.resetPapers);
     }
 
@@ -91,5 +111,10 @@ public class Filters : MonoBehaviour
     public void filterByJournal()
     {
         bv.deactivatePapers(2, journalSearch.Text);
+    }
+
+    public void filterByInstitution()
+    {
+        bv.deactivatePapers(3, instSearch.Text);
     }
 }

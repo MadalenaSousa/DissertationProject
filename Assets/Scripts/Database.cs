@@ -258,7 +258,13 @@ public class Database : MonoBehaviour
         }
         else if (type == 3)
         {
-            sqlQuery = "SELECT author_paper.paper_id  FROM author_paper, author_institution, institution WHERE author_paper.author_id = author_institution.author_id AND author_institution.institution_id = institution.id AND institution.name LIKE '%" + name + "%'";
+            sqlQuery = "SELECT DISTINCT author_paper.paper_id " +
+                        "FROM author_paper " +
+                        "LEFT JOIN author_institution ON author_institution.author_id = author_paper.author_id " +
+                        "LEFT JOIN institution ON institution.id = author_institution.institution_id " +
+                        "WHERE author_paper.author_id = author_institution.author_id " +
+                        "AND author_institution.institution_id = institution.id " +
+                        "AND institution.name LIKE '%" + name + "%'";
         }
 
         _command.CommandText = sqlQuery;
