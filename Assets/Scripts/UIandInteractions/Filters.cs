@@ -18,7 +18,6 @@ public class Filters : MonoBehaviour
     public GameObject authorOptionlist;
     Button[] authorOptions;
     List<string> allAuthors = new List<string>();
-    Dictionary<int, string> authorsFromDB = new Dictionary<int, string>();
 
     //Journal Filter UI
     public AutoCompleteComboBox journalSearch;
@@ -32,7 +31,6 @@ public class Filters : MonoBehaviour
     public GameObject instOptionList;
     Button[] instOptions;
     List<string> allInstitutions = new List<string>();
-    Dictionary<int, string> instFromDB = new Dictionary<int, string>();
 
     //Year Interval UI
     public InputField minInput, maxInput;
