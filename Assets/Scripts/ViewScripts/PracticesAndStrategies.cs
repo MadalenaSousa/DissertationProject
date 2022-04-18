@@ -150,7 +150,7 @@ public class PracticesAndStrategies : MonoBehaviour
                 newConnection.setConnection(newPaper, strategiesViews[paperStrategy.id]);
                 connections.Add(newConnection);
             }
-
+            
             foreach (Practice paperPractice in newPaper.paper.practice)
             {
                 ConnectionView newConnection = Instantiate(ConnectionPrefab, parentObject.transform).GetComponent<ConnectionView>();
