@@ -64,5 +64,6 @@ public class CategoryView : MonoBehaviour
     {
         gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale + new Vector3(radius, radius, radius);
     }
+
 }
  

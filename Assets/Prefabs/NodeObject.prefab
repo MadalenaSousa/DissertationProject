@@ -323,6 +323,7 @@ MonoBehaviour:
   titleBox: {fileID: 3635370564300296530}
   canvas: {fileID: 588245091821199680}
   mousePressed: 0
+  globalSphereRadius: 0
 --- !u!135 &3156612648459487927
 SphereCollider:
   m_ObjectHideFlags: 0

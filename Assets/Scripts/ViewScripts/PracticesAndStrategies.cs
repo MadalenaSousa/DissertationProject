@@ -144,11 +144,19 @@ public class PracticesAndStrategies : MonoBehaviour
 
             papers.Add(newPaper);
 
+            float xSum = 0;
+            float ySum = 0;
+            float zSum = 0;
+
             foreach (Strategy paperStrategy in newPaper.paper.strategy)
             {
                 ConnectionView newConnection = Instantiate(ConnectionPrefab, parentObject.transform).GetComponent<ConnectionView>();
                 newConnection.setConnection(newPaper, strategiesViews[paperStrategy.id]);
                 connections.Add(newConnection);
+
+                xSum += strategiesViews[paperStrategy.id].transform.position.x;
+                ySum += strategiesViews[paperStrategy.id].transform.position.y;
+                zSum += strategiesViews[paperStrategy.id].transform.position.z;
             }
             
             foreach (Practice paperPractice in newPaper.paper.practice)
@@ -156,7 +164,16 @@ public class PracticesAndStrategies : MonoBehaviour
                 ConnectionView newConnection = Instantiate(ConnectionPrefab, parentObject.transform).GetComponent<ConnectionView>();
                 newConnection.setConnection(newPaper, practicesViews[paperPractice.id]);
                 connections.Add(newConnection);
+
+                xSum += practicesViews[paperPractice.id].transform.position.x;
+                ySum += practicesViews[paperPractice.id].transform.position.y;
+                zSum += practicesViews[paperPractice.id].transform.position.z;
             }
+
+            int totalPaperCategories = newPaper.connections.Count;
+            Vector3 paperPos = new Vector3(xSum/totalPaperCategories, ySum / totalPaperCategories, zSum / totalPaperCategories);
+
+            newPaper.setPosition(paperPos);
         }
 
         //OTHER
