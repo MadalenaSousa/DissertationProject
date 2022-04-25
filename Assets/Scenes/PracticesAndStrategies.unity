@@ -7388,7 +7388,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1867943442}
         m_TargetAssemblyTypeName: Movement, Assembly-CSharp
         m_MethodName: resetPosition
         m_Mode: 1
