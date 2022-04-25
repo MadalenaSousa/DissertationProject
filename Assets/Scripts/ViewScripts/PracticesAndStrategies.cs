@@ -24,6 +24,7 @@ public class PracticesAndStrategies : MonoBehaviour
     public Text puboutletname;
     public Text puboutleturl;
     public Text puboutletissn;
+    public Text paperYear;
     public GameObject authorPanel;
     public GameObject authorPrefab;
 
@@ -66,7 +67,7 @@ public class PracticesAndStrategies : MonoBehaviour
         //CLUSTERS
         int maxConnections = db.getMaxConnPS();
         int minConnections = db.getMinConnPS();
-        totalClusters = 40;
+        totalClusters = 80;
         clusterConnInterval = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(maxConnections) / Convert.ToDouble(totalClusters)));
 
         for (int i = 0; i <= totalClusters; i++)
@@ -255,6 +256,7 @@ public class PracticesAndStrategies : MonoBehaviour
                 puboutletname.text = paperView.paper.publication_outlet.name;
                 puboutleturl.text = paperView.paper.publication_outlet.url;
                 puboutletissn.text = paperView.paper.publication_outlet.issn;
+                paperYear.text = paperView.paper.date;
 
                 for (int j = 0; j < paperView.paper.author.Count; j++)
                 {
