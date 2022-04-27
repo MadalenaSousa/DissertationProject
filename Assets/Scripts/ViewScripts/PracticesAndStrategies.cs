@@ -48,6 +48,7 @@ public class PracticesAndStrategies : MonoBehaviour
     //Other
     public int minNodeRadius, masNodeRadius;
     public int globalSphereRadius;
+    public bool isClicking = false;
 
     private void Awake()
     {
@@ -189,6 +190,20 @@ public class PracticesAndStrategies : MonoBehaviour
     {
         openPopUp();
         updateConnections();
+
+        if (isClicking)
+        {
+            Debug.Log("Clicking...");
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            isClicking = true;
+        } 
+        else if(Input.GetMouseButtonUp(0))
+        {
+            isClicking = false;
+        }
     }
 
     private void updateConnections()
