@@ -138,6 +138,7 @@ public class Database : MonoBehaviour
     private int getMinConnPractices()
     {
         IDbCommand _command = _connection.CreateCommand();
+
         string sqlQuery = "SELECT MIN(count) " +
                         "FROM(" +
                             "SELECT practices_id, COUNT(*) as count " +
@@ -895,28 +896,28 @@ public class Database : MonoBehaviour
             {
                 int authorid = getAuthorByOpenAlexId((string)authors[j]["openalexid"], (string)authors[j]["name"]);
 
-                if (authorid == -1) // se n√£o existir author j√° com id com o mesmo open alex id que o autor j nem com o mesmo nome
+                if (authorid == -1) // se n„o existir author j· com id com o mesmo open alex id que o autor j nem com o mesmo nome
                 {
-                    if ((string)authors[j]["openalexid"] == null) // se ele n√£o tiver open alex id
+                    if ((string)authors[j]["openalexid"] == null) // se ele n„o tiver open alex id
                     {
-                        insertDataSQLite("author", "name", String.Format("'{0}'", authors[j]["name"])); // crio e d√° uma auto id
+                        insertDataSQLite("author", "name", String.Format("'{0}'", authors[j]["name"])); // crio e d· uma auto id
                     }
                     else // se tiver open alex id
                     {
-                        insertDataSQLite("author", "name, openalexid", String.Format("'{0}', '{1}'", authors[j]["name"], authors[j]["openalexid"])); // crio e d√° uma auto id e guarda a nova openalexid
+                        insertDataSQLite("author", "name, openalexid", String.Format("'{0}', '{1}'", authors[j]["name"], authors[j]["openalexid"])); // crio e d· uma auto id e guarda a nova openalexid
                     }
 
-                    authorid = getAuthorByOpenAlexId((string)authors[j]["openalexid"], (string)authors[j]["name"]); // guardo o id novo do autor para meter na tabela de rela√ß√£o
+                    authorid = getAuthorByOpenAlexId((string)authors[j]["openalexid"], (string)authors[j]["name"]); // guardo o id novo do autor para meter na tabela de relaÁ„o
                 }
 
-                insertDataSQLite("author_paper", "author_id, paper_id", String.Format("{0}, {1}", authorid, paperid)); // insiro dados na tabela de rela√ß√£o
+                insertDataSQLite("author_paper", "author_id, paper_id", String.Format("{0}, {1}", authorid, paperid)); // insiro dados na tabela de relaÁ„o
 
                 // INSTITUTIONS
                 if (authors[j]["institution"] != null && authors[j]["institution"].ToString().Length > 0)
                 {
                     int institutionid = getInstitutionByOpenAlexId((string)authors[j]["institution"]["openalexid"], (string)authors[j]["institution"]["name"]);
 
-                    if (institutionid == -1) // se n√£o existir uma institui√ß√£o com o mesmo nome nem com o mesmo openalex eu crio e crio a rela√ß√£o autor institui√ß√£o
+                    if (institutionid == -1) // se n„o existir uma instituiÁ„o com o mesmo nome nem com o mesmo openalex eu crio e crio a relaÁ„o autor instituiÁ„o
                     {
                         if ((string)authors[j]["institution"]["countrycode"] == null)
                         {
@@ -935,9 +936,9 @@ public class Database : MonoBehaviour
 
                         insertDataSQLite("author_institution", "author_id, institution_id", String.Format("{0}, {1}", authorid, institutionid));
                     }
-                    else // se a institui√ß√£o j√° existe
+                    else // se a instituiÁ„o j· existe
                     {
-                        if (!checkAuthorInstRelation(authorid, institutionid)) // se o autor n√£o tiver uma rela√ß√£o com essa institui√ß√£o eu crio
+                        if (!checkAuthorInstRelation(authorid, institutionid)) // se o autor n„o tiver uma relaÁ„o com essa instituiÁ„o eu crio
                         {
                             insertDataSQLite("author_institution", "author_id, institution_id", String.Format("{0}, {1}", authorid, institutionid));
                         }

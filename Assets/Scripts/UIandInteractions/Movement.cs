@@ -7,7 +7,7 @@ public class Movement : MonoBehaviour
     Vector3 initialPos;
     Quaternion initialRot;
 
-    //public Transform target;
+    public Transform target;
 
     private void Start()
     {
