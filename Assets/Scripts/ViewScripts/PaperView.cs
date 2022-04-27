@@ -20,6 +20,7 @@ public class PaperView :  MonoBehaviour
     //Variables
     public List<Connection> connections;
     public int globalSphereRadius;
+    public List<ConnectionView> conns;
 
     public void bootstrap(int id)
     {
@@ -74,11 +75,26 @@ public class PaperView :  MonoBehaviour
     private void OnMouseEnter()
     {
         this.canvas.SetActive(true);
+
+        for(int i = 0; i < conns.Count; i++)
+        {
+            conns[i].lineThickness(1);
+        }
     }
 
     private void OnMouseExit()
     {
         this.canvas.SetActive(false);
+
+        for (int i = 0; i < conns.Count; i++)
+        {
+            conns[i].lineThickness(0.05f);
+        }
+    }
+
+    public void setRadius(float radius)
+    {
+        gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale + new Vector3(radius, radius, radius);
     }
 }
 

@@ -142,6 +142,7 @@ public class PracticesAndStrategies : MonoBehaviour
         {
             PaperView newPaper = Instantiate(NodePrefab, parentObject.transform).GetComponent<PaperView>();
             newPaper.bootstrap(PSPapersId[i]);
+            newPaper.setRadius(newPaper.connections.Count);
 
             papers.Add(newPaper);
 
@@ -154,6 +155,7 @@ public class PracticesAndStrategies : MonoBehaviour
                 ConnectionView newConnection = Instantiate(ConnectionPrefab, parentObject.transform).GetComponent<ConnectionView>();
                 newConnection.setConnection(newPaper, strategiesViews[paperStrategy.id]);
                 connections.Add(newConnection);
+                newPaper.conns.Add(newConnection);
 
                 xSum += strategiesViews[paperStrategy.id].transform.position.x;
                 ySum += strategiesViews[paperStrategy.id].transform.position.y;
@@ -165,13 +167,14 @@ public class PracticesAndStrategies : MonoBehaviour
                 ConnectionView newConnection = Instantiate(ConnectionPrefab, parentObject.transform).GetComponent<ConnectionView>();
                 newConnection.setConnection(newPaper, practicesViews[paperPractice.id]);
                 connections.Add(newConnection);
+                newPaper.conns.Add(newConnection);
 
                 xSum += practicesViews[paperPractice.id].transform.position.x;
                 ySum += practicesViews[paperPractice.id].transform.position.y;
                 zSum += practicesViews[paperPractice.id].transform.position.z;
             }
 
-            int totalPaperCategories = newPaper.connections.Count;
+            int totalPaperCategories = newPaper.conns.Count;
             Vector3 paperPos = new Vector3(xSum/totalPaperCategories, ySum / totalPaperCategories, zSum / totalPaperCategories);
 
             newPaper.setPosition(paperPos);
