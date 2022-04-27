@@ -23,7 +23,7 @@ public class CategoryView : MonoBehaviour
         category = Database.instance.getPracticeById(id); //Set category data
         associatedPapers = Database.instance.getPapersForPracticeById(id);
         totalConnections = associatedPapers.Count; //Set total connections
-
+        
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.cyan;
 
         titleBox.GetComponent<Text>().text = this.category.name; //Set UI
@@ -34,7 +34,7 @@ public class CategoryView : MonoBehaviour
         category = Database.instance.getStrategyById(id); //Set category data
         associatedPapers = Database.instance.getPapersForStrategyById(id);
         totalConnections = associatedPapers.Count; //Set total connections
-
+        
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.yellow;
 
         titleBox.GetComponent<Text>().text = this.category.name; //Set UI

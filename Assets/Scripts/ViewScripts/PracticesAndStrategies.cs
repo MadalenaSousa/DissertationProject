@@ -149,7 +149,7 @@ public class PracticesAndStrategies : MonoBehaviour
             float xSum = 0;
             float ySum = 0;
             float zSum = 0;
-
+            
             foreach (Strategy paperStrategy in newPaper.paper.strategy)
             {
                 ConnectionView newConnection = Instantiate(ConnectionPrefab, parentObject.transform).GetComponent<ConnectionView>();
