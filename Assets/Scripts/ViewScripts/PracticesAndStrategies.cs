@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 using System.Linq;
+using Cinemachine;
 
 public class PracticesAndStrategies : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class PracticesAndStrategies : MonoBehaviour
     public int minNodeRadius, masNodeRadius;
     public int globalSphereRadius;
     public bool isClicking = false;
+    public CinemachineFreeLook cineCam;
 
     private void Awake()
     {
@@ -193,7 +195,11 @@ public class PracticesAndStrategies : MonoBehaviour
 
         if (isClicking)
         {
-            Debug.Log("Clicking...");
+            cineCam.gameObject.SetActive(true);
+        }
+        else
+        {
+            cineCam.gameObject.SetActive(false);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -203,6 +209,22 @@ public class PracticesAndStrategies : MonoBehaviour
         else if(Input.GetMouseButtonUp(0))
         {
             isClicking = false;
+        }
+    }
+
+    private float getAxisInput(string axis)
+    {
+        if(axis == "y")
+        {
+            return Input.GetAxis("Mouse Y");
+        } 
+        else if(axis == "x")
+        {
+            return Input.GetAxis("Mouse X");
+        } 
+        else
+        {
+            return 0;
         }
     }
 
