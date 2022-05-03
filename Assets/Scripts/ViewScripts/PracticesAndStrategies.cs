@@ -32,6 +32,13 @@ public class PracticesAndStrategies : MonoBehaviour
     public GameObject strategiesPanel;
     public GameObject categoryNamePrefab;
 
+    public GameObject catPopUp;
+    public Button closeCatPopUpButton;
+    public Text catName;
+    public Text catConns;
+    public Text catInterval;
+
+
     //Visual Objects
     public GameObject parentObject;
 
@@ -73,7 +80,7 @@ public class PracticesAndStrategies : MonoBehaviour
         //CLUSTERS
         int maxConnections = db.getMaxConnPS();
         int minConnections = db.getMinConnPS();
-        totalClusters = 80;
+        totalClusters = 50;
         clusterConnInterval = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(maxConnections) / Convert.ToDouble(totalClusters)));
 
         for (int i = 0; i <= totalClusters; i++)
@@ -188,12 +195,14 @@ public class PracticesAndStrategies : MonoBehaviour
 
         //OTHER
         closePopUpButton.onClick.AddListener(closePopUp);
+        closeCatPopUpButton.onClick.AddListener(closeCatPopUp);
 
     }
 
     private void Update()
     {
         openPopUp();
+        openCatPopUp();
         updateConnections();
 
         if (isClicking)
@@ -265,6 +274,21 @@ public class PracticesAndStrategies : MonoBehaviour
         popUp.SetActive(false);
     }
 
+    public void closeCatPopUp()
+    {
+        foreach (KeyValuePair<int, CategoryView> strategy in strategiesViews)
+        {
+            strategy.Value.mousePressed = false;
+        }
+
+        foreach (KeyValuePair<int, CategoryView> practice in practicesViews)
+        {
+            practice.Value.mousePressed = false;
+        }
+
+        catPopUp.SetActive(false);
+    }
+
     public int MaxValue(int[] intArray)
     {
         int max = intArray[0];
@@ -318,6 +342,67 @@ public class PracticesAndStrategies : MonoBehaviour
                 }
 
                 paperView.mousePressed = false;
+
+                break;
+            }
+        }
+    }
+
+    public void openCatPopUp()
+    {
+        foreach (KeyValuePair<int, CategoryView> strategy in strategiesViews)
+        {
+            if (strategy.Value.mousePressed)
+            {
+                catPopUp.SetActive(true);
+
+                catName.text = strategy.Value.category.name;
+                catConns.text = strategy.Value.totalConnections.ToString();
+
+                int min = 0;
+                int max = 0;
+
+                for(int i = 0; i < clusters.Count; i++)
+                {
+                    if(clusters[i].categories.Contains(strategy.Value.category))
+                    {
+                        min = clusters[i].min;
+                        max = clusters[i].max;
+                    }
+                }
+
+                catInterval.text = "[ " + min + ", " + max + " ]";
+
+                strategy.Value.mousePressed = false;
+
+                break;
+            }
+        }
+
+        foreach (KeyValuePair<int, CategoryView> practice in practicesViews)
+        {
+            if (practice.Value.mousePressed)
+            {
+                catPopUp.SetActive(true);
+
+                catName.text = practice.Value.category.name;
+                catConns.text = practice.Value.totalConnections.ToString();
+
+                int min = 0;
+                int max = 0;
+
+                for (int i = 0; i < clusters.Count; i++)
+                {
+                    if (clusters[i].categories.Contains(practice.Value.category))
+                    {
+                        min = clusters[i].min;
+                        max = clusters[i].max;
+                    }
+                }
+
+                catInterval.text = "[ " + min + ", " + max + " ]";
+
+                practice.Value.mousePressed = false;
 
                 break;
             }

@@ -17,6 +17,7 @@ public class CategoryView : MonoBehaviour
     //Other Variables
     public int totalConnections = 0;
     public List<Paper> associatedPapers = new List<Paper>();
+    public bool mousePressed = false;
 
     public void bootstrapPractices(int id)
     {
@@ -63,6 +64,11 @@ public class CategoryView : MonoBehaviour
     public void setRadius(float radius)
     {
         gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale + new Vector3(radius, radius, radius);
+    }
+
+    private void OnMouseDown()
+    {
+        this.mousePressed = true;
     }
 
 }
