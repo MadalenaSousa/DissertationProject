@@ -166,9 +166,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 91ea7b04ba03e9c44bde6d7df8ff3b63, type: 3}
     m_FontSize: 50
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 50
@@ -324,6 +324,7 @@ MonoBehaviour:
   canvas: {fileID: 588245091821199680}
   mousePressed: 0
   globalSphereRadius: 0
+  conns: []
 --- !u!135 &3156612648459487927
 SphereCollider:
   m_ObjectHideFlags: 0

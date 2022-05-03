@@ -28,6 +28,9 @@ public class PracticesAndStrategies : MonoBehaviour
     public Text paperYear;
     public GameObject authorPanel;
     public GameObject authorPrefab;
+    public GameObject practicesPanel;
+    public GameObject strategiesPanel;
+    public GameObject categoryNamePrefab;
 
     //Visual Objects
     public GameObject parentObject;
@@ -247,6 +250,16 @@ public class PracticesAndStrategies : MonoBehaviour
             {
                 Destroy(child.gameObject);
             }
+
+            foreach (Transform child in practicesPanel.transform)
+            {
+                Destroy(child.gameObject);
+            }
+
+            foreach (Transform child in strategiesPanel.transform)
+            {
+                Destroy(child.gameObject);
+            }
         }
 
         popUp.SetActive(false);
@@ -288,6 +301,20 @@ public class PracticesAndStrategies : MonoBehaviour
                     GameObject authorView = Instantiate(authorPrefab, authorPanel.transform);
                     authorView.GetComponentsInChildren<Text>()[0].text = author.name;
                     authorView.GetComponentsInChildren<Text>()[1].text = author.institution.name;
+                }
+
+                for (int j = 0; j < paperView.paper.practice.Count; j++)
+                {
+                    Practice practice = paperView.paper.practice[j];
+                    GameObject practiceView = Instantiate(categoryNamePrefab, practicesPanel.transform);
+                    practiceView.GetComponentsInChildren<Text>()[0].text = practice.name;
+                }
+
+                for (int j = 0; j < paperView.paper.strategy.Count; j++)
+                {
+                    Strategy strategy = paperView.paper.strategy[j];
+                    GameObject strategyView = Instantiate(categoryNamePrefab, strategiesPanel.transform);
+                    strategyView.GetComponentsInChildren<Text>()[0].text = strategy.name;
                 }
 
                 paperView.mousePressed = false;
