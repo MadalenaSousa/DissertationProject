@@ -212,22 +212,6 @@ public class PracticesAndStrategies : MonoBehaviour
         }
     }
 
-    private float getAxisInput(string axis)
-    {
-        if(axis == "y")
-        {
-            return Input.GetAxis("Mouse Y");
-        } 
-        else if(axis == "x")
-        {
-            return Input.GetAxis("Mouse X");
-        } 
-        else
-        {
-            return 0;
-        }
-    }
-
     private void updateConnections()
     {
         foreach (ConnectionView connection in connections)
