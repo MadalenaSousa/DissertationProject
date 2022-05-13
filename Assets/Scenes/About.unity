@@ -1064,9 +1064,9 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'This prototype was built as one of the goals in the Immersive Learning
-    Brain overall project. Specifically, it was developed withing the scope of a
-    Multimedia Masters Dissertation, from the Faculty of Engineering from University
-    of Porto, whose resume/abstract is as follows:'
+    Brain overall project. This artifact was developed withing the scope of a Multimedia
+    Masters Dissertation, from the Faculty of Engineering from University of Porto,
+    whose resume/abstract is as follows:'
 --- !u!222 &771685960
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1303,7 +1303,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Open University
+  m_Text: Universidade Aberta
 --- !u!222 &1193347631
 CanvasRenderer:
   m_ObjectHideFlags: 0

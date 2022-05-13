@@ -56,6 +56,8 @@ public class PracticesAndStrategies : MonoBehaviour
     int clusterConnInterval, totalClusters;
     List<Cluster> clusters = new List<Cluster>();
 
+    public Transform cameraTarget;
+
     //Other
     public int minNodeRadius, masNodeRadius;
     public int globalSphereRadius;
@@ -188,7 +190,7 @@ public class PracticesAndStrategies : MonoBehaviour
             }
 
             int totalPaperCategories = newPaper.conns.Count;
-            Vector3 paperPos = new Vector3(xSum/totalPaperCategories, ySum / totalPaperCategories, zSum / totalPaperCategories);
+            Vector3 paperPos = new Vector3(xSum / totalPaperCategories, ySum / totalPaperCategories, zSum / totalPaperCategories);
 
             newPaper.setPosition(paperPos);
         }
@@ -204,6 +206,7 @@ public class PracticesAndStrategies : MonoBehaviour
         openPopUp();
         openCatPopUp();
         updateConnections();
+        lookAtCamera();
 
         if (isClicking)
         {
@@ -221,6 +224,19 @@ public class PracticesAndStrategies : MonoBehaviour
         else if(Input.GetMouseButtonUp(0))
         {
             isClicking = false;
+        }
+    }
+
+    private void lookAtCamera()
+    {
+        foreach (KeyValuePair<int, CategoryView> practice in practicesViews)
+        {
+            practice.Value.transform.rotation = cameraTarget.rotation;
+        }
+
+        foreach (KeyValuePair<int, CategoryView> strategy in strategiesViews)
+        {
+            strategy.Value.transform.rotation = cameraTarget.rotation;
         }
     }
 
@@ -415,13 +431,12 @@ public class PracticesAndStrategies : MonoBehaviour
 
         for (int i = 0; i < papers.Count; i++)
         {
-            if (results.Contains(papers[i].getId()))
+            if(papers[i].gameObject.activeInHierarchy)
             {
-                papers[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                papers[i].gameObject.SetActive(false);
+                if (!results.Contains(papers[i].getId()))
+                {
+                    papers[i].gameObject.SetActive(false);
+                }
             }
         }
     }
@@ -432,14 +447,13 @@ public class PracticesAndStrategies : MonoBehaviour
 
         for (int i = 0; i < papers.Count; i++)
         {
-            if (results.Contains(papers[i].getId()))
+            if (papers[i].gameObject.activeInHierarchy)
             {
-                papers[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                papers[i].gameObject.SetActive(false);
-            }
+                if (!results.Contains(papers[i].getId()))
+                {
+                    papers[i].gameObject.SetActive(false);
+                }
+            }            
         }
     }
 

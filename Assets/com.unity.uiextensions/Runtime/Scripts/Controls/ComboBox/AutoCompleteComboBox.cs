@@ -311,6 +311,9 @@ namespace UnityEngine.UI.Extensions
                 {
                     itemObjs[i].name = "Item " + i + " " + _panelItems[i];
                     itemObjs[i].transform.Find("Text").GetComponent<Text>().text = AvailableOptions[i]; //set the text value
+                    itemObjs[i].transform.Find("Text").GetComponent<Text>().resizeTextForBestFit = true;
+                    itemObjs[i].transform.Find("Text").GetComponent<Text>().resizeTextMaxSize = 12;
+                    itemObjs[i].transform.Find("Text").GetComponent<Text>().resizeTextMaxSize = 6;
 
                     Button itemBtn = itemObjs[i].GetComponent<Button>();
                     itemBtn.onClick.RemoveAllListeners();
