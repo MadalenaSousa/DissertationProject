@@ -2469,7 +2469,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Filter Papers
+  m_text: Apply Filter
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3e75db7c8030d174b80cc43b94d22c21, type: 2}
   m_sharedMaterial: {fileID: 8675659877228184033, guid: 3e75db7c8030d174b80cc43b94d22c21,
