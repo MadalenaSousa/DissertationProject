@@ -285,7 +285,7 @@ public class Database : MonoBehaviour
         return papers;
     }
 
-    public List<int> filter(string author, string journal, string institution)
+    public List<int> filter(string author, string journal, string institution, int yearMin, int yearMax)
     {
         IDbCommand _command = _connection.CreateCommand();
 
@@ -299,7 +299,8 @@ public class Database : MonoBehaviour
                             "LEFT JOIN institution ON institution.id = author_institution.institution_id " +
                             "WHERE(author.name LIKE '%" + (author ?? "") + "%'" + (author == null ? " OR author.name IS NULL" : "") + ")" +
                             "AND(puboutlet.name LIKE '%" + (journal ?? "") + "%'" + (journal == null ? " OR puboutlet.name IS NULL" : "") + ")" +
-                            "AND(institution.name LIKE '%" + (institution ?? "") + "%'" + (institution == null ? " OR institution.name IS NULL" : "") + ")";
+                            "AND(institution.name LIKE '%" + (institution ?? "") + "%'" + (institution == null ? " OR institution.name IS NULL" : "") + ")" +
+                            "AND paper.pubyear >=" + yearMin + " AND paper.pubyear <=" + yearMax;
 
         _command.CommandText = sqlQuery;
 

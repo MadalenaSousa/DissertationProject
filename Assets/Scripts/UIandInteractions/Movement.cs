@@ -6,13 +6,13 @@ using Cinemachine;
 public class Movement : MonoBehaviour
 {
     Vector3 initialPos;
-    Quaternion initialRot;
     private CinemachineFreeLook.Orbit[] originalOrbits;
     private CinemachineFreeLook freelook;
 
     private void Start()
     {
         freelook = this.transform.GetComponent<CinemachineFreeLook>();
+        initialPos = freelook.transform.position;
 
         originalOrbits = new CinemachineFreeLook.Orbit[freelook.m_Orbits.Length];
         
@@ -32,6 +32,7 @@ public class Movement : MonoBehaviour
         originalOrbits[1].m_Radius = 800;
         originalOrbits[2].m_Radius = 400;
 
+        freelook.transform.position = new Vector3(0, 0, -800);
     }
 
     public void Zoom(float zoom)

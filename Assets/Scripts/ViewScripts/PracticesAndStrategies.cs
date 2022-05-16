@@ -224,6 +224,8 @@ public class PracticesAndStrategies : MonoBehaviour
         {
             cineCam.m_YAxis.m_InputAxisName = "";
             cineCam.m_XAxis.m_InputAxisName = "";
+            cineCam.m_YAxis.m_InputAxisValue = 0;
+            cineCam.m_XAxis.m_InputAxisValue = 0;
         }
     }
 

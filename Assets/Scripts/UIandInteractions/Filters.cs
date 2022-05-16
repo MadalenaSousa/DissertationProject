@@ -81,7 +81,7 @@ public class Filters : MonoBehaviour
         }
 
         //YEAR
-        triggerFilter.onClick.AddListener(filterByYearInterval);
+        triggerFilter.onClick.AddListener(filterPapers);
     }
 
     public void filterByYearInterval()
@@ -118,7 +118,8 @@ public class Filters : MonoBehaviour
         }
         else if (filter == "year")
         {
-            //to be done
+            minInput.text = "";
+            maxInput.text = "";
         }
 
         filterPapers();
@@ -129,9 +130,22 @@ public class Filters : MonoBehaviour
         bool isAllActive = true;
         List<int> results = new List<int>();
 
-        if (authorSearch.Text != null || journalSearch.Text != null || instSearch.Text != null)
+        int min = -1;
+        int max = DateTime.Now.Year + 1;
+
+        if (!string.IsNullOrEmpty(minInput.text))
         {
-            results = db.filter(authorSearch.Text, journalSearch.Text, instSearch.Text);
+            min = int.Parse(minInput.text);
+        }
+
+        if (!string.IsNullOrEmpty(maxInput.text))
+        {
+            max = int.Parse(maxInput.text);
+        }
+
+        if (authorSearch.Text != null || journalSearch.Text != null || instSearch.Text != null || min > 1000 || max < DateTime.Now.Year)
+        {
+            results = db.filter(authorSearch.Text, journalSearch.Text, instSearch.Text, min, max);
             isAllActive = false;
         }
 
