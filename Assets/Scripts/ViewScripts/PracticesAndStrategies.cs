@@ -189,8 +189,17 @@ public class PracticesAndStrategies : MonoBehaviour
 
             int totalPaperCategories = newPaper.conns.Count;
             Vector3 paperPos = new Vector3(xSum / totalPaperCategories, ySum / totalPaperCategories, zSum / totalPaperCategories);
-
-            newPaper.setPosition(paperPos);
+            
+            if(newPaper.conns.Count <= 1)
+            {
+                Vector3 altPos = paperPos + (UnityEngine.Random.insideUnitSphere * 80);
+                newPaper.setPosition(altPos);             
+            } 
+            else
+            {
+                newPaper.setPosition(paperPos);
+            }
+           
         }
 
         //OTHER
@@ -206,22 +215,15 @@ public class PracticesAndStrategies : MonoBehaviour
         updateConnections();
         lookAtCamera();
 
-        if (isClicking)
-        {
-            cineCam.gameObject.SetActive(true);
-        }
-        else
-        {
-            cineCam.gameObject.SetActive(false);
-        }
-
         if (Input.GetMouseButtonDown(0))
         {
-            isClicking = true;
+            cineCam.m_YAxis.m_InputAxisName = "Mouse Y";
+            cineCam.m_XAxis.m_InputAxisName = "Mouse X";
         } 
         else if(Input.GetMouseButtonUp(0))
         {
-            isClicking = false;
+            cineCam.m_YAxis.m_InputAxisName = "";
+            cineCam.m_XAxis.m_InputAxisName = "";
         }
     }
 
@@ -235,6 +237,11 @@ public class PracticesAndStrategies : MonoBehaviour
         foreach (KeyValuePair<int, CategoryView> strategy in strategiesViews)
         {
             strategy.Value.transform.rotation = cameraTarget.rotation;
+        }
+
+        foreach(PaperView papers in papers)
+        {
+            papers.transform.rotation = cameraTarget.rotation;
         }
     }
 
@@ -422,45 +429,4 @@ public class PracticesAndStrategies : MonoBehaviour
             }
         }
     }
-
-    public void deactivatePapers(int type, string name)
-    {
-        List<int> results = db.filterByAuthorJournalInstitution(type, name);
-
-        for (int i = 0; i < papers.Count; i++)
-        {
-            if(papers[i].gameObject.activeInHierarchy)
-            {
-                if (!results.Contains(papers[i].getId()))
-                {
-                    papers[i].gameObject.SetActive(false);
-                }
-            }
-        }
-    }
-
-    public void deactivatePapersByYear(int min, int max)
-    {
-        List<int> results = db.getPapersByYearInterval(min, max);
-
-        for (int i = 0; i < papers.Count; i++)
-        {
-            if (papers[i].gameObject.activeInHierarchy)
-            {
-                if (!results.Contains(papers[i].getId()))
-                {
-                    papers[i].gameObject.SetActive(false);
-                }
-            }            
-        }
-    }
-
-    public void resetPapers()
-    {
-        for (int i = 0; i < papers.Count; i++)
-        {
-            papers[i].gameObject.SetActive(true);
-        }
-    }
-
 }

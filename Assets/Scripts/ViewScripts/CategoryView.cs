@@ -64,6 +64,7 @@ public class CategoryView : MonoBehaviour
     public void setRadius(float radius)
     {
         gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale + new Vector3(radius, radius, radius);
+        category.radius = radius;
     }
 
     private void OnMouseDown()

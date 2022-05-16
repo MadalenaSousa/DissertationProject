@@ -14,37 +14,38 @@ public class Movement : MonoBehaviour
     {
         freelook = this.transform.GetComponent<CinemachineFreeLook>();
 
-        initialPos = transform.position;
-        initialRot = transform.rotation;
-
         originalOrbits = new CinemachineFreeLook.Orbit[freelook.m_Orbits.Length];
         
         for (int i = 0; i < freelook.m_Orbits.Length; i++)
         {
-            originalOrbits[i].m_Height = freelook.m_Orbits[i].m_Height;
             originalOrbits[i].m_Radius = freelook.m_Orbits[i].m_Radius;
         }
     }
     private void Update()
     {
-        //transform.Translate(0, 0, Input.GetAxis("Mouse ScrollWheel") * 50);
-
-        //UpdateOrbit(Input.GetAxis("Mouse ScrollWheel"));
+        Zoom(Input.GetAxis("Mouse ScrollWheel") * 100);       
     }
 
     public void resetPosition()
     {
-        transform.position = initialPos;
-        transform.rotation = initialRot;
+        originalOrbits[0].m_Radius = 400;
+        originalOrbits[1].m_Radius = 800;
+        originalOrbits[2].m_Radius = 400;
+
     }
 
-    public void UpdateOrbit(float zoomPercent)
+    public void Zoom(float zoom)
     {
         for (int i = 0; i < freelook.m_Orbits.Length; i++)
         {
-            freelook.m_Orbits[i].m_Height = originalOrbits[i].m_Height * zoomPercent;
-            freelook.m_Orbits[i].m_Radius = originalOrbits[i].m_Radius * zoomPercent;
+            freelook.m_Orbits[i].m_Radius = originalOrbits[i].m_Radius + zoom;
+            originalOrbits[i].m_Radius = freelook.m_Orbits[i].m_Radius;
         }
+    }
+
+    public float mapValues(float value, float currentMin, float currentMax, float newMin, float newMax)
+    {
+        return (value - currentMin) * (newMax - newMin) / (currentMax - currentMin) + newMin;
     }
 
 }
