@@ -197,9 +197,19 @@ public class PracticesAndStrategies : MonoBehaviour
             } 
             else
             {
-                newPaper.setPosition(paperPos);
-            }
-           
+                int offset = 5;
+                for(int j = 0; j < papers.Count; j++) 
+                { 
+                    if(papers[i].transform.position == paperPos)
+                    {
+                        newPaper.setPosition(paperPos + new Vector3(getRandom(-offset, offset), getRandom(-offset, offset), getRandom(-offset, offset)));
+                    } 
+                    else
+                    {
+                        newPaper.setPosition(paperPos);
+                    }
+                }                
+            }           
         }
 
         //OTHER
