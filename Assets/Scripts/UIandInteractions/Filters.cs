@@ -55,7 +55,7 @@ public class Filters : MonoBehaviour
 
         for (int i = 0; i < authorOptions.Length; i++)
         {
-            authorOptions[i].onClick.AddListener(filterByAuthor);
+            authorOptions[i].onClick.AddListener(filterPapers);
         }
 
         //PUB OUTLETS
@@ -66,7 +66,7 @@ public class Filters : MonoBehaviour
 
         for (int i = 0; i < journalOptions.Length; i++)
         {
-            journalOptions[i].onClick.AddListener(filterByJournal);
+            journalOptions[i].onClick.AddListener(filterPapers);
         }
 
         //INSTITUTIONS
@@ -77,7 +77,7 @@ public class Filters : MonoBehaviour
 
         for (int i = 0; i < instOptions.Length; i++)
         {
-            instOptions[i].onClick.AddListener(filterByInstitution);
+            instOptions[i].onClick.AddListener(filterPapers);
         }
 
         //YEAR
@@ -102,83 +102,50 @@ public class Filters : MonoBehaviour
         deactivatePapersByYear(min, max);
     }
 
-    public void filterByAuthor()
+    public void clearFilter(string filter)
     {
-        deactivatePapers(1, authorSearch.Text);
-        currentAuthorInFilter = authorSearch.Text;
+        if(filter == "author")
+        {
+            authorSearch.clearInputField();
+        } 
+        else if(filter == "journal")
+        {
+            journalSearch.clearInputField();
+        }
+        else if (filter == "institution")
+        {
+            instSearch.clearInputField();
+        }
+        else if (filter == "year")
+        {
+            //to be done
+        }
+
+        filterPapers();
     }
 
-    public void filterByJournal()
+    public void filterPapers()
     {
-        deactivatePapers(2, journalSearch.Text);
-        currentJournalInFilter = journalSearch.Text;
-    }
+        bool isAllActive = true;
+        List<int> results = new List<int>();
 
-    public void filterByInstitution()
-    {
-        deactivatePapers(3, instSearch.Text);
-        currentInstitutionInFilter = instSearch.Text;
-    }
-
-    public void deactivatePapers(int type, string name)
-    {
-        List<int> results = db.filterByAuthorJournalInstitution(1, authorSearch.Text);
-        List<int> resultsJ = db.filterByAuthorJournalInstitution(2, journalSearch.Text);
-        List<int> resultsI = db.filterByAuthorJournalInstitution(3, instSearch.Text);
-        string typeName = "";
-        List<int> deactivatedPapers = new List<int>();
-
-        if(type == 1)
+        if (authorSearch.Text != null || journalSearch.Text != null || instSearch.Text != null)
         {
-            typeName = "author";
-        } 
-        else if(type == 2)
-        {
-            typeName = "journal";
-        } 
-        else if(type == 3)
-        {
-            typeName = "institution";
-        } 
-
-       //for (int i = 0; i < ps.papers.Count; i++)
-       //{
-       //    if (ps.papers[i].gameObject.activeInHierarchy) //qd se usa o mesmo filtro duas vezes, também filtra conjunto
-       //    {
-       //        if (!results.Contains(ps.papers[i].getId()))
-       //        {
-       //            ps.papers[i].gameObject.SetActive(false);
-       //            deactivatedPapers.Add(ps.papers[i].paper.id);
-       //        }
-       //    }
-       //}
+            results = db.filter(authorSearch.Text, journalSearch.Text, instSearch.Text);
+            isAllActive = false;
+        }
 
         for (int i = 0; i < ps.papers.Count; i++)
         {
-            if (results.Count > 0)
+            if (isAllActive || results.Contains(ps.papers[i].getId()))
             {
-                if (!results.Contains(ps.papers[i].getId()))
-                {
-                    ps.papers[i].gameObject.SetActive(false);
-                    deactivatedPapers.Add(ps.papers[i].paper.id);
-                }
+                ps.papers[i].gameObject.SetActive(true);
             }
-
-            if (resultsJ.Count > 0)
+            else
             {
-                if (!resultsJ.Contains(ps.papers[i].getId()))
-                {
-                    ps.papers[i].gameObject.SetActive(false);
-                    deactivatedPapers.Add(ps.papers[i].paper.id);
-                }
+                ps.papers[i].gameObject.SetActive(false);
             }
         }
-
-        //if typeName already exists
-        //go through non active
-
-        filteredPapers.Remove(typeName);
-        filteredPapers.Add(typeName, deactivatedPapers);
     }
 
     public void deactivatePapersByYear(int min, int max)

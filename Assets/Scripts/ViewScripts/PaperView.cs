@@ -21,10 +21,12 @@ public class PaperView :  MonoBehaviour
     public List<Connection> connections;
     public int globalSphereRadius;
     public List<ConnectionView> conns;
+    public int id;
 
     public void bootstrap(int id)
     {
         paper = Database.instance.getPaperById(id); //Set paper data
+        this.id = id;
         globalSphereRadius = PracticesAndStrategies.instance.globalSphereRadius;
         gameObject.transform.position = UnityEngine.Random.insideUnitSphere * globalSphereRadius; //Set visual characteristics
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.white;

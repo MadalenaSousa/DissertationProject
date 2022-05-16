@@ -269,6 +269,11 @@ namespace UnityEngine.UI.Extensions
             RebuildPanel();
         }
 
+        public void clearInputField()
+        {
+            _mainInput.text = "";
+        }
+
         /// <summary>
         /// Rebuilds the contents of the panel in response to items being added.
         /// </summary>

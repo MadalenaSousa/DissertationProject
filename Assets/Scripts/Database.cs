@@ -220,29 +220,6 @@ public class Database : MonoBehaviour
         return total;
     }
 
-    public List<int> getPapersByYearInterval(int min, int max)
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT paper.id FROM paper WHERE paper.pubyear>" + min + " AND paper.pubyear<" + max;
-
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        List<int> papers = new List<int>();
-
-        while (reader.Read())
-        {
-            if (!reader.IsDBNull(0))
-            {
-                papers.Add(reader.GetInt32(0));
-            }
-        }
-
-        return papers;
-    }
-
     public List<int> filterByAuthorJournalInstitution(int type, string name)
     {   
         IDbCommand _command = _connection.CreateCommand();
@@ -276,7 +253,63 @@ public class Database : MonoBehaviour
 
         while (reader.Read())
         {
+            if (!reader.IsDBNull(0) && name != null)
+            {
+                results.Add(reader.GetInt32(0));
+            }
+        }
+
+        return results;
+    }
+
+    public List<int> getPapersByYearInterval(int min, int max)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT paper.id FROM paper WHERE paper.pubyear>" + min + " AND paper.pubyear<" + max;
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<int> papers = new List<int>();
+
+        while (reader.Read())
+        {
             if (!reader.IsDBNull(0))
+            {
+                papers.Add(reader.GetInt32(0));
+            }
+        }
+
+        return papers;
+    }
+
+    public List<int> filter(string author, string journal, string institution)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT DISTINCT paper.id " +
+                            "FROM paper " +
+                            "LEFT JOIN puboutlet_paper ON paper.id = puboutlet_paper.paper_id " +
+                            "LEFT JOIN puboutlet ON puboutlet_paper.puboutlet_id = puboutlet.id " +
+                            "LEFT JOIN author_paper ON paper.id = author_paper.paper_id " +
+                            "LEFT JOIN author ON author.id = author_paper.author_id " +
+                            "LEFT JOIN author_institution ON author_institution.author_id = author_paper.author_id " +
+                            "LEFT JOIN institution ON institution.id = author_institution.institution_id " +
+                            "WHERE(author.name LIKE '%" + (author ?? "") + "%'" + (author == null ? " OR author.name IS NULL" : "") + ")" +
+                            "AND(puboutlet.name LIKE '%" + (journal ?? "") + "%'" + (journal == null ? " OR puboutlet.name IS NULL" : "") + ")" +
+                            "AND(institution.name LIKE '%" + (institution ?? "") + "%'" + (institution == null ? " OR institution.name IS NULL" : "") + ")";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<int> results = new List<int>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0) && name != null)
             {
                 results.Add(reader.GetInt32(0));
             }
