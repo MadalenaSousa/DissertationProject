@@ -75,7 +75,7 @@ public class PracticesAndStrategies : MonoBehaviour
         db = Database.instance;
         minNodeRadius = 10;
         masNodeRadius = 80;
-        globalSphereRadius = 500;
+        globalSphereRadius = 800;
 
         //CLUSTERS
         int maxConnections = db.getMaxConnPS();
