@@ -38,13 +38,14 @@ public class PracticesAndStrategies : MonoBehaviour
 
 
     //Visual Objects
+    public int globalSphereRadius;
     public GameObject parentObject;
 
     public GameObject NodePrefab;
     public List<PaperView> papers = new List<PaperView>();
 
+    public int minCatRadius, maxCatRadius;
     public GameObject CategoryPrefab;
-
     Dictionary<int, CategoryView> strategiesViews = new Dictionary<int, CategoryView>();
     Dictionary<int, CategoryView> practicesViews = new Dictionary<int, CategoryView>();
 
@@ -55,12 +56,7 @@ public class PracticesAndStrategies : MonoBehaviour
     List<Cluster> clusters = new List<Cluster>();
 
     public Transform cameraTarget;
-
-    //Other
-    public int minCatRadius, maxCatRadius;
-    public int globalSphereRadius;
-    public bool isClicking = false;
-    public CinemachineFreeLook cineCam;
+    public CinemachineFreeLook cineCam;    
 
     private void Awake()
     {
@@ -73,6 +69,8 @@ public class PracticesAndStrategies : MonoBehaviour
     void Start()
     {
         db = Database.instance;
+
+        //Set Variables
         minCatRadius = 10;
         maxCatRadius = 80;
         globalSphereRadius = 800;
@@ -87,9 +85,12 @@ public class PracticesAndStrategies : MonoBehaviour
         //CATEGORIES
         drawCategories(minCatRadius, maxCatRadius);
 
-        // Remove Empty Clusters
+        //PAPERS
+        drawPapers();
+
+        //Remove Empty Clusters
         List<Cluster> nonEmptyClusters = new List<Cluster>();
-        foreach(Cluster cluster in clusters)
+        foreach (Cluster cluster in clusters)
         {
             if (cluster.categories.Count > 0)
             {
@@ -97,9 +98,6 @@ public class PracticesAndStrategies : MonoBehaviour
             }
         }
         clusters = nonEmptyClusters;
-
-        //PAPERS
-        drawPapers();
 
         //OTHER
         closePopUpButton.onClick.AddListener(closePopUp);
