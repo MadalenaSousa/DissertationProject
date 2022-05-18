@@ -102,11 +102,11 @@ public class PracticesAndStrategies : MonoBehaviour
         {
             CategoryView newPractice = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
             newPractice.bootstrapPractices(PracticesId[i]);
-            newPractice.setRadius(mapValues(newPractice.totalConnections, minConnections, maxConnections, 10, 80));
+            newPractice.setRadius(mapValues(newPractice.clusterCriteria, minConnections, maxConnections, 10, 80));
 
             for (int j = 0; j < clusters.Count; j++)
             {
-                if (newPractice.totalConnections > clusters[j].min && newPractice.totalConnections <= clusters[j].max)
+                if (newPractice.clusterCriteria > clusters[j].min && newPractice.clusterCriteria <= clusters[j].max)
                 {
                     clusters[j].categories.Add(newPractice.category);
                     newPractice.setPosition(clusters[j].center + clusters[j].getOffsetVector(newPractice));
@@ -121,11 +121,11 @@ public class PracticesAndStrategies : MonoBehaviour
         {
             CategoryView newStrategy = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
             newStrategy.bootstrapStrategies(StrategiesId[i]);
-            newStrategy.setRadius(mapValues(newStrategy.totalConnections, minConnections, maxConnections, 10, 80));
+            newStrategy.setRadius(mapValues(newStrategy.clusterCriteria, minConnections, maxConnections, 10, 80));
 
             for (int j = 0; j < clusters.Count; j++)
             {
-                if (newStrategy.totalConnections > clusters[j].min && newStrategy.totalConnections <= clusters[j].max)
+                if (newStrategy.clusterCriteria > clusters[j].min && newStrategy.clusterCriteria <= clusters[j].max)
                 {
                     clusters[j].categories.Add(newStrategy.category);
                     newStrategy.setPosition(clusters[j].center + clusters[j].getOffsetVector(newStrategy));
@@ -390,7 +390,7 @@ public class PracticesAndStrategies : MonoBehaviour
                 catPopUp.SetActive(true);
 
                 catName.text = strategy.Value.category.name;
-                catConns.text = strategy.Value.totalConnections.ToString();
+                catConns.text = strategy.Value.clusterCriteria.ToString();
 
                 int min = 0;
                 int max = 0;
@@ -419,7 +419,7 @@ public class PracticesAndStrategies : MonoBehaviour
                 catPopUp.SetActive(true);
 
                 catName.text = practice.Value.category.name;
-                catConns.text = practice.Value.totalConnections.ToString();
+                catConns.text = practice.Value.clusterCriteria.ToString();
 
                 int min = 0;
                 int max = 0;

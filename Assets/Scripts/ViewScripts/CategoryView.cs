@@ -18,12 +18,15 @@ public class CategoryView : MonoBehaviour
     public int totalConnections = 0;
     public List<Paper> associatedPapers = new List<Paper>();
     public bool mousePressed = false;
+    public int clusterCriteria;
 
     public void bootstrapPractices(int id)
     {
         category = Database.instance.getPracticeById(id); //Set category data
         associatedPapers = Database.instance.getPapersForPracticeById(id);
         totalConnections = associatedPapers.Count; //Set total connections
+
+        clusterCriteria = totalConnections;
 
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.cyan;
 
@@ -35,6 +38,8 @@ public class CategoryView : MonoBehaviour
         category = Database.instance.getStrategyById(id); //Set category data
         associatedPapers = Database.instance.getPapersForStrategyById(id);
         totalConnections = associatedPapers.Count; //Set total connections
+
+        clusterCriteria = totalConnections;
 
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.yellow;
 
