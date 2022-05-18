@@ -7,6 +7,7 @@ public class Paper
     public int id;
     public string title, date;
     public int year;
+    public int citationCount;
 
     public List<Author> author;
     public PubOutlet publication_outlet;
@@ -15,7 +16,7 @@ public class Paper
     public List<Strategy> strategy;
     public List<Use> use;
 
-    public Paper(int id, string title, string date, int year, List<Author> author, PubOutlet puboutlet, List<Practice> practice, List<Strategy> strategy, List<Use> use)
+    public Paper(int id, string title, string date, int year, List<Author> author, PubOutlet puboutlet, List<Practice> practice, List<Strategy> strategy, List<Use> use, int citationCount)
     {
         this.id = id;
         this.title = title;
@@ -25,6 +26,7 @@ public class Paper
         this.publication_outlet = puboutlet;
         this.practice = practice;
         this.strategy = strategy;
-        this.use = use; 
+        this.use = use;
+        this.citationCount = citationCount;
     }
 }

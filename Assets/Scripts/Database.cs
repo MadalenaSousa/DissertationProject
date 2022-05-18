@@ -44,6 +44,8 @@ public class Database : MonoBehaviour
             FillTables(apipapers);
         }
 
+        //insertCitations(apipapers);
+
     }
 
     void StartDataSQLite()
@@ -61,7 +63,7 @@ public class Database : MonoBehaviour
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT paper.title, paper.date, paper.pubyear FROM paper WHERE id =" + id;
+        string sqlQuery = "SELECT paper.title, paper.date, paper.pubyear, paper.citationcount FROM paper WHERE id =" + id;
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
@@ -69,6 +71,7 @@ public class Database : MonoBehaviour
         string title = "";
         string date = "";
         int year = -1;
+        int citationCount = -1;
 
         while (reader.Read())
         {
@@ -77,7 +80,7 @@ public class Database : MonoBehaviour
             year = reader.GetInt32(2);
         }
 
-        return new Paper(id, title, date, year, getAuthorAndInstitutionByPaperId(id), getPubOutletByPaperId(id), getPracticeByPaperId(id), getStrategyByPaperId(id), getUseByPaperId(id));
+        return new Paper(id, title, date, year, getAuthorAndInstitutionByPaperId(id), getPubOutletByPaperId(id), getPracticeByPaperId(id), getStrategyByPaperId(id), getUseByPaperId(id), citationCount);
     }
 
     public int getMaxConnPS()
@@ -903,6 +906,18 @@ public class Database : MonoBehaviour
 
         _command.CommandText = sql;
         _command.ExecuteNonQuery();
+    }
+
+    void insertCitations(JArray citationCounts)
+    {
+        for(int i = 0; i < citationCounts.Count; i++)
+        {
+            IDbCommand _command = _connection.CreateCommand();
+            string sql = "UPDATE paper SET citationcount = " + citationCounts[i] + " WHERE paper.id = " + i;
+
+            _command.CommandText = sql;
+            _command.ExecuteNonQuery();
+        }
     }
 
     // Run one time only method to fill DB tables
