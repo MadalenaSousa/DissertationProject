@@ -51,13 +51,13 @@ public class PracticesAndStrategies : MonoBehaviour
     public GameObject ConnectionPrefab;
     List<ConnectionView> connections =  new List<ConnectionView>();
 
-    int clusterConnInterval, totalClusters;
+    int clusterConnInterval, totalClusters, maxCriteriaValue, minCriteriaValue;
     List<Cluster> clusters = new List<Cluster>();
 
     public Transform cameraTarget;
 
     //Other
-    public int minNodeRadius, masNodeRadius;
+    public int minCatRadius, maxCatRadius;
     public int globalSphereRadius;
     public bool isClicking = false;
     public CinemachineFreeLook cineCam;
@@ -73,68 +73,19 @@ public class PracticesAndStrategies : MonoBehaviour
     void Start()
     {
         db = Database.instance;
-        minNodeRadius = 10;
-        masNodeRadius = 80;
+        minCatRadius = 10;
+        maxCatRadius = 80;
         globalSphereRadius = 800;
+        totalClusters = 50;
+
+        maxCriteriaValue = db.getMaxConnPS();
+        minCriteriaValue = db.getMinConnPS();
 
         //CLUSTERS
-        int maxConnections = db.getMaxConnPS();
-        int minConnections = db.getMinConnPS();
-        totalClusters = 50;
-        clusterConnInterval = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(maxConnections) / Convert.ToDouble(totalClusters)));
-
-        for (int i = 0; i <= totalClusters; i++)
-        {
-            int min = clusterConnInterval * i;
-            int max = clusterConnInterval * (i + 1);
-
-            clusters.Add(new Cluster(min, max));
-        }
+        setClusters(maxCriteriaValue, minCriteriaValue);
 
         //CATEGORIES
-        List<int> PracticesId = db.getPractices();
-        int totalPractices = PracticesId.Count;
-
-        List<int> StrategiesId = db.getStrategies();
-        int totalStrategies = StrategiesId.Count;
-
-        for (int i = 0; i < totalPractices; i++)
-        {
-            CategoryView newPractice = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
-            newPractice.bootstrapPractices(PracticesId[i]);
-            newPractice.setRadius(mapValues(newPractice.clusterCriteria, minConnections, maxConnections, 10, 80));
-
-            for (int j = 0; j < clusters.Count; j++)
-            {
-                if (newPractice.clusterCriteria > clusters[j].min && newPractice.clusterCriteria <= clusters[j].max)
-                {
-                    clusters[j].categories.Add(newPractice.category);
-                    newPractice.setPosition(clusters[j].center + clusters[j].getOffsetVector(newPractice));
-                    break;
-                }
-            }
-
-            practicesViews.Add(PracticesId[i], newPractice);
-        }
-
-        for (int i = 0; i < totalStrategies; i++)
-        {
-            CategoryView newStrategy = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
-            newStrategy.bootstrapStrategies(StrategiesId[i]);
-            newStrategy.setRadius(mapValues(newStrategy.clusterCriteria, minConnections, maxConnections, 10, 80));
-
-            for (int j = 0; j < clusters.Count; j++)
-            {
-                if (newStrategy.clusterCriteria > clusters[j].min && newStrategy.clusterCriteria <= clusters[j].max)
-                {
-                    clusters[j].categories.Add(newStrategy.category);
-                    newStrategy.setPosition(clusters[j].center + clusters[j].getOffsetVector(newStrategy));
-                    break;
-                }
-            }
-
-            strategiesViews.Add(StrategiesId[i], newStrategy);
-        }
+        drawCategories(minCatRadius, maxCatRadius);
 
         // Remove Empty Clusters
         List<Cluster> nonEmptyClusters = new List<Cluster>();
@@ -148,8 +99,90 @@ public class PracticesAndStrategies : MonoBehaviour
         clusters = nonEmptyClusters;
 
         //PAPERS
+        drawPapers();
+
+        //OTHER
+        closePopUpButton.onClick.AddListener(closePopUp);
+        closeCatPopUpButton.onClick.AddListener(closeCatPopUp);
+
+    }
+
+    private void Update()
+    {
+        openPopUp();
+        openCatPopUp();
+        updateConnections();
+        lookAtCamera();
+        clickAndDrag();
+    }
+
+    public void setClusters(int maxCriteriaValue, int minCriteriaValue)
+    {
+        clusterConnInterval = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(maxCriteriaValue) / Convert.ToDouble(totalClusters)));
+
+        for (int i = 0; i <= totalClusters; i++)
+        {
+            int min = clusterConnInterval * i;
+            int max = clusterConnInterval * (i + 1);
+
+            clusters.Add(new Cluster(min, max)); //Save in general variable
+        }
+    }
+
+    public void drawCategories(int minRadius, int maxRadius)
+    {
+        List<int> PracticesId = db.getPractices();
+        int totalPractices = PracticesId.Count;
+
+        List<int> StrategiesId = db.getStrategies();
+        int totalStrategies = StrategiesId.Count;
+
+        for (int i = 0; i < totalPractices; i++)
+        {
+            CategoryView newPractice = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
+            newPractice.bootstrapPractices(PracticesId[i]);
+            newPractice.setRadius(mapValues(newPractice.clusterCriteria, minCriteriaValue, maxCriteriaValue, minRadius, maxRadius));
+
+            for (int j = 0; j < clusters.Count; j++)
+            {
+                if (newPractice.clusterCriteria > clusters[j].min && newPractice.clusterCriteria <= clusters[j].max)
+                {
+                    clusters[j].categories.Add(newPractice.category);
+                    newPractice.setPosition(clusters[j].center + clusters[j].getOffsetVector(newPractice));
+                    break;
+                }
+            }
+
+            practicesViews.Add(PracticesId[i], newPractice); //Save in general variable
+        }
+
+        for (int i = 0; i < totalStrategies; i++)
+        {
+            CategoryView newStrategy = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
+            newStrategy.bootstrapStrategies(StrategiesId[i]);
+            newStrategy.setRadius(mapValues(newStrategy.clusterCriteria, minCriteriaValue, maxCriteriaValue, minRadius, maxRadius));
+
+            for (int j = 0; j < clusters.Count; j++)
+            {
+                if (newStrategy.clusterCriteria > clusters[j].min && newStrategy.clusterCriteria <= clusters[j].max)
+                {
+                    clusters[j].categories.Add(newStrategy.category);
+                    newStrategy.setPosition(clusters[j].center + clusters[j].getOffsetVector(newStrategy));
+                    break;
+                }
+            }
+
+            strategiesViews.Add(StrategiesId[i], newStrategy); //Save in general variable
+        }
+    }
+
+    public void drawPapers()
+    {
         List<int> PSPapersId = db.getPapersWithPracticesOrStrategies();
         int totalpapers = PSPapersId.Count;
+        
+        int singleConnOffsetRadius = 80;
+        int paperPosOffset = 5;
 
         for (int i = 0; i < totalpapers; i++)
         {
@@ -157,7 +190,7 @@ public class PracticesAndStrategies : MonoBehaviour
             newPaper.bootstrap(PSPapersId[i]);
             newPaper.setRadius(newPaper.connections.Count);
 
-            papers.Add(newPaper);
+            papers.Add(newPaper); //Save in general variable
 
             float xSum = 0;
             float ySum = 0;
@@ -174,12 +207,14 @@ public class PracticesAndStrategies : MonoBehaviour
                 ySum += strategiesViews[paperStrategy.id].transform.position.y;
                 zSum += strategiesViews[paperStrategy.id].transform.position.z;
             }
-            
+
             foreach (Practice paperPractice in newPaper.paper.practice)
             {
                 ConnectionView newConnection = Instantiate(ConnectionPrefab, parentObject.transform).GetComponent<ConnectionView>();
                 newConnection.setConnection(newPaper, practicesViews[paperPractice.id]);
-                connections.Add(newConnection);
+                
+                connections.Add(newConnection); //Save in general variable
+
                 newPaper.conns.Add(newConnection);
 
                 xSum += practicesViews[paperPractice.id].transform.position.x;
@@ -189,53 +224,26 @@ public class PracticesAndStrategies : MonoBehaviour
 
             int totalPaperCategories = newPaper.conns.Count;
             Vector3 paperPos = new Vector3(xSum / totalPaperCategories, ySum / totalPaperCategories, zSum / totalPaperCategories);
-            
-            if(newPaper.conns.Count <= 1)
+
+            if (newPaper.conns.Count <= 1)
             {
-                Vector3 altPos = paperPos + (UnityEngine.Random.insideUnitSphere * 80);
-                newPaper.setPosition(altPos);             
-            } 
+                Vector3 altPos = paperPos + (UnityEngine.Random.insideUnitSphere * singleConnOffsetRadius);
+                newPaper.setPosition(altPos);
+            }
             else
             {
-                int offset = 5;
-                for(int j = 0; j < papers.Count; j++) 
-                { 
-                    if(papers[i].transform.position == paperPos)
+                for (int j = 0; j < papers.Count; j++)
+                {
+                    if (papers[i].transform.position == paperPos)
                     {
-                        newPaper.setPosition(paperPos + new Vector3(getRandom(-offset, offset), getRandom(-offset, offset), getRandom(-offset, offset)));
-                    } 
+                        newPaper.setPosition(paperPos + new Vector3(getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset)));
+                    }
                     else
                     {
                         newPaper.setPosition(paperPos);
                     }
-                }                
-            }           
-        }
-
-        //OTHER
-        closePopUpButton.onClick.AddListener(closePopUp);
-        closeCatPopUpButton.onClick.AddListener(closeCatPopUp);
-
-    }
-
-    private void Update()
-    {
-        openPopUp();
-        openCatPopUp();
-        updateConnections();
-        lookAtCamera();
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            cineCam.m_YAxis.m_InputAxisName = "Mouse Y";
-            cineCam.m_XAxis.m_InputAxisName = "Mouse X";
-        } 
-        else if(Input.GetMouseButtonUp(0))
-        {
-            cineCam.m_YAxis.m_InputAxisName = "";
-            cineCam.m_XAxis.m_InputAxisName = "";
-            cineCam.m_YAxis.m_InputAxisValue = 0;
-            cineCam.m_XAxis.m_InputAxisValue = 0;
+                }
+            }
         }
     }
 
@@ -265,21 +273,21 @@ public class PracticesAndStrategies : MonoBehaviour
         }
     }
 
-    public int getRandom(int first, int second)
+    //UI FUNTIONS
+    public void clickAndDrag()
     {
-        if (UnityEngine.Random.value < 0.5f)
+        if (Input.GetMouseButtonDown(0))
         {
-            return first;
+            cineCam.m_YAxis.m_InputAxisName = "Mouse Y";
+            cineCam.m_XAxis.m_InputAxisName = "Mouse X";
         }
-        else
+        else if (Input.GetMouseButtonUp(0))
         {
-            return second;
+            cineCam.m_YAxis.m_InputAxisName = "";
+            cineCam.m_XAxis.m_InputAxisName = "";
+            cineCam.m_YAxis.m_InputAxisValue = 0;
+            cineCam.m_XAxis.m_InputAxisValue = 0;
         }
-    }
-
-    public float mapValues(float value, float currentMin, float currentMax, float newMin, float newMax)
-    {
-        return (value - currentMin) * (newMax - newMin) / (currentMax - currentMin) + newMin;
     }
 
     public void closePopUp()
@@ -320,22 +328,6 @@ public class PracticesAndStrategies : MonoBehaviour
         }
 
         catPopUp.SetActive(false);
-    }
-
-    public int MaxValue(int[] intArray)
-    {
-        int max = intArray[0];
-
-        for (int i = 1; i < intArray.Length; i++)
-        {
-
-            if (intArray[i] > max)
-            {
-                max = intArray[i];
-            }
-        }
-
-        return max;
     }
 
     public void openPopUp()
@@ -440,5 +432,39 @@ public class PracticesAndStrategies : MonoBehaviour
                 break;
             }
         }
+    }
+
+    //UTILITY FUNCTIONS
+    public int MaxValue(int[] intArray)
+    {
+        int max = intArray[0];
+
+        for (int i = 1; i < intArray.Length; i++)
+        {
+
+            if (intArray[i] > max)
+            {
+                max = intArray[i];
+            }
+        }
+
+        return max;
+    }
+
+    public int getRandom(int first, int second)
+    {
+        if (UnityEngine.Random.value < 0.5f)
+        {
+            return first;
+        }
+        else
+        {
+            return second;
+        }
+    }
+
+    public float mapValues(float value, float currentMin, float currentMax, float newMin, float newMax)
+    {
+        return (value - currentMin) * (newMax - newMin) / (currentMax - currentMin) + newMin;
     }
 }
