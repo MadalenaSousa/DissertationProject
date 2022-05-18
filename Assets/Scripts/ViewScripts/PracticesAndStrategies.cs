@@ -56,7 +56,9 @@ public class PracticesAndStrategies : MonoBehaviour
     List<Cluster> clusters = new List<Cluster>();
 
     public Transform cameraTarget;
-    public CinemachineFreeLook cineCam;    
+    public CinemachineFreeLook cineCam;
+
+    public string criteria;
 
     private void Awake()
     {
@@ -76,8 +78,18 @@ public class PracticesAndStrategies : MonoBehaviour
         globalSphereRadius = 800;
         totalClusters = 50;
 
-        maxCriteriaValue = db.getMaxConnPS();
-        minCriteriaValue = db.getMinConnPS();
+        criteria = "";
+
+        if (criteria == "citation") 
+        {
+            maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
+            minCriteriaValue = db.getMinCitPS();
+        }
+        else
+        {
+            maxCriteriaValue = db.getMaxConnPS();
+            minCriteriaValue = db.getMinConnPS();
+        }
 
         //CLUSTERS
         setClusters(maxCriteriaValue, minCriteriaValue);

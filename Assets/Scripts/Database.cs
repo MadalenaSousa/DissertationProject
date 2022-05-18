@@ -83,6 +83,76 @@ public class Database : MonoBehaviour
         return new Paper(id, title, date, year, getAuthorAndInstitutionByPaperId(id), getPubOutletByPaperId(id), getPracticeByPaperId(id), getStrategyByPaperId(id), getUseByPaperId(id), citationCount);
     }
 
+    private int getCitationCount(string maxOrMin, string category)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "";
+
+        if (category == "practices" && maxOrMin == "max")
+        {
+            sqlQuery = "SELECT MAX(sum) " +
+                        "FROM(SELECT practices_account.practices_id, SUM(paper.citationcount) as sum " +
+                        "FROM practices_account " +
+                        "LEFT JOIN paper_account ON paper_account.account_id = practices_account.account_id " +
+                        "LEFT JOIN paper ON paper.id = paper_account.paper_id " +
+                        "GROUP BY practices_account.practices_id)";
+        } 
+        else if(category == "strategies" && maxOrMin == "max")
+        {
+            sqlQuery = "SELECT MAX(sum) " +
+                        "FROM(SELECT account_strategies.strategies_id, SUM(paper.citationcount) as sum " +
+                        "FROM account_strategies " +
+                        "LEFT JOIN paper_account ON paper_account.account_id = account_strategies.account_id " +
+                        "LEFT JOIN paper ON paper.id = paper_account.paper_id " +
+                        "GROUP BY account_strategies.strategies_id)";
+        }
+        else if (category == "practices" && maxOrMin == "min")
+        {
+            sqlQuery = "SELECT MIN(sum) " +
+                        "FROM(SELECT practices_account.practices_id, SUM(paper.citationcount) as sum " +
+                        "FROM practices_account " +
+                        "LEFT JOIN paper_account ON paper_account.account_id = practices_account.account_id " +
+                        "LEFT JOIN paper ON paper.id = paper_account.paper_id " +
+                        "GROUP BY practices_account.practices_id)";
+        }
+        else if (category == "strategies" && maxOrMin == "min")
+        {
+            sqlQuery = "SELECT MIN(sum) " +
+                        "FROM(SELECT account_strategies.strategies_id, SUM(paper.citationcount) as sum " +
+                        "FROM account_strategies " +
+                        "LEFT JOIN paper_account ON paper_account.account_id = account_strategies.account_id " +
+                        "LEFT JOIN paper ON paper.id = paper_account.paper_id " +
+                        "GROUP BY account_strategies.strategies_id)";
+        }
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int max = 0;
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                max = reader.GetInt32(0);
+            }
+        }
+
+        return max;
+    }
+
+    public int getMaxCitPS()
+    {
+        return Math.Max(getCitationCount("max", "practices"), getCitationCount("max", "strategies"));
+    }
+
+    public int getMinCitPS()
+    {
+        return Math.Min(getCitationCount("min", "practices"), getCitationCount("min", "strategies"));
+    }
+
     public int getMaxConnPS()
     {
         return Math.Max(getMaxConnPractices(), getMaxConnStrategies());
