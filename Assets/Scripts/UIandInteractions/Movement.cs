@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEditor;
 
 public class Movement : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class Movement : MonoBehaviour
         if (Input.GetMouseButton(1) && Input.GetKey(KeyCode.Space))
         {
             panSpeed = 50;
+            //EditorGUIUtility.AddCursorRect(new Rect(20, 20, 140, 40), MouseCursor.Pan); ;
 
         } else if(Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.Space))
         {
