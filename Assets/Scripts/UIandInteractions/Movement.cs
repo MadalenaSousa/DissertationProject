@@ -5,44 +5,59 @@ using Cinemachine;
 
 public class Movement : MonoBehaviour
 {
-    private CinemachineFreeLook.Orbit[] originalOrbits;
-    private CinemachineFreeLook freelook;
+    float panSpeed, rotSpeed;
+    public int zoomSpeed;
 
-    private void Start()
-    {
-        freelook = this.transform.GetComponent<CinemachineFreeLook>();
-
-        originalOrbits = new CinemachineFreeLook.Orbit[freelook.m_Orbits.Length];
-        
-        for (int i = 0; i < freelook.m_Orbits.Length; i++)
-        {
-            originalOrbits[i].m_Radius = freelook.m_Orbits[i].m_Radius;
-        }
-    }
     private void Update()
     {
-        Zoom(Input.GetAxis("Mouse ScrollWheel") * 100);       
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit point;
+        Physics.Raycast(ray, out point, 1000);
+        Vector3 Scrolldirection = ray.GetPoint(5);
+
+        //ZOOM
+        if (!PracticesAndStrategies.instance.clusterInfoPanel.activeSelf)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, Scrolldirection, Input.GetAxis("Mouse ScrollWheel") * zoomSpeed);
+        }
+
+        //PAN
+        if (Input.GetMouseButton(1) && Input.GetKey(KeyCode.Space))
+        {
+            panSpeed = 50;
+
+        } else if(Input.GetMouseButtonUp(1) || Input.GetKeyUp(KeyCode.Space))
+        {
+            panSpeed = 0;
+        }
+        
+        Vector3 pan = new Vector3(-Input.GetAxis("Mouse X") * panSpeed, -Input.GetAxis("Mouse Y") * panSpeed, 0);        
+        transform.Translate(pan, Space.Self);
+
+        
+
+        //ROTATE
+        if (Input.GetMouseButtonDown(1))
+        {
+            rotSpeed = 1;
+        
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            rotSpeed = 0;
+        }
+        
+        Vector3 rot = new Vector3(Input.GetAxis("Mouse Y") * rotSpeed, Input.GetAxis("Mouse X") * rotSpeed, 0);
+        
+        transform.Rotate(rot, Space.World);
     }
 
     public void resetPosition()
     {
-        originalOrbits[0].m_Radius = 400;
-        originalOrbits[1].m_Radius = 800;
-        originalOrbits[2].m_Radius = 400;
-
-        freelook.transform.position = new Vector3(0, 0, -800);
-        freelook.m_YAxis.Value = 0.75f;
-        freelook.m_XAxis.Value = 0;
+        transform.position = new Vector3(0, 0, -1000);
+        transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
     }
 
-    public void Zoom(float zoom)
-    {
-        for (int i = 0; i < freelook.m_Orbits.Length; i++)
-        {
-            freelook.m_Orbits[i].m_Radius = originalOrbits[i].m_Radius + zoom;
-            originalOrbits[i].m_Radius = freelook.m_Orbits[i].m_Radius;
-        }
-    }
 
     public float mapValues(float value, float currentMin, float currentMax, float newMin, float newMax)
     {

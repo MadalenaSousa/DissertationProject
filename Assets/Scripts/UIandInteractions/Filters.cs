@@ -84,24 +84,6 @@ public class Filters : MonoBehaviour
         triggerFilter.onClick.AddListener(filterPapers);
     }
 
-    public void filterByYearInterval()
-    {
-        int min = -2;
-        int max = DateTime.Now.Year + 1;
-
-        if (!string.IsNullOrEmpty(minInput.text))
-        {
-            min = int.Parse(minInput.text);
-        }
-
-        if (!string.IsNullOrEmpty(maxInput.text))
-        {
-            max = int.Parse(maxInput.text);
-        }
-
-        deactivatePapersByYear(min, max);
-    }
-
     public void clearFilter(string filter)
     {
         if(filter == "author")
@@ -143,7 +125,7 @@ public class Filters : MonoBehaviour
             max = int.Parse(maxInput.text);
         }
 
-        if (authorSearch.Text != null || journalSearch.Text != null || instSearch.Text != null || min > 1000 || max < DateTime.Now.Year)
+        if (authorSearch.Text != null || journalSearch.Text != null || instSearch.Text != null || min != null || max != null)
         {
             results = db.filter(authorSearch.Text, journalSearch.Text, instSearch.Text, min, max);
             isAllActive = false;
@@ -160,43 +142,5 @@ public class Filters : MonoBehaviour
                 ps.papers[i].gameObject.SetActive(false);
             }
         }
-    }
-
-    public void deactivatePapersByYear(int min, int max)
-    {
-        List<int> results = db.getPapersByYearInterval(min, max);
-
-        for (int i = 0; i < ps.papers.Count; i++)
-        {
-            if (ps.papers[i].gameObject.activeInHierarchy)
-            {
-                if (!results.Contains(ps.papers[i].getId()))
-                {
-                    ps.papers[i].gameObject.SetActive(false);
-                }
-            }
-        }
-    }
-
-    public void resetPapers(string typeName)
-    {
-        foreach (KeyValuePair<string, List<int>> filteredPapers in filteredPapers)
-        {
-            if (filteredPapers.Key == typeName)
-            {
-                for (int i = 0; i < filteredPapers.Value.Count; i++)
-                {
-                    for (int j = 0; j < ps.papers.Count; j++)
-                    {
-                        if (ps.papers[j].getId() == filteredPapers.Value[i])
-                        {
-                            ps.papers[j].gameObject.SetActive(true);
-                        }
-                    }
-                }
-            }
-        }
-
-        filteredPapers.Remove(typeName);
     }
 }

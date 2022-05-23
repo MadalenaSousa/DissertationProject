@@ -35,6 +35,11 @@ public class PracticesAndStrategies : MonoBehaviour
     public Text catName;
     public Text catConns;
     public Text catInterval;
+    public Dropdown switchCriteria;
+
+    public GameObject clusterInfoPanel;
+    public GameObject clusterInfoPrefab;
+    public GameObject clusterInfoBackground;
 
 
     //Visual Objects
@@ -78,9 +83,63 @@ public class PracticesAndStrategies : MonoBehaviour
         globalSphereRadius = 800;
         totalClusters = 50;
 
-        criteria = "";
+        maxCriteriaValue = db.getMaxConnPS();
+        minCriteriaValue = db.getMinConnPS();    
 
-        if (criteria == "citation") 
+        //CLUSTERS
+        setClusters(maxCriteriaValue, minCriteriaValue);
+
+        //CATEGORIES
+        drawCategories(minCatRadius, maxCatRadius);
+
+        //PAPERS
+        drawPapers();
+
+        //Remove Empty Clusters
+        List<Cluster> nonEmptyClusters = new List<Cluster>();
+        foreach (Cluster cluster in clusters)
+        {
+            if (cluster.categories.Count > 0)
+            {
+                nonEmptyClusters.Add(cluster);
+            }
+        }
+        clusters = nonEmptyClusters;
+
+        //INFO PANEL
+        updateClusterInfoPanel();
+        clusterInfoPanel.SetActive(false);
+
+        //OTHER
+        closePopUpButton.onClick.AddListener(closePopUp);
+        closeCatPopUpButton.onClick.AddListener(closeCatPopUp);
+
+    }
+
+    private void Update()
+    {
+        openPopUp();
+        openCatPopUp();
+        updateConnections();
+        lookAtCamera();
+        clickAndDrag();
+
+        clusterInfoBackground.SetActive(clusterInfoPanel.activeSelf);
+    }
+
+    public void changeClusterCriteria()
+    {
+        foreach (Transform child in parentObject.transform)
+        {
+            Destroy(child.gameObject);
+            papers = new List<PaperView>();
+            connections = new List<ConnectionView>();
+            strategiesViews = new Dictionary<int, CategoryView>();
+            practicesViews = new Dictionary<int, CategoryView>();
+            clusters = new List<Cluster>();
+        }
+
+        if (switchCriteria.value == 1)
         {
             maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
             minCriteriaValue = db.getMinCitPS();
@@ -111,19 +170,9 @@ public class PracticesAndStrategies : MonoBehaviour
         }
         clusters = nonEmptyClusters;
 
-        //OTHER
-        closePopUpButton.onClick.AddListener(closePopUp);
-        closeCatPopUpButton.onClick.AddListener(closeCatPopUp);
-
-    }
-
-    private void Update()
-    {
-        openPopUp();
-        openCatPopUp();
-        updateConnections();
-        lookAtCamera();
-        clickAndDrag();
+        //INFO PANEL
+        updateClusterInfoPanel();
+        clusterInfoPanel.SetActive(false);
     }
 
     public void setClusters(int maxCriteriaValue, int minCriteriaValue)
@@ -284,6 +333,49 @@ public class PracticesAndStrategies : MonoBehaviour
     }
 
     //UI FUNTIONS
+    public void updateClusterInfoPanel()
+    {
+        clusterInfoPanel.SetActive(true);
+
+        foreach (Transform child in clusterInfoPanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+            for (int i = 0; i < clusters.Count; i++)
+        {
+            GameObject newClusterInfo = Instantiate(clusterInfoPrefab, clusterInfoPanel.transform);
+            newClusterInfo.GetComponentsInChildren<Text>()[0].text = "CLUSTER " + i.ToString();
+            newClusterInfo.GetComponentsInChildren<Text>()[1].text = "[" + clusters[i].min + ", " + clusters[i].max + "]";
+
+            string practiceList = "";
+            string strategyList = "";
+
+            for(int j = 0; j < clusters[i].categories.Count; j++)
+            {
+                if(clusters[i].categories[j] is Practice)
+                {
+                    practiceList = practiceList + clusters[i].categories[j].name + ", ";
+                } 
+                else
+                {
+                    strategyList = strategyList + clusters[i].categories[j].name + ", ";
+                }
+            }
+
+            if(practiceList == "") { practiceList = "None. "; }
+            if (strategyList == "") { strategyList = "None. "; }
+
+            newClusterInfo.GetComponentsInChildren<Text>()[3].text = practiceList.Substring(0, practiceList.Length - 2);
+            newClusterInfo.GetComponentsInChildren<Text>()[5].text = strategyList.Substring(0, strategyList.Length - 2);
+        }
+    }
+    
+    public void openClusterInfoPanel()
+    {
+        clusterInfoPanel.SetActive(!clusterInfoPanel.activeSelf);
+    }
+
     public void clickAndDrag()
     {
         if (Input.GetMouseButtonDown(0))
