@@ -109,7 +109,7 @@ public class Filters : MonoBehaviour
 
     public void filterPapers()
     {
-        bool isAllActive = true;
+        bool isAllPapersActive = true;
         List<int> results = new List<int>();
 
         int min = -1;
@@ -125,15 +125,15 @@ public class Filters : MonoBehaviour
             max = int.Parse(maxInput.text);
         }
 
-        if (authorSearch.Text != null || journalSearch.Text != null || instSearch.Text != null || min != null || max != null)
+        if (authorSearch.Text != null || authorSearch.Text != "" || journalSearch.Text != null || journalSearch.Text != "" || instSearch.Text != null || instSearch.Text != "" || min > 1000 || max < DateTime.Now.Year + 1)
         {
             results = db.filter(authorSearch.Text, journalSearch.Text, instSearch.Text, min, max);
-            isAllActive = false;
+            isAllPapersActive = false;
         }
 
         for (int i = 0; i < ps.papers.Count; i++)
         {
-            if (isAllActive || results.Contains(ps.papers[i].getId()))
+            if (isAllPapersActive || results.Contains(ps.papers[i].getId()))
             {
                 ps.papers[i].gameObject.SetActive(true);
             }
