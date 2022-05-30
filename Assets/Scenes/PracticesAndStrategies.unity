@@ -2084,7 +2084,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 253134419}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 136746952}
+        m_TargetAssemblyTypeName: Filters, Assembly-CSharp
+        m_MethodName: filterPapers
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &253134419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4834,7 +4846,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1703467450}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.076000005, y: 0.78331715}
   m_AnchorMax: {x: 0.7767877, y: 1}
@@ -5674,7 +5686,7 @@ RectTransform:
   m_Children:
   - {fileID: 2146441525}
   m_Father: {fileID: 1703467450}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.7767877, y: 0.78331715}
   m_AnchorMax: {x: 0.9153631, y: 1}
@@ -13050,8 +13062,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 532788232}
   - {fileID: 635641821}
+  - {fileID: 532788232}
   - {fileID: 1600380159}
   m_Father: {fileID: 136746951}
   m_RootOrder: 1
@@ -13247,6 +13259,7 @@ MonoBehaviour:
   cameraTarget: {fileID: 637651706}
   cineCam: {fileID: 358012283}
   criteria: 
+  isYearFilterActive: 0
 --- !u!114 &1719946919
 MonoBehaviour:
   m_ObjectHideFlags: 0

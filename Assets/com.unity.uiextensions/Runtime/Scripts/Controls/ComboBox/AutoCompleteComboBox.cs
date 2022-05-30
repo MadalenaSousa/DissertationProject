@@ -55,7 +55,7 @@ namespace UnityEngine.UI.Extensions
         
         private GameObject itemTemplate;
 
-        public string Text { get; private set; }
+        public string Text { get; set; }
 
         [SerializeField]
         private float _scrollBarWidth = 20.0f;

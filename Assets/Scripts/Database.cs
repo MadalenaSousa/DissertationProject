@@ -383,7 +383,7 @@ public class Database : MonoBehaviour
 
         while (reader.Read())
         {
-            if (!reader.IsDBNull(0) && name != null)
+            if (!reader.IsDBNull(0))
             {
                 results.Add(reader.GetInt32(0));
             }

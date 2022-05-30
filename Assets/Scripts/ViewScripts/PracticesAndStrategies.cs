@@ -64,6 +64,7 @@ public class PracticesAndStrategies : MonoBehaviour
     public CinemachineFreeLook cineCam;
 
     public string criteria;
+    public bool isYearFilterActive = false;
 
     private void Awake()
     {
@@ -139,16 +140,32 @@ public class PracticesAndStrategies : MonoBehaviour
             clusters = new List<Cluster>();
         }
 
-        if (switchCriteria.value == 1)
-        {
-            maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
-            minCriteriaValue = db.getMinCitPS();
-        }
-        else
-        {
-            maxCriteriaValue = db.getMaxConnPS();
-            minCriteriaValue = db.getMinConnPS();
-        }
+        //if(isYearFilterActive)
+        //{
+        //    if (switchCriteria.value == 1)
+        //    {
+        //        maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
+        //        minCriteriaValue = db.getMinCitPS();
+        //    }
+        //    else
+        //    {
+        //        maxCriteriaValue = getMaxConnYear();
+        //        minCriteriaValue = getMinConnYear();
+        //    }
+        //} 
+        //else
+        //{
+            if (switchCriteria.value == 1)
+            {
+                maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
+                minCriteriaValue = db.getMinCitPS();
+            }
+            else
+            {
+                maxCriteriaValue = db.getMaxConnPS();
+                minCriteriaValue = db.getMinConnPS();
+            }
+        //}        
 
         //CLUSTERS
         setClusters(maxCriteriaValue, minCriteriaValue);
@@ -173,6 +190,50 @@ public class PracticesAndStrategies : MonoBehaviour
         //INFO PANEL
         updateClusterInfoPanel();
         clusterInfoPanel.SetActive(false);
+
+        //FILTERS (should it mantain or clear filters?)
+        Filters.instance.filterPapers(); //Maintain filters
+
+        //Filters.instance.clearFilter("author"); //Clear filters
+        //Filters.instance.clearFilter("journal");
+        //Filters.instance.clearFilter("institution");
+        //Filters.instance.clearFilter("year");
+    }
+
+    public int getMaxConnYear()
+    {
+        int maxConn = 0;
+
+        for(int i = 0; i < papers.Count; i++)
+        {
+            if(papers[i].gameObject.activeSelf)
+            {
+                if (papers[i].connections.Count > maxConn)
+                {
+                    maxConn = papers[i].connections.Count;
+                }
+            }           
+        }
+
+        return maxConn;
+    }
+
+    public int getMinConnYear()
+    {
+        int minConn = db.getMaxConnPS();
+
+        for (int i = 0; i < papers.Count; i++)
+        {
+            if (papers[i].gameObject.activeSelf)
+            {
+                if (papers[i].connections.Count < minConn)
+                {
+                    minConn = papers[i].connections.Count;
+                }
+            }
+        }
+
+        return minConn;
     }
 
     public void setClusters(int maxCriteriaValue, int minCriteriaValue)

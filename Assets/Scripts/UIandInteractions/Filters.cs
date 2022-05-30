@@ -12,6 +12,7 @@ public class Filters : MonoBehaviour
     //Instances
     Database db;
     PracticesAndStrategies ps;
+    public static Filters instance;
 
     //Author Filter UI
     public AutoCompleteComboBox authorSearch;
@@ -42,6 +43,14 @@ public class Filters : MonoBehaviour
     //Other
     public Button resetFilters;
     public Dictionary<string, List<int>> filteredPapers = new Dictionary<string, List<int>>();
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
 
     void Start()
     {
@@ -79,9 +88,6 @@ public class Filters : MonoBehaviour
         {
             instOptions[i].onClick.AddListener(filterPapers);
         }
-
-        //YEAR
-        triggerFilter.onClick.AddListener(filterPapers);
     }
 
     public void clearFilter(string filter)
@@ -89,14 +95,17 @@ public class Filters : MonoBehaviour
         if(filter == "author")
         {
             authorSearch.clearInputField();
+            authorSearch.Text = null;
         } 
         else if(filter == "journal")
         {
             journalSearch.clearInputField();
+            journalSearch.Text = null;
         }
         else if (filter == "institution")
         {
             instSearch.clearInputField();
+            instSearch.Text = null;
         }
         else if (filter == "year")
         {
@@ -125,7 +134,7 @@ public class Filters : MonoBehaviour
             max = int.Parse(maxInput.text);
         }
 
-        if (authorSearch.Text != null || authorSearch.Text != "" || journalSearch.Text != null || journalSearch.Text != "" || instSearch.Text != null || instSearch.Text != "" || min > 1000 || max < DateTime.Now.Year + 1)
+        if (authorSearch.Text != null || journalSearch.Text != null || instSearch.Text != null || min > 1500 || max < DateTime.Now.Year)
         {
             results = db.filter(authorSearch.Text, journalSearch.Text, instSearch.Text, min, max);
             isAllPapersActive = false;
