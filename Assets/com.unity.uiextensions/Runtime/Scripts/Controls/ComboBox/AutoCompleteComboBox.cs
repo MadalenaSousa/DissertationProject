@@ -55,7 +55,7 @@ namespace UnityEngine.UI.Extensions
         
         private GameObject itemTemplate;
 
-        public string Text { get; private set; }
+        public string Text { get; set; }
 
         [SerializeField]
         private float _scrollBarWidth = 20.0f;
@@ -269,6 +269,11 @@ namespace UnityEngine.UI.Extensions
             RebuildPanel();
         }
 
+        public void clearInputField()
+        {
+            _mainInput.text = "";
+        }
+
         /// <summary>
         /// Rebuilds the contents of the panel in response to items being added.
         /// </summary>
@@ -311,6 +316,9 @@ namespace UnityEngine.UI.Extensions
                 {
                     itemObjs[i].name = "Item " + i + " " + _panelItems[i];
                     itemObjs[i].transform.Find("Text").GetComponent<Text>().text = AvailableOptions[i]; //set the text value
+                    itemObjs[i].transform.Find("Text").GetComponent<Text>().resizeTextForBestFit = true;
+                    itemObjs[i].transform.Find("Text").GetComponent<Text>().resizeTextMaxSize = 12;
+                    itemObjs[i].transform.Find("Text").GetComponent<Text>().resizeTextMaxSize = 6;
 
                     Button itemBtn = itemObjs[i].GetComponent<Button>();
                     itemBtn.onClick.RemoveAllListeners();

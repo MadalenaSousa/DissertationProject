@@ -12,4 +12,13 @@ public class MenuManager : MonoBehaviour
         
     }
 
+    public void goToAbout()
+    {
+        SceneManager.LoadScene("About");
+    }
+
+    public void goToPS()
+    {
+        SceneManager.LoadScene("PracticesAndStrategies");
+    }
 }

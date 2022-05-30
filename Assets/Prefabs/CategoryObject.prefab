@@ -261,9 +261,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: c8f1627c2d562fe4383e15ebc93199f3, type: 3}
     m_FontSize: 50
-    m_FontStyle: 2
+    m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 50
@@ -284,6 +284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2545490914094068524}
   - component: {fileID: 3142042879166108092}
+  - component: {fileID: 5183707842017924811}
   m_Layer: 0
   m_Name: CategoryObject
   m_TagString: Untagged
@@ -321,3 +322,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleBox: {fileID: 4958239626610290869}
   totalConnections: 0
+  mousePressed: 0
+--- !u!135 &5183707842017924811
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6981329543428466605}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}

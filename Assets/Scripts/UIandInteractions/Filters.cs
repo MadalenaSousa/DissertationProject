@@ -11,14 +11,15 @@ public class Filters : MonoBehaviour
 {
     //Instances
     Database db;
-    PracticesAndStrategies bv;
+    PracticesAndStrategies ps;
+    public static Filters instance;
 
     //Author Filter UI
     public AutoCompleteComboBox authorSearch;
     public GameObject authorOptionlist;
     Button[] authorOptions;
     List<string> allAuthors = new List<string>();
-    Dictionary<int, string> authorsFromDB = new Dictionary<int, string>();
+    string currentAuthorInFilter;
 
     //Journal Filter UI
     public AutoCompleteComboBox journalSearch;
@@ -26,6 +27,14 @@ public class Filters : MonoBehaviour
     Button[] journalOptions;
     List<string> allJournals = new List<string>();
     Dictionary<int, string> journalsFromDB = new Dictionary<int, string>();
+    string currentJournalInFilter;
+
+    //Institution Filter UI
+    public AutoCompleteComboBox instSearch;
+    public GameObject instOptionList;
+    Button[] instOptions;
+    List<string> allInstitutions = new List<string>();
+    string currentInstitutionInFilter;
 
     //Year Interval UI
     public InputField minInput, maxInput;
@@ -33,48 +42,86 @@ public class Filters : MonoBehaviour
 
     //Other
     public Button resetFilters;
+    public Dictionary<string, List<int>> filteredPapers = new Dictionary<string, List<int>>();
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
 
     void Start()
     {
         db = Database.instance;
-        bv = PracticesAndStrategies.instance;
+        ps = PracticesAndStrategies.instance;
         
-        authorsFromDB = db.getAllInTable("author");
-        foreach (KeyValuePair<int, string> author in authorsFromDB)
-        {
-            allAuthors.Add(author.Value);
-        }
-
+        //AUTHORS
+        allAuthors = db.getPSAuthors();
         authorSearch.SetAvailableOptions(allAuthors);
         authorOptions = authorOptionlist.GetComponentsInChildren<Button>();
 
         for (int i = 0; i < authorOptions.Length; i++)
         {
-            authorOptions[i].onClick.AddListener(filterByAuthor);
+            authorOptions[i].onClick.AddListener(filterPapers);
         }
 
-        journalsFromDB = db.getAllInTable("puboutlet");
-        foreach (KeyValuePair<int, string> journal in journalsFromDB)
-        {
-            allJournals.Add(journal.Value);
-        }
+        //PUB OUTLETS
+        allJournals = db.getPSJournals();
 
-        journalSearch.SetAvailableOptions(allJournals.Distinct().ToList());   
+        journalSearch.SetAvailableOptions(allJournals);   
         journalOptions = journalOptionList.GetComponentsInChildren<Button>();
 
         for (int i = 0; i < journalOptions.Length; i++)
         {
-            journalOptions[i].onClick.AddListener(filterByJournal);
+            journalOptions[i].onClick.AddListener(filterPapers);
         }
 
-        triggerFilter.onClick.AddListener(filterByYearInterval);
+        //INSTITUTIONS
+        allInstitutions = db.getPSInstitutions();
 
-        resetFilters.onClick.AddListener(bv.resetPapers);
+        instSearch.SetAvailableOptions(allInstitutions);
+        instOptions = instOptionList.GetComponentsInChildren<Button>();
+
+        for (int i = 0; i < instOptions.Length; i++)
+        {
+            instOptions[i].onClick.AddListener(filterPapers);
+        }
     }
 
-    public void filterByYearInterval()
+    public void clearFilter(string filter)
     {
-        int min = -2;
+        if(filter == "author")
+        {
+            authorSearch.clearInputField();
+            authorSearch.Text = null;
+        } 
+        else if(filter == "journal")
+        {
+            journalSearch.clearInputField();
+            journalSearch.Text = null;
+        }
+        else if (filter == "institution")
+        {
+            instSearch.clearInputField();
+            instSearch.Text = null;
+        }
+        else if (filter == "year")
+        {
+            minInput.text = "";
+            maxInput.text = "";
+        }
+
+        filterPapers();
+    }
+
+    public void filterPapers()
+    {
+        bool isAllPapersActive = true;
+        List<int> results = new List<int>();
+
+        int min = -1;
         int max = DateTime.Now.Year + 1;
 
         if (!string.IsNullOrEmpty(minInput.text))
@@ -87,16 +134,22 @@ public class Filters : MonoBehaviour
             max = int.Parse(maxInput.text);
         }
 
-        bv.deactivatePapersByYear(min, max);
-    }
+        if (authorSearch.Text != null || journalSearch.Text != null || instSearch.Text != null || min > 1500 || max < DateTime.Now.Year)
+        {
+            results = db.filter(authorSearch.Text, journalSearch.Text, instSearch.Text, min, max);
+            isAllPapersActive = false;
+        }
 
-    public void filterByAuthor()
-    {
-        bv.deactivatePapers(1, authorSearch.Text);
-    }
-
-    public void filterByJournal()
-    {
-        bv.deactivatePapers(2, journalSearch.Text);
+        for (int i = 0; i < ps.papers.Count; i++)
+        {
+            if (isAllPapersActive || results.Contains(ps.papers[i].getId()))
+            {
+                ps.papers[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                ps.papers[i].gameObject.SetActive(false);
+            }
+        }
     }
 }

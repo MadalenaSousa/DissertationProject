@@ -48,6 +48,9 @@ public class APIManager : MonoBehaviour
             StartCoroutine(WriteData(titles, temppaperdata));
         }
 
+        //List<int> citationCounts = new List<int>();
+        //StartCoroutine(WriteDataCitations(titles, citationCounts));
+
     }
 
     IEnumerator WriteData(string[] papertitles, List<InitData> paperlist) // Write Json with API data
@@ -187,6 +190,83 @@ public class APIManager : MonoBehaviour
             }
         }
     }
+    IEnumerator WriteDataCitations(string[] papertitles, List<int> paperlist) // Write Json with API data
+    {
+
+        for (int i = 0; i < papertitles.Length; i++)
+        {
+            string encoded = papertitles[i].Replace(",", "%2C");
+            encoded = encoded.Replace(".", "%2E");
+            encoded = encoded.Replace(" ", "%20");
+            encoded = encoded.Replace(":", "%3A");
+            encoded = encoded.Replace(";", "%3B");
+
+            Debug.Log("Current Call: " + i);
+
+            yield return StartCoroutine(GetCitations("https://api.openalex.org/works?mailto=up202003391@up.pt&filter=title.search:" + encoded, paperlist));
+
+            Thread.Sleep(200);
+        }
+
+        StreamWriter writer = new StreamWriter("Assets/Resources/apidatacitations.json");
+
+        DataObjectCitations totaldata = new DataObjectCitations(paperlist);
+        JObject jsonpaper = JObject.FromObject(totaldata);
+
+        writer.Write(jsonpaper);
+        writer.Close();
+    }
+
+    IEnumerator GetCitations(string uri, List<int> paperlist) // Request API data and format to InitData type object
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+        {
+            // Request and wait for the desired page.
+            yield return webRequest.SendWebRequest();
+
+            string[] pages = uri.Split('/');
+            int page = pages.Length - 1;
+
+            switch (webRequest.result)
+            {
+                case UnityWebRequest.Result.ConnectionError:
+                case UnityWebRequest.Result.DataProcessingError:
+                    Debug.LogError(pages[page] + ": Error: " + webRequest.error);
+                    break;
+                case UnityWebRequest.Result.ProtocolError:
+                    Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
+                    break;
+                case UnityWebRequest.Result.Success:
+                    //Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text)
+
+                    JObject json = JObject.Parse(webRequest.downloadHandler.text);
+
+                    if (json["results"] != null)
+                    {
+                        JArray results = (JArray)json["results"];
+
+                        int citationCount = -1;
+
+                        if (results.Count > 0)
+                        {
+                            if(json["results"][0]["cited_by_count"] != null)
+                            {
+                                citationCount = (int)json["results"][0]["cited_by_count"];
+                            }                            
+                        }
+
+                        paperlist.Add(citationCount);
+
+                    }
+                    else
+                    {
+                        paperlist.Add(-1);
+                    }
+
+                    break;
+            }
+        }
+    }
 
     public class InitData
     {
@@ -275,6 +355,16 @@ public class APIManager : MonoBehaviour
         public List<InitData> objects = new List<InitData>();
 
         public DataObject(List<InitData> objects)
+        {
+            this.objects = objects;
+        }
+    }
+
+    public class DataObjectCitations
+    {
+        public List<int> objects = new List<int>();
+
+        public DataObjectCitations(List<int> objects)
         {
             this.objects = objects;
         }

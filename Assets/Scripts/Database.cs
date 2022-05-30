@@ -11,6 +11,7 @@ using UnityEngine.Networking;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Threading;
+using Cinemachine;
 
 public class Database : MonoBehaviour
 {
@@ -43,6 +44,8 @@ public class Database : MonoBehaviour
             FillTables(apipapers);
         }
 
+        //insertCitations(apipapers);
+
     }
 
     void StartDataSQLite()
@@ -60,7 +63,7 @@ public class Database : MonoBehaviour
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT paper.title, paper.date, paper.pubyear FROM paper WHERE id =" + id;
+        string sqlQuery = "SELECT paper.title, paper.date, paper.pubyear, paper.citationcount FROM paper WHERE id =" + id;
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
@@ -68,6 +71,7 @@ public class Database : MonoBehaviour
         string title = "";
         string date = "";
         int year = -1;
+        int citationCount = -1;
 
         while (reader.Read())
         {
@@ -76,7 +80,77 @@ public class Database : MonoBehaviour
             year = reader.GetInt32(2);
         }
 
-        return new Paper(id, title, date, year, getAuthorAndInstitutionByPaperId(id), getPubOutletByPaperId(id), getPracticeByPaperId(id), getStrategyByPaperId(id), getUseByPaperId(id));
+        return new Paper(id, title, date, year, getAuthorAndInstitutionByPaperId(id), getPubOutletByPaperId(id), getPracticeByPaperId(id), getStrategyByPaperId(id), getUseByPaperId(id), citationCount);
+    }
+
+    private int getCitationCount(string maxOrMin, string category)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "";
+
+        if (category == "practices" && maxOrMin == "max")
+        {
+            sqlQuery = "SELECT MAX(sum) " +
+                        "FROM(SELECT practices_account.practices_id, SUM(paper.citationcount) as sum " +
+                        "FROM practices_account " +
+                        "LEFT JOIN paper_account ON paper_account.account_id = practices_account.account_id " +
+                        "LEFT JOIN paper ON paper.id = paper_account.paper_id " +
+                        "GROUP BY practices_account.practices_id)";
+        } 
+        else if(category == "strategies" && maxOrMin == "max")
+        {
+            sqlQuery = "SELECT MAX(sum) " +
+                        "FROM(SELECT account_strategies.strategies_id, SUM(paper.citationcount) as sum " +
+                        "FROM account_strategies " +
+                        "LEFT JOIN paper_account ON paper_account.account_id = account_strategies.account_id " +
+                        "LEFT JOIN paper ON paper.id = paper_account.paper_id " +
+                        "GROUP BY account_strategies.strategies_id)";
+        }
+        else if (category == "practices" && maxOrMin == "min")
+        {
+            sqlQuery = "SELECT MIN(sum) " +
+                        "FROM(SELECT practices_account.practices_id, SUM(paper.citationcount) as sum " +
+                        "FROM practices_account " +
+                        "LEFT JOIN paper_account ON paper_account.account_id = practices_account.account_id " +
+                        "LEFT JOIN paper ON paper.id = paper_account.paper_id " +
+                        "GROUP BY practices_account.practices_id)";
+        }
+        else if (category == "strategies" && maxOrMin == "min")
+        {
+            sqlQuery = "SELECT MIN(sum) " +
+                        "FROM(SELECT account_strategies.strategies_id, SUM(paper.citationcount) as sum " +
+                        "FROM account_strategies " +
+                        "LEFT JOIN paper_account ON paper_account.account_id = account_strategies.account_id " +
+                        "LEFT JOIN paper ON paper.id = paper_account.paper_id " +
+                        "GROUP BY account_strategies.strategies_id)";
+        }
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int max = 0;
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                max = reader.GetInt32(0);
+            }
+        }
+
+        return max;
+    }
+
+    public int getMaxCitPS()
+    {
+        return Math.Max(getCitationCount("max", "practices"), getCitationCount("max", "strategies"));
+    }
+
+    public int getMinCitPS()
+    {
+        return Math.Min(getCitationCount("min", "practices"), getCitationCount("min", "strategies"));
     }
 
     public int getMaxConnPS()
@@ -139,7 +213,12 @@ public class Database : MonoBehaviour
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT MIN(count) FROM(SELECT practices_id, COUNT(*) as count FROM practices_account LEFT JOIN paper_account WHERE practices_account.account_id = paper_account.account_id GROUP BY practices_id)";
+        string sqlQuery = "SELECT MIN(count) " +
+                        "FROM(" +
+                            "SELECT practices_id, COUNT(*) as count " +
+                            "FROM practices_account " +
+                            "LEFT JOIN paper_account WHERE practices_account.account_id = paper_account.account_id " +
+                            "GROUP BY practices_id)";
 
         _command.CommandText = sqlQuery;
 
@@ -214,6 +293,48 @@ public class Database : MonoBehaviour
         return total;
     }
 
+    public List<int> filterByAuthorJournalInstitution(int type, string name)
+    {   
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery =  "";
+
+        if (type == 1)
+        {
+            sqlQuery = "SELECT author_paper.paper_id  FROM author_paper, author WHERE author_paper.author_id = author.id AND author.name LIKE '%" + name + "%'";
+        }
+        else if (type == 2)
+        {
+            sqlQuery = "SELECT puboutlet_paper.paper_id FROM puboutlet_paper, puboutlet WHERE puboutlet_paper.puboutlet_id = puboutlet.id AND puboutlet.name LIKE '%" + name + "%'";
+        }
+        else if (type == 3)
+        {
+            sqlQuery = "SELECT DISTINCT author_paper.paper_id " +
+                        "FROM author_paper " +
+                        "LEFT JOIN author_institution ON author_institution.author_id = author_paper.author_id " +
+                        "LEFT JOIN institution ON institution.id = author_institution.institution_id " +
+                        "WHERE author_paper.author_id = author_institution.author_id " +
+                        "AND author_institution.institution_id = institution.id " +
+                        "AND institution.name LIKE '%" + name + "%'";
+        }
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<int> results = new List<int>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0) && name != null)
+            {
+                results.Add(reader.GetInt32(0));
+            }
+        }
+
+        return results;
+    }
+
     public List<int> getPapersByYearInterval(int min, int max)
     {
         IDbCommand _command = _connection.CreateCommand();
@@ -237,24 +358,22 @@ public class Database : MonoBehaviour
         return papers;
     }
 
-    public List<int> filterByAuthorJournalInstitution(int type, string name)
+    public List<int> filter(string author, string journal, string institution, int yearMin, int yearMax)
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "";
-
-        if (type == 1)
-        {
-            sqlQuery = "SELECT author_paper.paper_id  FROM author_paper, author WHERE author_paper.author_id = author.id AND author.name LIKE '%" + name + "%'";
-        }
-        else if (type == 2)
-        {
-            sqlQuery = "SELECT puboutlet_paper.paper_id FROM puboutlet_paper, puboutlet WHERE puboutlet_paper.puboutlet_id = puboutlet.id AND puboutlet.name LIKE '%" + name + "%'";
-        }
-        else if (type == 3)
-        {
-            sqlQuery = "SELECT author_paper.paper_id  FROM author_paper, author_institution, institution WHERE author_paper.author_id = author_institution.author_id AND author_institution.institution_id = institution.id AND institution.name LIKE '%" + name + "%'";
-        }
+        string sqlQuery = "SELECT DISTINCT paper.id " +
+                            "FROM paper " +
+                            "LEFT JOIN puboutlet_paper ON paper.id = puboutlet_paper.paper_id " +
+                            "LEFT JOIN puboutlet ON puboutlet_paper.puboutlet_id = puboutlet.id " +
+                            "LEFT JOIN author_paper ON paper.id = author_paper.paper_id " +
+                            "LEFT JOIN author ON author.id = author_paper.author_id " +
+                            "LEFT JOIN author_institution ON author_institution.author_id = author_paper.author_id " +
+                            "LEFT JOIN institution ON institution.id = author_institution.institution_id " +
+                            "WHERE(author.name LIKE '%" + (author ?? "") + "%'" + (author == null ? " OR author.name IS NULL" : "") + ")" +
+                            "AND(puboutlet.name LIKE '%" + (journal ?? "") + "%'" + (journal == null ? " OR puboutlet.name IS NULL" : "") + ")" +
+                            "AND(institution.name LIKE '%" + (institution ?? "") + "%'" + (institution == null ? " OR institution.name IS NULL" : "") + ")" +
+                            "AND paper.pubyear >=" + yearMin + " AND paper.pubyear <=" + yearMax;
 
         _command.CommandText = sqlQuery;
 
@@ -464,7 +583,16 @@ public class Database : MonoBehaviour
     {
         IDbCommand _command = _connection.CreateCommand();
 
-        string sqlQuery = "SELECT DISTINCT paper_account.paper_id FROM paper_account, practices_account, account_strategies WHERE practices_account.account_id = paper_account.account_id OR account_strategies.account_id = paper_account.account_id";
+        string sqlQuery = "SELECT paper.id " +
+            "FROM paper " +
+            "WHERE paper.id IN " +
+                "(SELECT paper_account.paper_id " +
+                "FROM paper_account " +
+                "INNER JOIN practices_account ON practices_account.account_id = paper_account.account_id) " +
+            "OR paper.id IN " +
+                "(SELECT paper_account.paper_id " +
+                "FROM paper_account " +
+                "INNER JOIN account_strategies ON account_strategies.account_id = paper_account.account_id)";
 
         _command.CommandText = sqlQuery;
 
@@ -506,11 +634,124 @@ public class Database : MonoBehaviour
         return elementsInTable;
     }
 
+    public List<string> getPSAuthors()
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT DISTINCT author.name " +
+                        "FROM author " +
+                        "LEFT JOIN author_paper ON author.id = author_paper.author_id " +
+                        "WHERE author.id = author_paper.author_id AND author_paper.paper_id IN " +
+                            "(SELECT paper.id " +
+                            "FROM paper " +
+                            "WHERE paper.id IN " +
+                                "(SELECT paper_account.paper_id " +
+                                "FROM paper_account " +
+                                "INNER JOIN practices_account ON practices_account.account_id = paper_account.account_id) " +
+                            "OR paper.id IN " +
+                                "(SELECT paper_account.paper_id " +
+                                "FROM paper_account " +
+                                "INNER JOIN account_strategies ON account_strategies.account_id = paper_account.account_id))";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<string> elementsInTable = new List<string>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                elementsInTable.Add(reader.GetString(0));
+            }
+        }
+
+        return elementsInTable;
+    }
+
+    public List<string> getPSJournals()
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT DISTINCT puboutlet.name " +
+                        "FROM puboutlet " +
+                        "LEFT JOIN puboutlet_paper ON puboutlet.id = puboutlet_paper.puboutlet_id " +
+                        "WHERE puboutlet.id = puboutlet_paper.puboutlet_id AND puboutlet_paper.paper_id IN " +
+                            "(SELECT paper.id " +
+                            "FROM paper " +
+                            "WHERE paper.id IN " +
+                                "(SELECT paper_account.paper_id " +
+                                "FROM paper_account " +
+                                "INNER JOIN practices_account ON practices_account.account_id = paper_account.account_id) " +
+                            "OR paper.id IN " +
+                                "(SELECT paper_account.paper_id " +
+                                "FROM paper_account " +
+                                "INNER JOIN account_strategies ON account_strategies.account_id = paper_account.account_id))";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<string> elementsInTable = new List<string>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                elementsInTable.Add(reader.GetString(0));
+            }
+        }
+
+        return elementsInTable;
+    }
+
+    public List<string> getPSInstitutions()
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT DISTINCT institution.name " +
+                        "FROM institution " +
+                        "LEFT JOIN author_institution ON institution.id = author_institution.institution_id " +
+                        "LEFT JOIN author_paper ON author_institution.author_id = author_paper.author_id " +
+                        "WHERE author_institution.author_id = author_paper.author_id AND author_paper.paper_id IN " +
+                            "(SELECT paper.id FROM paper " +
+                            "WHERE paper.id IN " +
+                                "(SELECT paper_account.paper_id " +
+                                "FROM paper_account " +
+                                "INNER JOIN practices_account ON practices_account.account_id = paper_account.account_id) " +
+                            "OR paper.id IN " +
+                                "(SELECT paper_account.paper_id " +
+                                "FROM paper_account " +
+                                "INNER JOIN account_strategies ON account_strategies.account_id = paper_account.account_id))";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        List<string> elementsInTable = new List<string>();
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                elementsInTable.Add(reader.GetString(0));
+            }
+        }
+
+        return elementsInTable;
+    }
+
     public List<Author> getAuthorAndInstitutionByPaperId(int id)
     {
         IDbCommand _command = _connection.CreateCommand();
     
-        string sqlQuery = "SELECT author.id, author.name, author.openalexid, author_institution.institution_id FROM author_paper LEFT JOIN author ON author_paper.author_id = author.id LEFT JOIN author_institution ON author.id = author_institution.author_id WHERE author_paper.paper_id =" + id;
+        string sqlQuery = "SELECT author.id, author.name, author.openalexid, author_institution.institution_id " +
+            "FROM author_paper " +
+            "LEFT JOIN author ON author_paper.author_id = author.id " +
+            "LEFT JOIN author_institution ON author.id = author_institution.author_id W" +
+            "HERE author_paper.paper_id =" + id;
+
         _command.CommandText = sqlQuery;
 
         IDataReader reader = _command.ExecuteReader();
@@ -735,6 +976,18 @@ public class Database : MonoBehaviour
 
         _command.CommandText = sql;
         _command.ExecuteNonQuery();
+    }
+
+    void insertCitations(JArray citationCounts)
+    {
+        for(int i = 0; i < citationCounts.Count; i++)
+        {
+            IDbCommand _command = _connection.CreateCommand();
+            string sql = "UPDATE paper SET citationcount = " + citationCounts[i] + " WHERE paper.id = " + i;
+
+            _command.CommandText = sql;
+            _command.ExecuteNonQuery();
+        }
     }
 
     // Run one time only method to fill DB tables

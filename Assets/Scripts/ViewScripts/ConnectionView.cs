@@ -19,4 +19,9 @@ public class ConnectionView : MonoBehaviour
         gameObject.GetComponent<LineRenderer>().SetPosition(0, paperView.getPosition());
         gameObject.GetComponent<LineRenderer>().SetPosition(1, categoryView.getPosition());
     }
+
+    public void lineThickness(float multiplier)
+    {
+        gameObject.GetComponent<LineRenderer>().widthMultiplier = multiplier;
+    }
 }

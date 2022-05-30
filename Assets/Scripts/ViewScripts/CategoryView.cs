@@ -17,6 +17,8 @@ public class CategoryView : MonoBehaviour
     //Other Variables
     public int totalConnections = 0;
     public List<Paper> associatedPapers = new List<Paper>();
+    public bool mousePressed = false;
+    public int clusterCriteria;
 
     public void bootstrapPractices(int id)
     {
@@ -24,10 +26,9 @@ public class CategoryView : MonoBehaviour
         associatedPapers = Database.instance.getPapersForPracticeById(id);
         totalConnections = associatedPapers.Count; //Set total connections
 
-        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 500; //Set visual
-        gameObject.GetComponentInChildren<Renderer>().material.color = Color.cyan;
+        clusterCriteria = totalConnections;
 
-        //gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale + new Vector3(totalConnections, totalConnections, totalConnections);
+        gameObject.GetComponentInChildren<Renderer>().material.color = Color.cyan;
 
         titleBox.GetComponent<Text>().text = this.category.name; //Set UI
     }
@@ -38,10 +39,9 @@ public class CategoryView : MonoBehaviour
         associatedPapers = Database.instance.getPapersForStrategyById(id);
         totalConnections = associatedPapers.Count; //Set total connections
 
-        gameObject.transform.position = UnityEngine.Random.insideUnitSphere * 500; //Set visual
-        gameObject.GetComponentInChildren<Renderer>().material.color = Color.yellow;
+        clusterCriteria = totalConnections;
 
-        //gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale * 10;
+        gameObject.GetComponentInChildren<Renderer>().material.color = Color.yellow;
 
         titleBox.GetComponent<Text>().text = this.category.name; //Set UI
     }
@@ -69,6 +69,13 @@ public class CategoryView : MonoBehaviour
     public void setRadius(float radius)
     {
         gameObject.GetComponentInChildren<Transform>().localScale = gameObject.GetComponentInChildren<Transform>().localScale + new Vector3(radius, radius, radius);
+        category.radius = radius;
     }
+
+    private void OnMouseDown()
+    {
+        this.mousePressed = true;
+    }
+
 }
  

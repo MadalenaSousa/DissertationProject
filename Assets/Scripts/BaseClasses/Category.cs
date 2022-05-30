@@ -7,6 +7,7 @@ public class Category
 {
     public int id = 0;
     public string name = "none";
+    public float radius = 0;
 }
 
 public class Practice : Category

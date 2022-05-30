@@ -5,11 +5,10 @@ using UnityEngine;
 using System;
 using LumenWorks.Framework.IO.Csv;
 using UnityEngine.UI;
-using UnityEngine.Networking;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Threading;
 using System.Linq;
+using Cinemachine;
 
 public class PracticesAndStrategies : MonoBehaviour
 {
@@ -24,25 +23,48 @@ public class PracticesAndStrategies : MonoBehaviour
     public Text puboutletname;
     public Text puboutleturl;
     public Text puboutletissn;
+    public Text paperYear;
     public GameObject authorPanel;
     public GameObject authorPrefab;
+    public GameObject practicesPanel;
+    public GameObject strategiesPanel;
+    public GameObject categoryNamePrefab;
+
+    public GameObject catPopUp;
+    public Button closeCatPopUpButton;
+    public Text catName;
+    public Text catConns;
+    public Text catInterval;
+    public Dropdown switchCriteria;
+
+    public GameObject clusterInfoPanel;
+    public GameObject clusterInfoPrefab;
+    public GameObject clusterInfoBackground;
+
 
     //Visual Objects
+    public int globalSphereRadius;
     public GameObject parentObject;
 
     public GameObject NodePrefab;
-    List<PaperView> papers = new List<PaperView>();
+    public List<PaperView> papers = new List<PaperView>();
 
+    public int minCatRadius, maxCatRadius;
     public GameObject CategoryPrefab;
-
     Dictionary<int, CategoryView> strategiesViews = new Dictionary<int, CategoryView>();
     Dictionary<int, CategoryView> practicesViews = new Dictionary<int, CategoryView>();
 
     public GameObject ConnectionPrefab;
     List<ConnectionView> connections =  new List<ConnectionView>();
 
-    int clusterConnInterval, totalClusters;
+    int clusterConnInterval, totalClusters, maxCriteriaValue, minCriteriaValue;
     List<Cluster> clusters = new List<Cluster>();
+
+    public Transform cameraTarget;
+    public CinemachineFreeLook cineCam;
+
+    public string criteria;
+    public bool isYearFilterActive = false;
 
     private void Awake()
     {
@@ -56,21 +78,179 @@ public class PracticesAndStrategies : MonoBehaviour
     {
         db = Database.instance;
 
+        //Set Variables
+        minCatRadius = 10;
+        maxCatRadius = 80;
+        globalSphereRadius = 800;
+        totalClusters = 50;
+
+        maxCriteriaValue = db.getMaxConnPS();
+        minCriteriaValue = db.getMinConnPS();    
+
         //CLUSTERS
-        int maxConnections = db.getMaxConnPS();
-        int minConnections = db.getMinConnPS();
-        totalClusters = 40;
-        clusterConnInterval = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(maxConnections) / Convert.ToDouble(totalClusters)));
+        setClusters(maxCriteriaValue, minCriteriaValue);
+
+        //CATEGORIES
+        drawCategories(minCatRadius, maxCatRadius);
+
+        //PAPERS
+        drawPapers();
+
+        //Remove Empty Clusters
+        List<Cluster> nonEmptyClusters = new List<Cluster>();
+        foreach (Cluster cluster in clusters)
+        {
+            if (cluster.categories.Count > 0)
+            {
+                nonEmptyClusters.Add(cluster);
+            }
+        }
+        clusters = nonEmptyClusters;
+
+        //INFO PANEL
+        updateClusterInfoPanel();
+        clusterInfoPanel.SetActive(false);
+
+        //OTHER
+        closePopUpButton.onClick.AddListener(closePopUp);
+        closeCatPopUpButton.onClick.AddListener(closeCatPopUp);
+
+    }
+
+    private void Update()
+    {
+        openPopUp();
+        openCatPopUp();
+        updateConnections();
+        lookAtCamera();
+        clickAndDrag();
+
+        clusterInfoBackground.SetActive(clusterInfoPanel.activeSelf);
+    }
+
+    public void changeClusterCriteria()
+    {
+        foreach (Transform child in parentObject.transform)
+        {
+            Destroy(child.gameObject);
+            papers = new List<PaperView>();
+            connections = new List<ConnectionView>();
+            strategiesViews = new Dictionary<int, CategoryView>();
+            practicesViews = new Dictionary<int, CategoryView>();
+            clusters = new List<Cluster>();
+        }
+
+        //if(isYearFilterActive)
+        //{
+        //    if (switchCriteria.value == 1)
+        //    {
+        //        maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
+        //        minCriteriaValue = db.getMinCitPS();
+        //    }
+        //    else
+        //    {
+        //        maxCriteriaValue = getMaxConnYear();
+        //        minCriteriaValue = getMinConnYear();
+        //    }
+        //} 
+        //else
+        //{
+            if (switchCriteria.value == 1)
+            {
+                maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
+                minCriteriaValue = db.getMinCitPS();
+            }
+            else
+            {
+                maxCriteriaValue = db.getMaxConnPS();
+                minCriteriaValue = db.getMinConnPS();
+            }
+        //}        
+
+        //CLUSTERS
+        setClusters(maxCriteriaValue, minCriteriaValue);
+
+        //CATEGORIES
+        drawCategories(minCatRadius, maxCatRadius);
+
+        //PAPERS
+        drawPapers();
+
+        //Remove Empty Clusters
+        List<Cluster> nonEmptyClusters = new List<Cluster>();
+        foreach (Cluster cluster in clusters)
+        {
+            if (cluster.categories.Count > 0)
+            {
+                nonEmptyClusters.Add(cluster);
+            }
+        }
+        clusters = nonEmptyClusters;
+
+        //INFO PANEL
+        updateClusterInfoPanel();
+        clusterInfoPanel.SetActive(false);
+
+        //FILTERS (should it mantain or clear filters?)
+        Filters.instance.filterPapers(); //Maintain filters
+
+        //Filters.instance.clearFilter("author"); //Clear filters
+        //Filters.instance.clearFilter("journal");
+        //Filters.instance.clearFilter("institution");
+        //Filters.instance.clearFilter("year");
+    }
+
+    public int getMaxConnYear()
+    {
+        int maxConn = 0;
+
+        for(int i = 0; i < papers.Count; i++)
+        {
+            if(papers[i].gameObject.activeSelf)
+            {
+                if (papers[i].connections.Count > maxConn)
+                {
+                    maxConn = papers[i].connections.Count;
+                }
+            }           
+        }
+
+        return maxConn;
+    }
+
+    public int getMinConnYear()
+    {
+        int minConn = db.getMaxConnPS();
+
+        for (int i = 0; i < papers.Count; i++)
+        {
+            if (papers[i].gameObject.activeSelf)
+            {
+                if (papers[i].connections.Count < minConn)
+                {
+                    minConn = papers[i].connections.Count;
+                }
+            }
+        }
+
+        return minConn;
+    }
+
+    public void setClusters(int maxCriteriaValue, int minCriteriaValue)
+    {
+        clusterConnInterval = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(maxCriteriaValue) / Convert.ToDouble(totalClusters)));
 
         for (int i = 0; i <= totalClusters; i++)
         {
             int min = clusterConnInterval * i;
             int max = clusterConnInterval * (i + 1);
 
-            clusters.Add(new Cluster(min, max));
+            clusters.Add(new Cluster(min, max)); //Save in general variable
         }
+    }
 
-        //CATEGORIES
+    public void drawCategories(int minRadius, int maxRadius)
+    {
         List<int> PracticesId = db.getPractices();
         int totalPractices = PracticesId.Count;
 
@@ -81,11 +261,11 @@ public class PracticesAndStrategies : MonoBehaviour
         {
             CategoryView newPractice = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
             newPractice.bootstrapPractices(PracticesId[i]);
-            newPractice.setRadius(mapValues(newPractice.totalConnections, minConnections, maxConnections, 10, 80));
+            newPractice.setRadius(mapValues(newPractice.clusterCriteria, minCriteriaValue, maxCriteriaValue, minRadius, maxRadius));
 
             for (int j = 0; j < clusters.Count; j++)
             {
-                if (newPractice.totalConnections > clusters[j].min && newPractice.totalConnections <= clusters[j].max)
+                if (newPractice.clusterCriteria > clusters[j].min && newPractice.clusterCriteria <= clusters[j].max)
                 {
                     clusters[j].categories.Add(newPractice.category);
                     newPractice.setPosition(clusters[j].center + clusters[j].getOffsetVector(newPractice));
@@ -93,18 +273,18 @@ public class PracticesAndStrategies : MonoBehaviour
                 }
             }
 
-            practicesViews.Add(PracticesId[i], newPractice);
+            practicesViews.Add(PracticesId[i], newPractice); //Save in general variable
         }
 
         for (int i = 0; i < totalStrategies; i++)
         {
             CategoryView newStrategy = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
             newStrategy.bootstrapStrategies(StrategiesId[i]);
-            newStrategy.setRadius(mapValues(newStrategy.totalConnections, minConnections, maxConnections, 10, 80));
+            newStrategy.setRadius(mapValues(newStrategy.clusterCriteria, minCriteriaValue, maxCriteriaValue, minRadius, maxRadius));
 
             for (int j = 0; j < clusters.Count; j++)
             {
-                if (newStrategy.totalConnections > clusters[j].min && newStrategy.totalConnections <= clusters[j].max)
+                if (newStrategy.clusterCriteria > clusters[j].min && newStrategy.clusterCriteria <= clusters[j].max)
                 {
                     clusters[j].categories.Add(newStrategy.category);
                     newStrategy.setPosition(clusters[j].center + clusters[j].getOffsetVector(newStrategy));
@@ -112,55 +292,97 @@ public class PracticesAndStrategies : MonoBehaviour
                 }
             }
 
-            strategiesViews.Add(StrategiesId[i], newStrategy);
+            strategiesViews.Add(StrategiesId[i], newStrategy); //Save in general variable
         }
+    }
 
-        // Remove Empty Clusters
-        List<Cluster> nonEmptyClusters = new List<Cluster>();
-        foreach(Cluster cluster in clusters)
-        {
-            if (cluster.categories.Count > 0)
-            {
-                nonEmptyClusters.Add(cluster);
-            }
-        }
-        clusters = nonEmptyClusters;
-
-        //PAPERS
+    public void drawPapers()
+    {
         List<int> PSPapersId = db.getPapersWithPracticesOrStrategies();
         int totalpapers = PSPapersId.Count;
+        
+        int singleConnOffsetRadius = 80;
+        int paperPosOffset = 5;
 
         for (int i = 0; i < totalpapers; i++)
         {
             PaperView newPaper = Instantiate(NodePrefab, parentObject.transform).GetComponent<PaperView>();
             newPaper.bootstrap(PSPapersId[i]);
+            newPaper.setRadius(newPaper.connections.Count);
 
-            papers.Add(newPaper);
+            papers.Add(newPaper); //Save in general variable
+
+            float xSum = 0;
+            float ySum = 0;
+            float zSum = 0;
 
             foreach (Strategy paperStrategy in newPaper.paper.strategy)
             {
                 ConnectionView newConnection = Instantiate(ConnectionPrefab, parentObject.transform).GetComponent<ConnectionView>();
                 newConnection.setConnection(newPaper, strategiesViews[paperStrategy.id]);
                 connections.Add(newConnection);
+                newPaper.conns.Add(newConnection);
+
+                xSum += strategiesViews[paperStrategy.id].transform.position.x;
+                ySum += strategiesViews[paperStrategy.id].transform.position.y;
+                zSum += strategiesViews[paperStrategy.id].transform.position.z;
             }
 
             foreach (Practice paperPractice in newPaper.paper.practice)
             {
                 ConnectionView newConnection = Instantiate(ConnectionPrefab, parentObject.transform).GetComponent<ConnectionView>();
                 newConnection.setConnection(newPaper, practicesViews[paperPractice.id]);
-                connections.Add(newConnection);
+                
+                connections.Add(newConnection); //Save in general variable
+
+                newPaper.conns.Add(newConnection);
+
+                xSum += practicesViews[paperPractice.id].transform.position.x;
+                ySum += practicesViews[paperPractice.id].transform.position.y;
+                zSum += practicesViews[paperPractice.id].transform.position.z;
+            }
+
+            int totalPaperCategories = newPaper.conns.Count;
+            Vector3 paperPos = new Vector3(xSum / totalPaperCategories, ySum / totalPaperCategories, zSum / totalPaperCategories);
+
+            if (newPaper.conns.Count <= 1)
+            {
+                Vector3 altPos = paperPos + (UnityEngine.Random.insideUnitSphere * singleConnOffsetRadius);
+                newPaper.setPosition(altPos);
+            }
+            else
+            {
+                for (int j = 0; j < papers.Count; j++)
+                {
+                    if (papers[i].transform.position == paperPos)
+                    {
+                        newPaper.setPosition(paperPos + new Vector3(getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset)));
+                    }
+                    else
+                    {
+                        newPaper.setPosition(paperPos);
+                    }
+                }
             }
         }
-
-        //OTHER
-        closePopUpButton.onClick.AddListener(closePopUp);
-
     }
 
-    private void Update()
+    private void lookAtCamera()
     {
-        openPopUp();
-        updateConnections();
+        foreach (KeyValuePair<int, CategoryView> practice in practicesViews)
+        {
+            practice.Value.transform.rotation = cameraTarget.rotation;
+        }
+
+        foreach (KeyValuePair<int, CategoryView> strategy in strategiesViews)
+        {
+            strategy.Value.transform.rotation = cameraTarget.rotation;
+        }
+
+        foreach(PaperView papers in papers)
+        {
+            papers.transform.rotation = cameraTarget.rotation;
+        }
     }
 
     private void updateConnections()
@@ -169,6 +391,227 @@ public class PracticesAndStrategies : MonoBehaviour
         {
             connection.updateConnection();
         }
+    }
+
+    //UI FUNTIONS
+    public void updateClusterInfoPanel()
+    {
+        clusterInfoPanel.SetActive(true);
+
+        foreach (Transform child in clusterInfoPanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+            for (int i = 0; i < clusters.Count; i++)
+        {
+            GameObject newClusterInfo = Instantiate(clusterInfoPrefab, clusterInfoPanel.transform);
+            newClusterInfo.GetComponentsInChildren<Text>()[0].text = "CLUSTER " + i.ToString();
+            newClusterInfo.GetComponentsInChildren<Text>()[1].text = "[" + clusters[i].min + ", " + clusters[i].max + "]";
+
+            string practiceList = "";
+            string strategyList = "";
+
+            for(int j = 0; j < clusters[i].categories.Count; j++)
+            {
+                if(clusters[i].categories[j] is Practice)
+                {
+                    practiceList = practiceList + clusters[i].categories[j].name + ", ";
+                } 
+                else
+                {
+                    strategyList = strategyList + clusters[i].categories[j].name + ", ";
+                }
+            }
+
+            if(practiceList == "") { practiceList = "None. "; }
+            if (strategyList == "") { strategyList = "None. "; }
+
+            newClusterInfo.GetComponentsInChildren<Text>()[3].text = practiceList.Substring(0, practiceList.Length - 2);
+            newClusterInfo.GetComponentsInChildren<Text>()[5].text = strategyList.Substring(0, strategyList.Length - 2);
+        }
+    }
+    
+    public void openClusterInfoPanel()
+    {
+        clusterInfoPanel.SetActive(!clusterInfoPanel.activeSelf);
+    }
+
+    public void clickAndDrag()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            cineCam.m_YAxis.m_InputAxisName = "Mouse Y";
+            cineCam.m_XAxis.m_InputAxisName = "Mouse X";
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            cineCam.m_YAxis.m_InputAxisName = "";
+            cineCam.m_XAxis.m_InputAxisName = "";
+            cineCam.m_YAxis.m_InputAxisValue = 0;
+            cineCam.m_XAxis.m_InputAxisValue = 0;
+        }
+    }
+
+    public void closePopUp()
+    {
+        for (int i = 0; i < papers.Count; i++)
+        {
+            papers[i].mousePressed = false;
+
+            foreach (Transform child in authorPanel.transform)
+            {
+                Destroy(child.gameObject);
+            }
+
+            foreach (Transform child in practicesPanel.transform)
+            {
+                Destroy(child.gameObject);
+            }
+
+            foreach (Transform child in strategiesPanel.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        popUp.SetActive(false);
+    }
+
+    public void closeCatPopUp()
+    {
+        foreach (KeyValuePair<int, CategoryView> strategy in strategiesViews)
+        {
+            strategy.Value.mousePressed = false;
+        }
+
+        foreach (KeyValuePair<int, CategoryView> practice in practicesViews)
+        {
+            practice.Value.mousePressed = false;
+        }
+
+        catPopUp.SetActive(false);
+    }
+
+    public void openPopUp()
+    {
+        for (int i = 0; i < papers.Count; i++)
+        {
+            PaperView paperView = papers[i];
+            if (paperView.mousePressed)
+            {
+                popUp.SetActive(true);
+                title.text = paperView.paper.title;
+                puboutletname.text = paperView.paper.publication_outlet.name;
+                puboutleturl.text = paperView.paper.publication_outlet.url;
+                puboutletissn.text = paperView.paper.publication_outlet.issn;
+                paperYear.text = paperView.paper.date;
+
+                for (int j = 0; j < paperView.paper.author.Count; j++)
+                {
+                    Author author = paperView.paper.author[j];
+                    GameObject authorView = Instantiate(authorPrefab, authorPanel.transform);
+                    authorView.GetComponentsInChildren<Text>()[0].text = author.name;
+                    authorView.GetComponentsInChildren<Text>()[1].text = author.institution.name;
+                }
+
+                for (int j = 0; j < paperView.paper.practice.Count; j++)
+                {
+                    Practice practice = paperView.paper.practice[j];
+                    GameObject practiceView = Instantiate(categoryNamePrefab, practicesPanel.transform);
+                    practiceView.GetComponentsInChildren<Text>()[0].text = practice.name;
+                }
+
+                for (int j = 0; j < paperView.paper.strategy.Count; j++)
+                {
+                    Strategy strategy = paperView.paper.strategy[j];
+                    GameObject strategyView = Instantiate(categoryNamePrefab, strategiesPanel.transform);
+                    strategyView.GetComponentsInChildren<Text>()[0].text = strategy.name;
+                }
+
+                paperView.mousePressed = false;
+
+                break;
+            }
+        }
+    }
+
+    public void openCatPopUp()
+    {
+        foreach (KeyValuePair<int, CategoryView> strategy in strategiesViews)
+        {
+            if (strategy.Value.mousePressed)
+            {
+                catPopUp.SetActive(true);
+
+                catName.text = strategy.Value.category.name;
+                catConns.text = strategy.Value.clusterCriteria.ToString();
+
+                int min = 0;
+                int max = 0;
+
+                for(int i = 0; i < clusters.Count; i++)
+                {
+                    if(clusters[i].categories.Contains(strategy.Value.category))
+                    {
+                        min = clusters[i].min;
+                        max = clusters[i].max;
+                    }
+                }
+
+                catInterval.text = "[ " + min + ", " + max + " ]";
+
+                strategy.Value.mousePressed = false;
+
+                break;
+            }
+        }
+
+        foreach (KeyValuePair<int, CategoryView> practice in practicesViews)
+        {
+            if (practice.Value.mousePressed)
+            {
+                catPopUp.SetActive(true);
+
+                catName.text = practice.Value.category.name;
+                catConns.text = practice.Value.clusterCriteria.ToString();
+
+                int min = 0;
+                int max = 0;
+
+                for (int i = 0; i < clusters.Count; i++)
+                {
+                    if (clusters[i].categories.Contains(practice.Value.category))
+                    {
+                        min = clusters[i].min;
+                        max = clusters[i].max;
+                    }
+                }
+
+                catInterval.text = "[ " + min + ", " + max + " ]";
+
+                practice.Value.mousePressed = false;
+
+                break;
+            }
+        }
+    }
+
+    //UTILITY FUNCTIONS
+    public int MaxValue(int[] intArray)
+    {
+        int max = intArray[0];
+
+        for (int i = 1; i < intArray.Length; i++)
+        {
+
+            if (intArray[i] > max)
+            {
+                max = intArray[i];
+            }
+        }
+
+        return max;
     }
 
     public int getRandom(int first, int second)
@@ -187,106 +630,4 @@ public class PracticesAndStrategies : MonoBehaviour
     {
         return (value - currentMin) * (newMax - newMin) / (currentMax - currentMin) + newMin;
     }
-
-    public void closePopUp()
-    {
-        for (int i = 0; i < papers.Count; i++)
-        {
-            papers[i].mousePressed = false;
-
-            foreach (Transform child in authorPanel.transform)
-            {
-                Destroy(child.gameObject);
-            }
-        }
-
-        popUp.SetActive(false);
-    }
-
-    public int MaxValue(int[] intArray)
-    {
-        int max = intArray[0];
-
-        for (int i = 1; i < intArray.Length; i++)
-        {
-
-            if (intArray[i] > max)
-            {
-                max = intArray[i];
-            }
-        }
-
-        return max;
-    }
-
-    public void openPopUp()
-    {
-        for (int i = 0; i < papers.Count; i++)
-        {
-            PaperView paperView = papers[i];
-            if (paperView.mousePressed)
-            {
-                popUp.SetActive(true);
-                title.text = paperView.paper.title;
-                puboutletname.text = paperView.paper.publication_outlet.name;
-                puboutleturl.text = paperView.paper.publication_outlet.url;
-                puboutletissn.text = paperView.paper.publication_outlet.issn;
-
-                for (int j = 0; j < paperView.paper.author.Count; j++)
-                {
-                    Author author = paperView.paper.author[j];
-                    GameObject authorView = Instantiate(authorPrefab, authorPanel.transform);
-                    authorView.GetComponentsInChildren<Text>()[0].text = author.name;
-                    authorView.GetComponentsInChildren<Text>()[1].text = author.institution.name;
-                }
-
-                paperView.mousePressed = false;
-
-                break;
-            }
-        }
-    }
-
-    public void deactivatePapers(int type, string name)
-    {
-        List<int> results = db.filterByAuthorJournalInstitution(type, name);
-
-        for (int i = 0; i < papers.Count; i++)
-        {
-            if (results.Contains(papers[i].getId()))
-            {
-                papers[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                papers[i].gameObject.SetActive(false);
-            }
-        }
-    }
-
-    public void deactivatePapersByYear(int min, int max)
-    {
-        List<int> results = db.getPapersByYearInterval(min, max);
-
-        for (int i = 0; i < papers.Count; i++)
-        {
-            if (results.Contains(papers[i].getId()))
-            {
-                papers[i].gameObject.SetActive(true);
-            }
-            else
-            {
-                papers[i].gameObject.SetActive(false);
-            }
-        }
-    }
-
-    public void resetPapers()
-    {
-        for (int i = 0; i < papers.Count; i++)
-        {
-            papers[i].gameObject.SetActive(true);
-        }
-    }
-
 }
