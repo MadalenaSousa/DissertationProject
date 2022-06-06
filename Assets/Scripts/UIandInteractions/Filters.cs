@@ -152,4 +152,10 @@ public class Filters : MonoBehaviour
             }
         }
     }
+
+    public void applyYearFilter()
+    {
+        filterPapers();
+        PracticesAndStrategies.instance.changeClusterCriteria();
+    }
 }

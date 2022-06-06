@@ -91,7 +91,7 @@ public class PracticesAndStrategies : MonoBehaviour
         setClusters(maxCriteriaValue, minCriteriaValue);
 
         //CATEGORIES
-        drawCategories(minCatRadius, maxCatRadius);
+        drawCategories(minCatRadius, maxCatRadius, switchCriteria.value);
 
         //PAPERS
         drawPapers();
@@ -140,7 +140,7 @@ public class PracticesAndStrategies : MonoBehaviour
             clusters = new List<Cluster>();
         }
 
-        //if(isYearFilterActive)
+        //if(int.Parse(Filters.instance.minInput.text) > 1500 || int.Parse(Filters.instance.maxInput.text) < DateTime.Now.Year)
         //{
         //    if (switchCriteria.value == 1)
         //    {
@@ -165,13 +165,13 @@ public class PracticesAndStrategies : MonoBehaviour
                 maxCriteriaValue = db.getMaxConnPS();
                 minCriteriaValue = db.getMinConnPS();
             }
-        //}        
+        //}
 
         //CLUSTERS
         setClusters(maxCriteriaValue, minCriteriaValue);
 
         //CATEGORIES
-        drawCategories(minCatRadius, maxCatRadius);
+        drawCategories(minCatRadius, maxCatRadius, switchCriteria.value);
 
         //PAPERS
         drawPapers();
@@ -215,6 +215,7 @@ public class PracticesAndStrategies : MonoBehaviour
             }           
         }
 
+        //Debug.Log(maxConn);
         return maxConn;
     }
 
@@ -233,6 +234,7 @@ public class PracticesAndStrategies : MonoBehaviour
             }
         }
 
+        //Debug.Log(minConn);
         return minConn;
     }
 
@@ -249,19 +251,20 @@ public class PracticesAndStrategies : MonoBehaviour
         }
     }
 
-    public void drawCategories(int minRadius, int maxRadius)
+    public void drawCategories(int minRadius, int maxRadius, int criteria)
     {
         List<int> PracticesId = db.getPractices();
         int totalPractices = PracticesId.Count;
 
         List<int> StrategiesId = db.getStrategies();
-        int totalStrategies = StrategiesId.Count;
+        int totalStrategies = StrategiesId.Count;        
 
         for (int i = 0; i < totalPractices; i++)
         {
             CategoryView newPractice = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
             newPractice.bootstrapPractices(PracticesId[i]);
             newPractice.setRadius(mapValues(newPractice.clusterCriteria, minCriteriaValue, maxCriteriaValue, minRadius, maxRadius));
+            newPractice.setCriteria(criteria);
 
             for (int j = 0; j < clusters.Count; j++)
             {
@@ -281,6 +284,7 @@ public class PracticesAndStrategies : MonoBehaviour
             CategoryView newStrategy = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
             newStrategy.bootstrapStrategies(StrategiesId[i]);
             newStrategy.setRadius(mapValues(newStrategy.clusterCriteria, minCriteriaValue, maxCriteriaValue, minRadius, maxRadius));
+            newStrategy.setCriteria(criteria);
 
             for (int j = 0; j < clusters.Count; j++)
             {

@@ -78,6 +78,7 @@ public class Database : MonoBehaviour
             title = reader.GetString(0);
             date = reader.GetString(1);
             year = reader.GetInt32(2);
+            citationCount = reader.GetInt32(3);         
         }
 
         return new Paper(id, title, date, year, getAuthorAndInstitutionByPaperId(id), getPubOutletByPaperId(id), getPracticeByPaperId(id), getStrategyByPaperId(id), getUseByPaperId(id), citationCount);
