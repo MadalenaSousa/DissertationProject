@@ -61,7 +61,6 @@ public class PracticesAndStrategies : MonoBehaviour
     List<Cluster> clusters = new List<Cluster>();
 
     public Transform cameraTarget;
-    public CinemachineFreeLook cineCam;
 
     public string criteria;
     public bool isYearFilterActive = false;
@@ -123,7 +122,6 @@ public class PracticesAndStrategies : MonoBehaviour
         openCatPopUp();
         updateConnections();
         lookAtCamera();
-        clickAndDrag();
 
         clusterInfoBackground.SetActive(clusterInfoPanel.activeSelf);
     }
@@ -439,22 +437,6 @@ public class PracticesAndStrategies : MonoBehaviour
     public void openClusterInfoPanel()
     {
         clusterInfoPanel.SetActive(!clusterInfoPanel.activeSelf);
-    }
-
-    public void clickAndDrag()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            cineCam.m_YAxis.m_InputAxisName = "Mouse Y";
-            cineCam.m_XAxis.m_InputAxisName = "Mouse X";
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            cineCam.m_YAxis.m_InputAxisName = "";
-            cineCam.m_XAxis.m_InputAxisName = "";
-            cineCam.m_YAxis.m_InputAxisValue = 0;
-            cineCam.m_XAxis.m_InputAxisValue = 0;
-        }
     }
 
     public void closePopUp()

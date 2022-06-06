@@ -21,7 +21,7 @@ public class Cluster
 
     public Vector3 getOffsetVector(CategoryView category)
     {
-        int offsetRadius = Mathf.Abs(category.totalConnections - avg) * offsetMulti;
+        int offsetRadius = Mathf.Abs(category.clusterCriteria - avg) * offsetMulti;
         
         return (Random.insideUnitSphere * offsetRadius);
     }
