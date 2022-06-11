@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -558,7 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -964,7 +964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -973,11 +973,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: c8f1627c2d562fe4383e15ebc93199f3, type: 3}
-    m_FontSize: 14
+    m_FontSize: 10
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 10
-    m_MaxSize: 40
+    m_MinSize: 6
+    m_MaxSize: 24
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1523,7 +1523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1543,7 +1543,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'The Immersive Learning Brain: Practices and Strategies'
+  m_Text: Three-Dimensional Interactive Visualization of the Thematic Network of
+    Immersive Learning Research
 --- !u!222 &1420001531
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1774,7 +1775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1873,7 +1874,25 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '*Add future abstract'
+  m_Text: The field of Immersive Learning Research crosses multiple scientific areas.
+    Awareness of the interconnections of this interdisciplinary literature with standard
+    scholarly tools is difficult. This work provides a three-dimensional interactive
+    thematic network visualization tool for this field. It allows researchers to
+    find which works are associated with a theme within immersive learning research,
+    see how themes are interconnected, and do filtering by article metadata. Moreover,
+    it enables researchers to compare theme organization by visualizing different
+    clustering criteria. The tool was developed through application of the Design
+    Science Research methodology, addressing theme-analysis problems found via a
+    literature survey. A thematic node-link network was created in a previous survey
+    research, providing themes data on Immersive Learning practices and strategies.
+    These data were now mapped to its source articles as part of the current effort.
+    By providing clustering, filtering, and 3D navigation features, the tool enables
+    interactive visualization of the interconnection of the themes in the field of
+    Immersive Learning Research, and exploration of its grounding papers. Any researcher
+    can now filter by authors, publication outlets, institutions, and year, to analyze
+    how themes were more or less explored/cited, and compare clustering criteria
+    such as citation counts or total papers per theme, to acquire a clearer awareness
+    of the field.
 --- !u!222 &1613332711
 CanvasRenderer:
   m_ObjectHideFlags: 0

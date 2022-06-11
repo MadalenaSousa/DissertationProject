@@ -7,11 +7,6 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
 
-    void Start()
-    {
-        
-    }
-
     public void goToAbout()
     {
         SceneManager.LoadScene("About");

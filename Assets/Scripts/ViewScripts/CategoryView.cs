@@ -16,6 +16,7 @@ public class CategoryView : MonoBehaviour
 
     //Other Variables
     public int totalConnections = 0;
+    public int totalCitations = 0;
     public List<Paper> associatedPapers = new List<Paper>();
     public bool mousePressed = false;
     public int clusterCriteria;
@@ -25,6 +26,11 @@ public class CategoryView : MonoBehaviour
         category = Database.instance.getPracticeById(id); //Set category data
         associatedPapers = Database.instance.getPapersForPracticeById(id);
         totalConnections = associatedPapers.Count; //Set total connections
+
+        for(int i = 0; i < associatedPapers.Count; i++)
+        {
+            totalCitations = totalCitations + associatedPapers[i].citationCount;
+        }
 
         clusterCriteria = totalConnections;
 
@@ -38,6 +44,11 @@ public class CategoryView : MonoBehaviour
         category = Database.instance.getStrategyById(id); //Set category data
         associatedPapers = Database.instance.getPapersForStrategyById(id);
         totalConnections = associatedPapers.Count; //Set total connections
+
+        for (int i = 0; i < associatedPapers.Count; i++)
+        {
+            totalCitations = totalCitations + associatedPapers[i].citationCount;
+        }
 
         clusterCriteria = totalConnections;
 
@@ -75,6 +86,23 @@ public class CategoryView : MonoBehaviour
     private void OnMouseDown()
     {
         this.mousePressed = true;
+    }
+
+    public void setCriteria(Dropdown switchCriteria)
+    {
+        if(switchCriteria.value == 0)
+        {
+            clusterCriteria = (int)mapValues(totalConnections, Database.instance.getMinConnPS(), Database.instance.getMaxConnPS(), 1, 500);
+        } 
+        else if(switchCriteria.value == 1)
+        {
+            clusterCriteria = (int)mapValues(totalCitations, Database.instance.getMinCitPS(), Database.instance.getMaxCitPS(), 1, 500);
+        }
+    }
+
+    public float mapValues(float value, float currentMin, float currentMax, float newMin, float newMax)
+    {
+        return (value - currentMin) * (newMax - newMin) / (currentMax - currentMin) + newMin;
     }
 
 }

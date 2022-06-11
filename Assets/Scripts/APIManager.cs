@@ -48,6 +48,7 @@ public class APIManager : MonoBehaviour
             StartCoroutine(WriteData(titles, temppaperdata));
         }
 
+        //Adding citations to the DB to be able to switch criteria
         //List<int> citationCounts = new List<int>();
         //StartCoroutine(WriteDataCitations(titles, citationCounts));
 
