@@ -19,22 +19,18 @@ public class Filters : MonoBehaviour
     public GameObject authorOptionlist;
     Button[] authorOptions;
     List<string> allAuthors = new List<string>();
-    string currentAuthorInFilter;
 
     //Journal Filter UI
     public AutoCompleteComboBox journalSearch;
     public GameObject journalOptionList;
     Button[] journalOptions;
     List<string> allJournals = new List<string>();
-    Dictionary<int, string> journalsFromDB = new Dictionary<int, string>();
-    string currentJournalInFilter;
 
     //Institution Filter UI
     public AutoCompleteComboBox instSearch;
     public GameObject instOptionList;
     Button[] instOptions;
     List<string> allInstitutions = new List<string>();
-    string currentInstitutionInFilter;
 
     //Year Interval UI
     public InputField minInput, maxInput;

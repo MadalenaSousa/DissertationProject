@@ -88,13 +88,13 @@ public class CategoryView : MonoBehaviour
         this.mousePressed = true;
     }
 
-    public void setCriteria(int type)
+    public void setCriteria(Dropdown switchCriteria)
     {
-        if(type == 0)
+        if(switchCriteria.value == 0)
         {
             clusterCriteria = (int)mapValues(totalConnections, Database.instance.getMinConnPS(), Database.instance.getMaxConnPS(), 1, 500);
         } 
-        else if(type == 1)
+        else if(switchCriteria.value == 1)
         {
             clusterCriteria = (int)mapValues(totalCitations, Database.instance.getMinCitPS(), Database.instance.getMaxCitPS(), 1, 500);
         }

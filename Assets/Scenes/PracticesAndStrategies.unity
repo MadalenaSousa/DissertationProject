@@ -1957,7 +1957,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.21800001}
   m_AnchorMax: {x: 1, y: 0.418}
-  m_AnchoredPosition: {x: 0.8410034, y: 0.21600723}
+  m_AnchoredPosition: {x: 0.8410034, y: 0.21601105}
   m_SizeDelta: {x: 0, y: 0.3430004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &234332022
@@ -2087,7 +2087,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 136746952}
         m_TargetAssemblyTypeName: Filters, Assembly-CSharp
-        m_MethodName: applyYearFilter
+        m_MethodName: filterPapers
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4944,7 +4944,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -7.5, y: -0.5000086}
+  m_AnchoredPosition: {x: -7.5, y: -0.50000954}
   m_SizeDelta: {x: -35, y: -13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &547396502
@@ -8668,7 +8668,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.15
+  m_fontSize: 21.4
   m_fontSizeBase: 16
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9606,9 +9606,9 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: c8f1627c2d562fe4383e15ebc93199f3, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
+    m_BestFit: 1
+    m_MinSize: 6
+    m_MaxSize: 16
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -10192,7 +10192,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1236258245}
   m_HandleRect: {fileID: 1236258244}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -11012,9 +11012,9 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: c8f1627c2d562fe4383e15ebc93199f3, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
+    m_BestFit: 1
+    m_MinSize: 6
+    m_MaxSize: 16
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -12546,6 +12546,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87f9bcb7dae86f648b83da79d7404d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  globalSphereRadius: 800
+  minCatRadius: 10
+  maxCatRadius: 80
+  totalClusters: 50
   popUp: {fileID: 1545101617}
   closePopUpButton: {fileID: 1366111269}
   title: {fileID: 709034677}
@@ -12565,26 +12569,20 @@ MonoBehaviour:
   catName: {fileID: 704842377}
   catConns: {fileID: 314672312}
   catInterval: {fileID: 799326049}
-  switchCriteria: {fileID: 585474256}
   clusterInfoPanel: {fileID: 580583303}
   clusterInfoPrefab: {fileID: 5946348984173885642, guid: b889f4e2d7a446d46a40f0ab69e617c2,
     type: 3}
   clusterInfoBackground: {fileID: 1511899630}
-  globalSphereRadius: 0
-  parentObject: {fileID: 1867943441}
   NodePrefab: {fileID: 7736988333915888838, guid: 70421e0b71d85b041b8b39c37dc025db,
     type: 3}
-  papers: []
-  minCatRadius: 0
-  maxCatRadius: 0
   CategoryPrefab: {fileID: 6981329543428466605, guid: b7265d5479502c94295e5c9659c7c43e,
     type: 3}
   ConnectionPrefab: {fileID: 8823406051019003901, guid: b10c957ca67efbf429fbe402811ca7a9,
     type: 3}
+  parentObject: {fileID: 1867943441}
   cameraTarget: {fileID: 637651706}
-  cineCam: {fileID: 0}
-  criteria: 
-  isYearFilterActive: 0
+  switchCriteria: {fileID: 585474256}
+  papers: []
 --- !u!114 &1719946919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12598,7 +12596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FILL_TABLES: 0
-  APIDataTextFile: {fileID: 4900000, guid: 8d64063eaf6fd1541bc8564ee0ea6210, type: 3}
+  APIDataTextFile: {fileID: 4900000, guid: d4e9a168fa9dfec40b3d9bd3da00535b, type: 3}
 --- !u!114 &1719946920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13301,7 +13299,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -7.5, y: -0.5000086}
+  m_AnchoredPosition: {x: -7.5, y: -0.50000954}
   m_SizeDelta: {x: -35, y: -13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1794601190
@@ -15181,7 +15179,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.3006217}
-  m_AnchoredPosition: {x: 0, y: -33.999992}
+  m_AnchoredPosition: {x: 0, y: -33.99999}
   m_SizeDelta: {x: -4, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2119594396

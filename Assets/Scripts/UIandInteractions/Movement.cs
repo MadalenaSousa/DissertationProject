@@ -60,10 +60,4 @@ public class Movement : MonoBehaviour
         transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
     }
 
-
-    public float mapValues(float value, float currentMin, float currentMax, float newMin, float newMax)
-    {
-        return (value - currentMin) * (newMax - newMin) / (currentMax - currentMin) + newMin;
-    }
-
 }
