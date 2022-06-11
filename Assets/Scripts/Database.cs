@@ -78,6 +78,7 @@ public class Database : MonoBehaviour
             title = reader.GetString(0);
             date = reader.GetString(1);
             year = reader.GetInt32(2);
+            citationCount = reader.GetInt32(3);         
         }
 
         return new Paper(id, title, date, year, getAuthorAndInstitutionByPaperId(id), getPubOutletByPaperId(id), getPracticeByPaperId(id), getStrategyByPaperId(id), getUseByPaperId(id), citationCount);
@@ -260,104 +261,6 @@ public class Database : MonoBehaviour
         return max;
     }
 
-    public int getTotalConnections(Category type, int id)
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "";
-
-        if (type is Practice)
-        {
-            sqlQuery = "SELECT SUM(practices_account.practices_id) FROM practices_account, paper_account WHERE paper_account.account_id = practices_account.account_id AND practices_account.practices_id =" + id;
-        }
-        else if (type is Strategy)
-        {
-            sqlQuery = "SELECT SUM(account_strategies.strategies_id) FROM account_strategies, paper_account WHERE paper_account.account_id = account_strategies.account_id AND account_strategies.strategies_id =" + id;
-        }
-        else if (type is Use)
-        {
-            sqlQuery = "SELECT SUM(uses_account.uses_id) FROM uses_account, paper_account WHERE paper_account.account_id = uses_account.account_id AND uses_account.uses_id =" + id;
-        }
-
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        int total = 0;
-
-        while (reader.Read())
-        {
-            total = reader.GetInt32(0);
-        }
-
-        return total;
-    }
-
-    public List<int> filterByAuthorJournalInstitution(int type, string name)
-    {   
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery =  "";
-
-        if (type == 1)
-        {
-            sqlQuery = "SELECT author_paper.paper_id  FROM author_paper, author WHERE author_paper.author_id = author.id AND author.name LIKE '%" + name + "%'";
-        }
-        else if (type == 2)
-        {
-            sqlQuery = "SELECT puboutlet_paper.paper_id FROM puboutlet_paper, puboutlet WHERE puboutlet_paper.puboutlet_id = puboutlet.id AND puboutlet.name LIKE '%" + name + "%'";
-        }
-        else if (type == 3)
-        {
-            sqlQuery = "SELECT DISTINCT author_paper.paper_id " +
-                        "FROM author_paper " +
-                        "LEFT JOIN author_institution ON author_institution.author_id = author_paper.author_id " +
-                        "LEFT JOIN institution ON institution.id = author_institution.institution_id " +
-                        "WHERE author_paper.author_id = author_institution.author_id " +
-                        "AND author_institution.institution_id = institution.id " +
-                        "AND institution.name LIKE '%" + name + "%'";
-        }
-
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        List<int> results = new List<int>();
-
-        while (reader.Read())
-        {
-            if (!reader.IsDBNull(0) && name != null)
-            {
-                results.Add(reader.GetInt32(0));
-            }
-        }
-
-        return results;
-    }
-
-    public List<int> getPapersByYearInterval(int min, int max)
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT paper.id FROM paper WHERE paper.pubyear>" + min + " AND paper.pubyear<" + max;
-
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        List<int> papers = new List<int>();
-
-        while (reader.Read())
-        {
-            if (!reader.IsDBNull(0))
-            {
-                papers.Add(reader.GetInt32(0));
-            }
-        }
-
-        return papers;
-    }
-
     public List<int> filter(string author, string journal, string institution, int yearMin, int yearMax)
     {
         IDbCommand _command = _connection.CreateCommand();
@@ -484,47 +387,6 @@ public class Database : MonoBehaviour
         return practices;
     }
 
-    public int getTotalPapers()
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT COUNT(id) FROM paper";
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        int total = -1;
-        while (reader.Read())
-        {
-            total = reader.GetInt32(0);
-        }
-
-        return total;
-    }
-
-    public List<int> getPapersWithUses()
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT DISTINCT paper_account.paper_id  FROM paper_account, uses_account WHERE uses_account.account_id = paper_account.account_id";
-
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        List<int> papers = new List<int>();
-
-        while (reader.Read())
-        {
-            if (!reader.IsDBNull(0))
-            {
-                papers.Add(reader.GetInt32(0));
-            }
-        }
-
-        return papers;
-    }
-
     public List<Paper> getPapersForPracticeById(int practiceId)
     {
         IDbCommand _command = _connection.CreateCommand();
@@ -609,29 +471,6 @@ public class Database : MonoBehaviour
         }
 
         return papers;
-    }
-
-    public Dictionary<int, string> getAllInTable(string table)
-    {
-        IDbCommand _command = _connection.CreateCommand();
-
-        string sqlQuery = "SELECT " + table + ".id, " + table + ".name FROM " + table;
-
-        _command.CommandText = sqlQuery;
-
-        IDataReader reader = _command.ExecuteReader();
-
-        Dictionary<int, string> elementsInTable = new Dictionary<int, string>();
-
-        while (reader.Read())
-        {
-            if (!reader.IsDBNull(0))
-            {
-                elementsInTable.Add(reader.GetInt32(0), reader.GetString(1));
-            }
-        }
-
-        return elementsInTable;
     }
 
     public List<string> getPSAuthors()

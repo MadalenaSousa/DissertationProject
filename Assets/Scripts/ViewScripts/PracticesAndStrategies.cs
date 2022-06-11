@@ -16,7 +16,13 @@ public class PracticesAndStrategies : MonoBehaviour
     public static PracticesAndStrategies instance;
     Database db;
 
+    [Header("Visualization Parameters")]
+    public int globalSphereRadius;
+    public int minCatRadius, maxCatRadius;
+    public int totalClusters;
+
     //UI Elements and Interaction
+    [Header("Paper Pop Up UI")]
     public GameObject popUp;
     public Button closePopUpButton;
     public Text title;
@@ -30,41 +36,40 @@ public class PracticesAndStrategies : MonoBehaviour
     public GameObject strategiesPanel;
     public GameObject categoryNamePrefab;
 
+    [Header("Category Pop Up UI")]
     public GameObject catPopUp;
     public Button closeCatPopUpButton;
     public Text catName;
     public Text catConns;
-    public Text catInterval;
-    public Dropdown switchCriteria;
+    public Text catInterval;  
 
+    [Header("Cluster Info Pop Up UI")]
     public GameObject clusterInfoPanel;
     public GameObject clusterInfoPrefab;
     public GameObject clusterInfoBackground;
 
-
     //Visual Objects
-    public int globalSphereRadius;
-    public GameObject parentObject;
-
+    [Header("Element Prefabs")]
     public GameObject NodePrefab;
-    public List<PaperView> papers = new List<PaperView>();
-
-    public int minCatRadius, maxCatRadius;
     public GameObject CategoryPrefab;
+    public GameObject ConnectionPrefab;
+
+    [Header("Other")]
+    public GameObject parentObject;
+    public Transform cameraTarget;
+    public Dropdown switchCriteria;
+
+    [HideInInspector]
+    public List<PaperView> papers = new List<PaperView>();   
+    
     Dictionary<int, CategoryView> strategiesViews = new Dictionary<int, CategoryView>();
     Dictionary<int, CategoryView> practicesViews = new Dictionary<int, CategoryView>();
-
-    public GameObject ConnectionPrefab;
+       
+    
     List<ConnectionView> connections =  new List<ConnectionView>();
-
-    int clusterConnInterval, totalClusters, maxCriteriaValue, minCriteriaValue;
+    
+    int clusterConnInterval, maxCriteriaValue, minCriteriaValue;   
     List<Cluster> clusters = new List<Cluster>();
-
-    public Transform cameraTarget;
-    public CinemachineFreeLook cineCam;
-
-    public string criteria;
-    public bool isYearFilterActive = false;
 
     private void Awake()
     {
@@ -79,11 +84,6 @@ public class PracticesAndStrategies : MonoBehaviour
         db = Database.instance;
 
         //Set Variables
-        minCatRadius = 10;
-        maxCatRadius = 80;
-        globalSphereRadius = 800;
-        totalClusters = 50;
-
         maxCriteriaValue = db.getMaxConnPS();
         minCriteriaValue = db.getMinConnPS();    
 
@@ -91,7 +91,7 @@ public class PracticesAndStrategies : MonoBehaviour
         setClusters(maxCriteriaValue, minCriteriaValue);
 
         //CATEGORIES
-        drawCategories(minCatRadius, maxCatRadius);
+        drawCategories(minCatRadius, maxCatRadius, switchCriteria);
 
         //PAPERS
         drawPapers();
@@ -122,8 +122,7 @@ public class PracticesAndStrategies : MonoBehaviour
         openPopUp();
         openCatPopUp();
         updateConnections();
-        lookAtCamera();
-        clickAndDrag();
+        categoriesLookAtCamera();
 
         clusterInfoBackground.SetActive(clusterInfoPanel.activeSelf);
     }
@@ -139,39 +138,22 @@ public class PracticesAndStrategies : MonoBehaviour
             practicesViews = new Dictionary<int, CategoryView>();
             clusters = new List<Cluster>();
         }
-
-        //if(isYearFilterActive)
-        //{
-        //    if (switchCriteria.value == 1)
-        //    {
-        //        maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
-        //        minCriteriaValue = db.getMinCitPS();
-        //    }
-        //    else
-        //    {
-        //        maxCriteriaValue = getMaxConnYear();
-        //        minCriteriaValue = getMinConnYear();
-        //    }
-        //} 
-        //else
-        //{
-            if (switchCriteria.value == 1)
-            {
-                maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
-                minCriteriaValue = db.getMinCitPS();
-            }
-            else
-            {
-                maxCriteriaValue = db.getMaxConnPS();
-                minCriteriaValue = db.getMinConnPS();
-            }
-        //}        
+        if (switchCriteria.value == 1)
+        {
+            maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
+            minCriteriaValue = db.getMinCitPS();
+        }
+        else
+        {
+            maxCriteriaValue = db.getMaxConnPS();
+            minCriteriaValue = db.getMinConnPS();
+        }
 
         //CLUSTERS
         setClusters(maxCriteriaValue, minCriteriaValue);
 
         //CATEGORIES
-        drawCategories(minCatRadius, maxCatRadius);
+        drawCategories(minCatRadius, maxCatRadius, switchCriteria);
 
         //PAPERS
         drawPapers();
@@ -191,7 +173,7 @@ public class PracticesAndStrategies : MonoBehaviour
         updateClusterInfoPanel();
         clusterInfoPanel.SetActive(false);
 
-        //FILTERS (should it mantain or clear filters?)
+        //FILTERS
         Filters.instance.filterPapers(); //Maintain filters
 
         //Filters.instance.clearFilter("author"); //Clear filters
@@ -215,6 +197,7 @@ public class PracticesAndStrategies : MonoBehaviour
             }           
         }
 
+        //Debug.Log(maxConn);
         return maxConn;
     }
 
@@ -233,6 +216,7 @@ public class PracticesAndStrategies : MonoBehaviour
             }
         }
 
+        //Debug.Log(minConn);
         return minConn;
     }
 
@@ -249,19 +233,20 @@ public class PracticesAndStrategies : MonoBehaviour
         }
     }
 
-    public void drawCategories(int minRadius, int maxRadius)
+    public void drawCategories(int minRadius, int maxRadius, Dropdown criteria)
     {
         List<int> PracticesId = db.getPractices();
         int totalPractices = PracticesId.Count;
 
         List<int> StrategiesId = db.getStrategies();
-        int totalStrategies = StrategiesId.Count;
+        int totalStrategies = StrategiesId.Count;        
 
         for (int i = 0; i < totalPractices; i++)
         {
             CategoryView newPractice = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
             newPractice.bootstrapPractices(PracticesId[i]);
             newPractice.setRadius(mapValues(newPractice.clusterCriteria, minCriteriaValue, maxCriteriaValue, minRadius, maxRadius));
+            newPractice.setCriteria(criteria);
 
             for (int j = 0; j < clusters.Count; j++)
             {
@@ -281,6 +266,7 @@ public class PracticesAndStrategies : MonoBehaviour
             CategoryView newStrategy = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
             newStrategy.bootstrapStrategies(StrategiesId[i]);
             newStrategy.setRadius(mapValues(newStrategy.clusterCriteria, minCriteriaValue, maxCriteriaValue, minRadius, maxRadius));
+            newStrategy.setCriteria(criteria);
 
             for (int j = 0; j < clusters.Count; j++)
             {
@@ -367,7 +353,7 @@ public class PracticesAndStrategies : MonoBehaviour
         }
     }
 
-    private void lookAtCamera()
+    private void categoriesLookAtCamera()
     {
         foreach (KeyValuePair<int, CategoryView> practice in practicesViews)
         {
@@ -435,22 +421,6 @@ public class PracticesAndStrategies : MonoBehaviour
     public void openClusterInfoPanel()
     {
         clusterInfoPanel.SetActive(!clusterInfoPanel.activeSelf);
-    }
-
-    public void clickAndDrag()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            cineCam.m_YAxis.m_InputAxisName = "Mouse Y";
-            cineCam.m_XAxis.m_InputAxisName = "Mouse X";
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            cineCam.m_YAxis.m_InputAxisName = "";
-            cineCam.m_XAxis.m_InputAxisName = "";
-            cineCam.m_YAxis.m_InputAxisValue = 0;
-            cineCam.m_XAxis.m_InputAxisValue = 0;
-        }
     }
 
     public void closePopUp()
