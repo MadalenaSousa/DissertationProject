@@ -40,6 +40,8 @@ public class Filters : MonoBehaviour
     public Button resetFilters;
     public Dictionary<string, List<int>> filteredPapers = new Dictionary<string, List<int>>();
 
+    public bool isYearFilterActive = false;
+
     private void Awake()
     {
         if (instance == null)
@@ -107,6 +109,8 @@ public class Filters : MonoBehaviour
         {
             minInput.text = "";
             maxInput.text = "";
+            isYearFilterActive = false;
+            PracticesAndStrategies.instance.changeClusterCriteria();
         }
 
         filterPapers();
@@ -152,6 +156,7 @@ public class Filters : MonoBehaviour
     public void applyYearFilter()
     {
         filterPapers();
+        isYearFilterActive = true;
         PracticesAndStrategies.instance.changeClusterCriteria();
     }
 }

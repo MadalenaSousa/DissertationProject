@@ -225,17 +225,17 @@ public class Database : MonoBehaviour
 
         IDataReader reader = _command.ExecuteReader();
 
-        int max = 0;
+        int min = 0;
 
         while (reader.Read())
         {
             if (!reader.IsDBNull(0))
             {
-                max = reader.GetInt32(0);
+                min = reader.GetInt32(0);
             }
         }
 
-        return max;
+        return min;
     }
 
     private int getMinConnStrategies()
@@ -293,6 +293,69 @@ public class Database : MonoBehaviour
         }
 
         return results;
+    }
+
+    public int getMaxConnYearPS(int yearMin, int yearMax)
+    {
+        return Math.Max(getMaxConnYearPractices(yearMin, yearMax), getMaxConnYearStrategies(yearMin, yearMax));
+    }
+
+    private int getMaxConnYearPractices(int yearMin, int yearMax)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT MAX(count) FROM(" +
+                            "SELECT practices_id, COUNT(*) as count " +
+                            "FROM practices_account " +
+                            "LEFT JOIN paper_account ON practices_account.account_id = paper_account.account_id " +
+                            "LEFT JOIN paper ON paper_account.paper_id = paper.id " +
+                            "WHERE paper.pubyear >= " + yearMin + " AND paper.pubyear <= " + yearMax + " " +
+                            "GROUP BY practices_id)";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int max = 0;
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                max = reader.GetInt32(0);
+            }
+        }
+
+        return max;
+    }
+
+    private int getMaxConnYearStrategies(int yearMin, int yearMax)
+    {
+        IDbCommand _command = _connection.CreateCommand();
+
+        string sqlQuery = "SELECT MAX(count) FROM(" +
+                            "SELECT strategies_id, COUNT(*) as count " +
+                            "FROM account_strategies " +
+                            "LEFT JOIN paper_account ON account_strategies.account_id = paper_account.account_id " +
+                            "LEFT JOIN paper ON paper_account.paper_id = paper.id " +
+                            "WHERE paper.pubyear >= " + yearMin + " AND paper.pubyear <= " + yearMax + " " +
+                            "GROUP BY strategies_id)";
+
+        _command.CommandText = sqlQuery;
+
+        IDataReader reader = _command.ExecuteReader();
+
+        int max = 0;
+
+        while (reader.Read())
+        {
+            if (!reader.IsDBNull(0))
+            {
+                max = reader.GetInt32(0);
+            }
+        }
+
+        return max;
     }
 
     public Practice getPracticeById(int id)

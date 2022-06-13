@@ -139,16 +139,33 @@ public class PracticesAndStrategies : MonoBehaviour
             clusters = new List<Cluster>();
         }
 
-        if (switchCriteria.value == 1)
+        if(Filters.instance.isYearFilterActive)
         {
-            maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
-            minCriteriaValue = db.getMinCitPS();
-        }
+            if (switchCriteria.value == 1)
+            {
+                maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
+                minCriteriaValue = db.getMinCitPS();
+            }
+            else
+            {
+                maxCriteriaValue = db.getMaxConnYearPS(int.Parse(Filters.instance.minInput.text), int.Parse(Filters.instance.maxInput.text));
+                minCriteriaValue = db.getMinConnPS();
+            }
+        } 
         else
         {
-            maxCriteriaValue = db.getMaxConnPS();
-            minCriteriaValue = db.getMinConnPS();
+            if (switchCriteria.value == 1)
+            {
+                maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
+                minCriteriaValue = db.getMinCitPS();
+            }
+            else
+            {
+                maxCriteriaValue = db.getMaxConnPS();
+                minCriteriaValue = db.getMinConnPS();
+            }
         }
+        
 
         //CLUSTERS
         setClusters(maxCriteriaValue, minCriteriaValue);
