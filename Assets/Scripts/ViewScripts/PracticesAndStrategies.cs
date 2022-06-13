@@ -138,6 +138,7 @@ public class PracticesAndStrategies : MonoBehaviour
             practicesViews = new Dictionary<int, CategoryView>();
             clusters = new List<Cluster>();
         }
+
         if (switchCriteria.value == 1)
         {
             maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
