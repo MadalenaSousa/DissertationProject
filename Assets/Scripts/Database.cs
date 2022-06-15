@@ -90,36 +90,29 @@ public class Database : MonoBehaviour
 
         string sqlQuery = "";
 
-        if (category == "practices" && maxOrMin == "max")
+        string sqlFunc;
+
+        if (maxOrMin == "max")
         {
-            sqlQuery = "SELECT MAX(sum) " +
+            sqlFunc = "MAX";
+        }
+        else
+        {
+            sqlFunc = "MIN";
+        }
+
+        if (category == "practices")
+        {
+            sqlQuery = "SELECT " + sqlFunc + "(sum) " +
                         "FROM(SELECT practices_account.practices_id, SUM(paper.citationcount) as sum " +
                         "FROM practices_account " +
                         "LEFT JOIN paper_account ON paper_account.account_id = practices_account.account_id " +
                         "LEFT JOIN paper ON paper.id = paper_account.paper_id " +
                         "GROUP BY practices_account.practices_id)";
         } 
-        else if(category == "strategies" && maxOrMin == "max")
+        else if(category == "strategies")
         {
-            sqlQuery = "SELECT MAX(sum) " +
-                        "FROM(SELECT account_strategies.strategies_id, SUM(paper.citationcount) as sum " +
-                        "FROM account_strategies " +
-                        "LEFT JOIN paper_account ON paper_account.account_id = account_strategies.account_id " +
-                        "LEFT JOIN paper ON paper.id = paper_account.paper_id " +
-                        "GROUP BY account_strategies.strategies_id)";
-        }
-        else if (category == "practices" && maxOrMin == "min")
-        {
-            sqlQuery = "SELECT MIN(sum) " +
-                        "FROM(SELECT practices_account.practices_id, SUM(paper.citationcount) as sum " +
-                        "FROM practices_account " +
-                        "LEFT JOIN paper_account ON paper_account.account_id = practices_account.account_id " +
-                        "LEFT JOIN paper ON paper.id = paper_account.paper_id " +
-                        "GROUP BY practices_account.practices_id)";
-        }
-        else if (category == "strategies" && maxOrMin == "min")
-        {
-            sqlQuery = "SELECT MIN(sum) " +
+            sqlQuery = "SELECT " + sqlFunc + "(sum) " +
                         "FROM(SELECT account_strategies.strategies_id, SUM(paper.citationcount) as sum " +
                         "FROM account_strategies " +
                         "LEFT JOIN paper_account ON paper_account.account_id = account_strategies.account_id " +

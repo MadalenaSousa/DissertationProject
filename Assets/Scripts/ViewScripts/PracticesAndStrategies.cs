@@ -83,33 +83,7 @@ public class PracticesAndStrategies : MonoBehaviour
     {
         db = Database.instance;
 
-        //Set Variables
-        maxCriteriaValue = db.getMaxConnPS();
-        minCriteriaValue = db.getMinConnPS();    
-
-        //CLUSTERS
-        setClusters(maxCriteriaValue, minCriteriaValue);
-
-        //CATEGORIES
-        drawCategories(minCatRadius, maxCatRadius, switchCriteria);
-
-        //PAPERS
-        drawPapers();
-
-        //Remove Empty Clusters
-        List<Cluster> nonEmptyClusters = new List<Cluster>();
-        foreach (Cluster cluster in clusters)
-        {
-            if (cluster.categories.Count > 0)
-            {
-                nonEmptyClusters.Add(cluster);
-            }
-        }
-        clusters = nonEmptyClusters;
-
-        //INFO PANEL
-        updateClusterInfoPanel();
-        clusterInfoPanel.SetActive(false);
+        changeClusterCriteria();
 
         //OTHER
         closePopUpButton.onClick.AddListener(closePopUp);
@@ -129,15 +103,7 @@ public class PracticesAndStrategies : MonoBehaviour
 
     public void changeClusterCriteria()
     {
-        foreach (Transform child in parentObject.transform)
-        {
-            Destroy(child.gameObject);
-            papers = new List<PaperView>();
-            connections = new List<ConnectionView>();
-            strategiesViews = new Dictionary<int, CategoryView>();
-            practicesViews = new Dictionary<int, CategoryView>();
-            clusters = new List<Cluster>();
-        }
+        cleanAllGameObjects();
 
         if (switchCriteria.value == 1)
         {
@@ -181,6 +147,19 @@ public class PracticesAndStrategies : MonoBehaviour
         //Filters.instance.clearFilter("journal");
         //Filters.instance.clearFilter("institution");
         //Filters.instance.clearFilter("year");
+    }
+
+    private void cleanAllGameObjects()
+    {
+        foreach (Transform child in parentObject.transform)
+        {
+            Destroy(child.gameObject);
+            papers = new List<PaperView>();
+            connections = new List<ConnectionView>();
+            strategiesViews = new Dictionary<int, CategoryView>();
+            practicesViews = new Dictionary<int, CategoryView>();
+            clusters = new List<Cluster>();
+        }
     }
 
     public int getMaxConnYear()

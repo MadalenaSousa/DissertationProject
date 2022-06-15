@@ -16,7 +16,7 @@ public class Cluster
         this.max = max;
 
         center = Random.insideUnitSphere * PracticesAndStrategies.instance.globalSphereRadius;
-        avg = (min + max) / 2;
+        avg = (max - min) / 2 + min;
     }
 
     public Vector3 getOffsetVector(CategoryView category)

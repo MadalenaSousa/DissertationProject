@@ -117,7 +117,7 @@ public class Filters : MonoBehaviour
         bool isAllPapersActive = true;
         List<int> results = new List<int>();
 
-        int min = -1;
+        int min = 1500;
         int max = DateTime.Now.Year + 1;
 
         if (!string.IsNullOrEmpty(minInput.text))
@@ -130,7 +130,7 @@ public class Filters : MonoBehaviour
             max = int.Parse(maxInput.text);
         }
 
-        if (authorSearch.Text != null || journalSearch.Text != null || instSearch.Text != null || min > 1500 || max < DateTime.Now.Year)
+        if (authorSearch.Text != null || journalSearch.Text != null || instSearch.Text != null || min > 1500 || (max != DateTime.Now.Year + 1 && max > 1500))
         {
             results = db.filter(authorSearch.Text, journalSearch.Text, instSearch.Text, min, max);
             isAllPapersActive = false;
