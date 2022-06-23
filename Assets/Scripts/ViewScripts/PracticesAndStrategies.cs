@@ -97,8 +97,6 @@ public class PracticesAndStrategies : MonoBehaviour
         openCatPopUp();
         updateConnections();
         categoriesLookAtCamera();
-
-        clusterInfoBackground.SetActive(clusterInfoPanel.activeSelf);
     }
 
     public void changeClusterCriteria()
@@ -138,7 +136,6 @@ public class PracticesAndStrategies : MonoBehaviour
 
         //INFO PANEL
         updateClusterInfoPanel();
-        clusterInfoPanel.SetActive(false);
 
         //FILTERS
         Filters.instance.filterPapers(); //Maintain filters
@@ -362,8 +359,6 @@ public class PracticesAndStrategies : MonoBehaviour
     //UI FUNTIONS
     public void updateClusterInfoPanel()
     {
-        clusterInfoPanel.SetActive(true);
-
         foreach (Transform child in clusterInfoPanel.transform)
         {
             Destroy(child.gameObject);
@@ -400,7 +395,9 @@ public class PracticesAndStrategies : MonoBehaviour
     
     public void openClusterInfoPanel()
     {
-        clusterInfoPanel.SetActive(!clusterInfoPanel.activeSelf);
+        bool state = clusterInfoBackground.activeSelf;
+        
+        clusterInfoBackground.SetActive(!state);
     }
 
     public void closePopUp()
