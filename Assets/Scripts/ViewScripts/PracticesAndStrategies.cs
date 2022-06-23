@@ -112,7 +112,7 @@ public class PracticesAndStrategies : MonoBehaviour
         }
         else
         {
-            maxCriteriaValue = db.getMaxConnPS();
+            maxCriteriaValue = (int)mapValues(db.getMaxConnPS(), db.getMinConnPS(), db.getMaxConnPS(), 1, 500);
             minCriteriaValue = db.getMinConnPS();
         }
 
