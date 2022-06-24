@@ -322,7 +322,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleBox: {fileID: 4958239626610290869}
   totalConnections: 0
+  totalCitations: 0
   mousePressed: 0
+  clusterCriteria: 0
 --- !u!135 &5183707842017924811
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -334,5 +336,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}
