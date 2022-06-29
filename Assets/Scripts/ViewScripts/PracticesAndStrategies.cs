@@ -327,7 +327,7 @@ public class PracticesAndStrategies : MonoBehaviour
                     {
                         newPaper.setPosition(paperPos + offsetVector);
                     } 
-                    else if(papers[i].transform.position == offsetVector)
+                    else if(papers[i].transform.position == (paperPos + offsetVector))
                     {
                         newPaper.setPosition(paperPos + new Vector3(getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset)));
                     }
