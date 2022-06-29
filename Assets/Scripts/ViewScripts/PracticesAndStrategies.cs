@@ -97,8 +97,6 @@ public class PracticesAndStrategies : MonoBehaviour
         openCatPopUp();
         updateConnections();
         categoriesLookAtCamera();
-
-        clusterInfoBackground.SetActive(clusterInfoPanel.activeSelf);
     }
 
     public void changeClusterCriteria()
@@ -108,11 +106,13 @@ public class PracticesAndStrategies : MonoBehaviour
         if (switchCriteria.value == 1)
         {
             maxCriteriaValue = (int)mapValues(db.getMaxCitPS(), db.getMinCitPS(), db.getMaxCitPS(), 1, 500);
+            //maxCriteriaValue = db.getMaxCitPS();
             minCriteriaValue = db.getMinCitPS();
         }
         else
         {
-            maxCriteriaValue = db.getMaxConnPS();
+            maxCriteriaValue = (int)mapValues(db.getMaxConnPS(), db.getMinConnPS(), db.getMaxConnPS(), 1, 500);
+            //maxCriteriaValue = db.getMaxConnPS();
             minCriteriaValue = db.getMinConnPS();
         }
 
@@ -138,7 +138,6 @@ public class PracticesAndStrategies : MonoBehaviour
 
         //INFO PANEL
         updateClusterInfoPanel();
-        clusterInfoPanel.SetActive(false);
 
         //FILTERS
         Filters.instance.filterPapers(); //Maintain filters
@@ -202,6 +201,7 @@ public class PracticesAndStrategies : MonoBehaviour
 
     public void setClusters(int maxCriteriaValue, int minCriteriaValue)
     {
+        //Debug.Log(maxCriteriaValue);
         clusterConnInterval = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(maxCriteriaValue) / Convert.ToDouble(totalClusters)));
 
         for (int i = 0; i <= totalClusters; i++)
@@ -225,8 +225,8 @@ public class PracticesAndStrategies : MonoBehaviour
         {
             CategoryView newPractice = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
             newPractice.bootstrapPractices(PracticesId[i]);
-            newPractice.setRadius(mapValues(newPractice.clusterCriteria, minCriteriaValue, maxCriteriaValue, minRadius, maxRadius));
             newPractice.setCriteria(criteria);
+            newPractice.setRadius(mapValues(newPractice.clusterCriteria, minCriteriaValue, maxCriteriaValue, minRadius, maxRadius));
 
             for (int j = 0; j < clusters.Count; j++)
             {
@@ -245,8 +245,8 @@ public class PracticesAndStrategies : MonoBehaviour
         {
             CategoryView newStrategy = Instantiate(CategoryPrefab, parentObject.transform).GetComponent<CategoryView>();
             newStrategy.bootstrapStrategies(StrategiesId[i]);
-            newStrategy.setRadius(mapValues(newStrategy.clusterCriteria, minCriteriaValue, maxCriteriaValue, minRadius, maxRadius));
             newStrategy.setCriteria(criteria);
+            newStrategy.setRadius(mapValues(newStrategy.clusterCriteria, minCriteriaValue, maxCriteriaValue, minRadius, maxRadius));         
 
             for (int j = 0; j < clusters.Count; j++)
             {
@@ -320,7 +320,14 @@ public class PracticesAndStrategies : MonoBehaviour
             {
                 for (int j = 0; j < papers.Count; j++)
                 {
+                    paperPosOffset = UnityEngine.Random.Range(0, 8);
+                    Vector3 offsetVector = new Vector3(getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset));                   
+                    
                     if (papers[i].transform.position == paperPos)
+                    {
+                        newPaper.setPosition(paperPos + offsetVector);
+                    } 
+                    else if(papers[i].transform.position == (paperPos + offsetVector))
                     {
                         newPaper.setPosition(paperPos + new Vector3(getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset)));
                     }
@@ -362,18 +369,17 @@ public class PracticesAndStrategies : MonoBehaviour
     //UI FUNTIONS
     public void updateClusterInfoPanel()
     {
-        clusterInfoPanel.SetActive(true);
-
         foreach (Transform child in clusterInfoPanel.transform)
         {
             Destroy(child.gameObject);
         }
 
-            for (int i = 0; i < clusters.Count; i++)
+        for (int i = 0; i < clusters.Count; i++)
         {
             GameObject newClusterInfo = Instantiate(clusterInfoPrefab, clusterInfoPanel.transform);
             newClusterInfo.GetComponentsInChildren<Text>()[0].text = "CLUSTER " + i.ToString();
-            newClusterInfo.GetComponentsInChildren<Text>()[1].text = "[" + clusters[i].min + ", " + clusters[i].max + "]";
+            //newClusterInfo.GetComponentsInChildren<Text>()[1].text = "[" + clusters[i].min + ", " + clusters[i].max + "]";
+            newClusterInfo.GetComponentsInChildren<Text>()[1].text = "";
 
             string practiceList = "";
             string strategyList = "";
@@ -400,7 +406,9 @@ public class PracticesAndStrategies : MonoBehaviour
     
     public void openClusterInfoPanel()
     {
-        clusterInfoPanel.SetActive(!clusterInfoPanel.activeSelf);
+        bool state = clusterInfoBackground.activeSelf;
+        
+        clusterInfoBackground.SetActive(!state);
     }
 
     public void closePopUp()
@@ -495,7 +503,9 @@ public class PracticesAndStrategies : MonoBehaviour
                 catPopUp.SetActive(true);
 
                 catName.text = strategy.Value.category.name;
-                catConns.text = strategy.Value.clusterCriteria.ToString();
+                
+                int criteriaValue = strategy.Value.getRawCriteria(switchCriteria);
+                catConns.text = criteriaValue.ToString();
 
                 int min = 0;
                 int max = 0;
@@ -524,7 +534,9 @@ public class PracticesAndStrategies : MonoBehaviour
                 catPopUp.SetActive(true);
 
                 catName.text = practice.Value.category.name;
-                catConns.text = practice.Value.clusterCriteria.ToString();
+
+                int criteriaValue = practice.Value.getRawCriteria(switchCriteria);
+                catConns.text = criteriaValue.ToString();
 
                 int min = 0;
                 int max = 0;

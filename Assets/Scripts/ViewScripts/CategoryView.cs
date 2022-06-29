@@ -32,7 +32,7 @@ public class CategoryView : MonoBehaviour
             totalCitations = totalCitations + associatedPapers[i].citationCount;
         }
 
-        clusterCriteria = totalConnections;
+        clusterCriteria = (int)mapValues(totalConnections, Database.instance.getMinConnPS(), Database.instance.getMaxConnPS(), 1, 500);
 
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.cyan;
 
@@ -50,7 +50,7 @@ public class CategoryView : MonoBehaviour
             totalCitations = totalCitations + associatedPapers[i].citationCount;
         }
 
-        clusterCriteria = totalConnections;
+        clusterCriteria = (int)mapValues(totalConnections, Database.instance.getMinConnPS(), Database.instance.getMaxConnPS(), 1, 500);
 
         gameObject.GetComponentInChildren<Renderer>().material.color = Color.yellow;
 
@@ -88,14 +88,28 @@ public class CategoryView : MonoBehaviour
         this.mousePressed = true;
     }
 
+    public int getRawCriteria(Dropdown switchCriteria)
+    {
+        if (switchCriteria.value == 0)
+        {
+            return totalConnections;
+        }
+        else
+        {
+            return totalCitations;
+        }
+    }
+
     public void setCriteria(Dropdown switchCriteria)
     {
         if(switchCriteria.value == 0)
         {
+            //clusterCriteria = totalConnections;
             clusterCriteria = (int)mapValues(totalConnections, Database.instance.getMinConnPS(), Database.instance.getMaxConnPS(), 1, 500);
         } 
         else if(switchCriteria.value == 1)
         {
+            //clusterCriteria = totalCitations;
             clusterCriteria = (int)mapValues(totalCitations, Database.instance.getMinCitPS(), Database.instance.getMaxCitPS(), 1, 500);
         }
     }

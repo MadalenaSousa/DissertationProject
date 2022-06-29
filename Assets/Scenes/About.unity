@@ -1543,8 +1543,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Three-Dimensional Interactive Visualization of the Thematic Network of
-    Immersive Learning Research
+  m_Text: Three-Dimensional Interactive Visualization of a Thematic Network of Immersive
+    Learning Research
 --- !u!222 &1420001531
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1883,13 +1883,14 @@ MonoBehaviour:
     it enables researchers to compare theme organization by visualizing different
     clustering criteria. The tool was developed through application of the Design
     Science Research methodology, addressing theme-analysis problems found via a
-    literature survey. A thematic node-link network was created in a previous survey
-    research, providing themes data on Immersive Learning practices and strategies.
-    These data were now mapped to its source articles as part of the current effort.
-    By providing clustering, filtering, and 3D navigation features, the tool enables
-    interactive visualization of the interconnection of the themes in the field of
-    Immersive Learning Research, and exploration of its grounding papers. Any researcher
-    can now filter by authors, publication outlets, institutions, and year, to analyze
+    literature survey. Research was previously conducted providing themes data on
+    Immersive Learning practices and strategies. These data were now mapped to its
+    source articles as part of the current effort. An interactive node-link thematic
+    3D network was created to visualize this data and it's relationships. By providing
+    clustering, filtering, and 3D navigation features, the tool enables interactive
+    visualization of the interconnection of the themes in the field of Immersive
+    Learning Research, and exploration of its grounding papers. Any researcher can
+    now filter by authors, publication outlets, institutions, and year, to analyze
     how themes were more or less explored/cited, and compare clustering criteria
     such as citation counts or total papers per theme, to acquire a clearer awareness
     of the field.
