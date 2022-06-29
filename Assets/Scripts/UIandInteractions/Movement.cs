@@ -17,7 +17,7 @@ public class Movement : MonoBehaviour
         Vector3 Scrolldirection = ray.GetPoint(5);
 
         //ZOOM
-        if (!PracticesAndStrategies.instance.clusterInfoPanel.activeSelf)
+        if (!PracticesAndStrategies.instance.clusterInfoBackground.activeSelf)
         {
             transform.position = Vector3.MoveTowards(transform.position, Scrolldirection, Input.GetAxis("Mouse ScrollWheel") * zoomSpeed);
         }
