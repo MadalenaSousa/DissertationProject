@@ -325,6 +325,7 @@ MonoBehaviour:
   mousePressed: 0
   globalSphereRadius: 0
   conns: []
+  id: 0
 --- !u!135 &3156612648459487927
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -336,5 +337,5 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}

@@ -320,7 +320,14 @@ public class PracticesAndStrategies : MonoBehaviour
             {
                 for (int j = 0; j < papers.Count; j++)
                 {
+                    paperPosOffset = UnityEngine.Random.Range(0, 8);
+                    Vector3 offsetVector = new Vector3(getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset));                   
+                    
                     if (papers[i].transform.position == paperPos)
+                    {
+                        newPaper.setPosition(paperPos + offsetVector);
+                    } 
+                    else if(papers[i].transform.position == offsetVector)
                     {
                         newPaper.setPosition(paperPos + new Vector3(getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset), getRandom(-paperPosOffset, paperPosOffset)));
                     }
