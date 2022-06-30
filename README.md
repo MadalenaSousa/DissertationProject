@@ -7,7 +7,7 @@ The field of Immersive Learning Research crosses multiple scientific areas. Awar
 ## Set Up
 To run the program, follow the described steps:
 
-1. Install [Unity](https://unity3d.com/pt/get-unity/download), if you don't have it installed already;
+1. Install [Unity 2020.3.29f1](https://unity3d.com/pt/get-unity/download) or higher, if you don't have it installed already;
 2. Download the repository files;
 3. Use Unity Hub to find the folder with the files and open that folder as a Unity project;
 4. Click on the blue play button at the top to run the visualization.
