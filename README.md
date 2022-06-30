@@ -7,9 +7,9 @@ The field of Immersive Learning Research crosses multiple scientific areas. Awar
 ## Set Up
 To run the program, follow the described steps:
 
-**1.** Install [Unity](https://unity3d.com/pt/get-unity/download), if you don't have it installed already.
-**2.** Download the repository files.
-**3.** Use Unity Hub to find the folder with the files and open that folder as a Unity project.
+1. Install [Unity](https://unity3d.com/pt/get-unity/download), if you don't have it installed already;
+2. Download the repository files;
+3. Use Unity Hub to find the folder with the files and open that folder as a Unity project.
 
 > **Note:** If, when the project opens, you see an error regarding the NuGet package, clear the error and proceed normally.
 
