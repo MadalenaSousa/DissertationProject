@@ -12,7 +12,7 @@ To run the program, follow the described steps:
 3. Use Unity Hub to find the folder with the files and open that folder as a Unity project;
 4. Click on the blue play button at the top to run the visualization.
 
-> **Note:** If, when the project opens, you see an error regarding the NuGet package, clear the error and proceed normally.
+> **Note:** If, when the project opens, you see an error in the console regarding the NuGet package, clear the error and proceed normally.
 
 ## Some Important Notes
 The branch that contains the finalized code is the **main** branch. The Tests branch is where new tests of functionalities where made unitil they worked well enough to go into the main branch. The TestTimeClusters branch was used to text cluster adaptation when setting a time interval, which didn't work as expected and required more exploration, therefore this branch is outdated.
